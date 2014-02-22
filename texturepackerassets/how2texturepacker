@@ -1,0 +1,2 @@
+java -cp gdx.jar:extensions/gdx-tools/gdx-tools.jar com.badlogic.gdx.tools.texturepacker.TexturePacker /media/DATA/Programmering/Workspaces/texturepackerassets/ /media/DATA/Programmering/Workspaces/mBreak-android/assets/images packedtextures
+
