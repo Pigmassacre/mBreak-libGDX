@@ -43,11 +43,11 @@ public class TextItem extends Item {
 		return font;
 	}
 	
-	public float getFontWidth() {
+	public float getWidth() {
 		return font.getBounds(string).width;
 	}
 	
-	public float getFontHeight() {
+	public float getHeight() {
 		return font.getBounds(string).height;
 	}
 	

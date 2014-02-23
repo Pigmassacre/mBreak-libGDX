@@ -42,8 +42,8 @@ public class Game implements ApplicationListener {
 		createIntroMessage();
 		
 		versionMessage = new TextItem("v0.9");
-		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getFontWidth() - versionMessage.getFontHeight());
-		versionMessage.setY(versionMessage.getFontHeight() + versionMessage.getFontHeight());
+		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getWidth() - versionMessage.getHeight());
+		versionMessage.setY(versionMessage.getHeight() + versionMessage.getHeight());
 		stage.addActor(versionMessage);
 		
 		music = Gdx.audio.newMusic(Gdx.files.internal("music/title/goluigi-nonuniform.ogg"));
@@ -77,14 +77,14 @@ public class Game implements ApplicationListener {
 		
 		int sum = 0;
 		for (int i = 0; i < introMessage.length; i++) {
-			sum += introMessage[i].getFontWidth();
+			sum += introMessage[i].getWidth();
 		}
 		
 		float offset = 0;
 		for (int i = 0; i < string.length(); i++) {
 			introMessage[i].setX(((Gdx.graphics.getWidth() - sum) / 2) + offset);
-			introMessage[i].setY(logo.getY() - introMessage[i].getFontHeight());
-			offset += introMessage[i].getFontWidth();
+			introMessage[i].setY(logo.getY() - introMessage[i].getHeight());
+			offset += introMessage[i].getWidth();
 			
 			if (blinkBegin <= i && i <= blinkEnd) {
 				introMessage[i].blink = true;
@@ -124,8 +124,8 @@ public class Game implements ApplicationListener {
 			introMessage[i].setOffsetY(sin * 2.0f * 3f);
 		}
 		
-		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getFontWidth() - versionMessage.getFontHeight());
-		versionMessage.setY(versionMessage.getFontHeight() + versionMessage.getFontHeight());
+		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getWidth() - versionMessage.getHeight());
+		versionMessage.setY(versionMessage.getHeight() + versionMessage.getHeight());
 		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		
