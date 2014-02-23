@@ -16,8 +16,6 @@ public class Logo extends Actor {
 	private static final int FRAME_COLS = 1;
 	private static final int FRAME_ROWS = 7;
 	
-	TextureAtlas atlas;
-	
 	Animation logoAnimation;
 	TextureRegion logoSheet;
 	TextureRegion[] logoFrames;
@@ -25,10 +23,9 @@ public class Logo extends Actor {
 	
 	float stateTime, waitTime;
 	
-	public Logo() {
+	public Logo(TextureAtlas atlas) {
 		super();
 		
-		atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
 		logoSheet = atlas.findRegion("mBreak_title");
 		TextureRegion[][] temp = logoSheet.split(logoSheet.getRegionWidth() / FRAME_COLS, logoSheet.getRegionHeight() / FRAME_ROWS);
 		logoFrames = new TextureRegion[(FRAME_COLS * FRAME_ROWS) + 1];

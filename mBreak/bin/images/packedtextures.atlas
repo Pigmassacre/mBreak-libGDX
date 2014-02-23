@@ -1,0 +1,12 @@
+
+packedtextures-1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+mBreak_title
+  rotate: false
+  xy: 2, 2
+  size: 37, 119
+  orig: 37, 119
+  offset: 0, 0
+  index: -1

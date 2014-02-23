@@ -8,6 +8,6 @@ public class AndroidGame extends AndroidApplication {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.hideStatusBar = true;
-        initialize(new Game(), cfg);
+        initialize(new MBreak(), cfg);
     }
 }

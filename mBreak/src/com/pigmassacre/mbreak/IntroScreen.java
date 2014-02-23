@@ -1,25 +1,13 @@
 package com.pigmassacre.mbreak;
 
-import java.util.Arrays;
-import java.util.Random;
-
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-public class Game implements ApplicationListener {
+public class IntroScreen extends AbstractScreen {
 
-	Stage stage;
-	
-	FPSLogger fpsLogger;
-	
 	Logo logo;
 	TextItem[] introMessage;
 	float stateTime;
@@ -28,15 +16,9 @@ public class Game implements ApplicationListener {
 	
 	Music music;
 	
-	@SuppressWarnings("incomplete-switch")
-	@Override
-	public void create() {
-		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
-		
-		fpsLogger = new FPSLogger();
-		
-		logo = new Logo();
+	public IntroScreen(MBreak game) {
+		super(game);
+		logo = new Logo(getAtlas());
 		stage.addActor(logo);
 		
 		createIntroMessage();
@@ -51,6 +33,7 @@ public class Game implements ApplicationListener {
 		music.play();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	private void createIntroMessage() {
 		CharSequence string = null;
 		int blinkBegin = 0;
@@ -96,20 +79,14 @@ public class Game implements ApplicationListener {
 
 	@Override
 	public void resize(int width, int height) {
+		super.resize(width, height);
 		stage.setViewport(width, height, true);
 	}
 
 	@Override
-	public void render() {
-		fpsLogger.log();
-		stage.act(Gdx.graphics.getDeltaTime());
-		
+	public void render(float delta) {
+		super.render(delta);
 		stateTime += Gdx.graphics.getDeltaTime() * 1000;
-		
-		int sum = 0;
-		for (int i = 0; i < introMessage.length; i++) {
-			sum += introMessage[i].getWidth();
-		}
 		
 		for (int i = 0; i < introMessage.length; i++) {
 			float differentiator = i * 64;
@@ -126,25 +103,24 @@ public class Game implements ApplicationListener {
 		
 		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getWidth() - versionMessage.getHeight());
 		versionMessage.setY(versionMessage.getHeight() + versionMessage.getHeight());
-		
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		
-		stage.draw();
 	}
 
 	@Override
 	public void pause() {
+		super.pause();
 		music.pause();
 	}
 
 	@Override
 	public void resume() {
+		super.resume();
 		music.play();
 	}
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		stage.dispose();
 	}
-
+	
 }
