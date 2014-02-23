@@ -8,9 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class TextItem extends Actor {
-	
-	private float shadowOffsetX, shadowOffsetY;
+public class TextItem extends Item {
 	
 	private BitmapFont font;
 	private CharSequence string;
@@ -45,31 +43,17 @@ public class TextItem extends Actor {
 		return font;
 	}
 	
-	public float getShadowOffsetX() {
-		return shadowOffsetX;
-	}
-	
-	public float getShadowOffsetY() {
-		return shadowOffsetY;
-	}
-	
-	public void getShadowOffsetX(float x) {
-		this.shadowOffsetX = x;
-	}
-	
-	public void getShadowOffsetY(float y) {
-		this.shadowOffsetY = y;
-	}
-	
-	public float getWidth() {
+	public float getFontWidth() {
 		return font.getBounds(string).width;
 	}
 	
-	public float getHeight() {
+	public float getFontHeight() {
 		return font.getBounds(string).height;
 	}
 	
 	public void act(float delta) {
+		super.act(delta);
+		
 		if (blink) {
 			stateBlinkTime += delta;
 			if (stateBlinkTime > blinkRate) {
@@ -88,9 +72,9 @@ public class TextItem extends Actor {
 	
 	public void draw(Batch batch, float parentAlpha) {
 		font.setColor(shadowColor);
-		font.draw(batch, string, getOriginX() + getX() + getShadowOffsetX(), getOriginY() + getY() + getShadowOffsetY());
+		font.draw(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY());
 		font.setColor(fontColor);
-		font.draw(batch, string, getOriginX() + getX(), getOriginY() + getY());
+		font.draw(batch, string, getX() + getOffsetX(), getY() + getOffsetY());
 	}
 	
 }

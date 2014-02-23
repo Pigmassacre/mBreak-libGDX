@@ -42,11 +42,12 @@ public class Game implements ApplicationListener {
 		createIntroMessage();
 		
 		versionMessage = new TextItem("v0.9");
-		versionMessage.setOriginX(Gdx.graphics.getWidth() - versionMessage.getWidth() - versionMessage.getHeight());
-		versionMessage.setOriginY(versionMessage.getHeight() + versionMessage.getHeight());
+		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getFontWidth() - versionMessage.getFontHeight());
+		versionMessage.setY(versionMessage.getFontHeight() + versionMessage.getFontHeight());
 		stage.addActor(versionMessage);
 		
 		music = Gdx.audio.newMusic(Gdx.files.internal("music/title/goluigi-nonuniform.ogg"));
+		music.setLooping(true);
 		music.play();
 	}
 	
@@ -76,14 +77,14 @@ public class Game implements ApplicationListener {
 		
 		int sum = 0;
 		for (int i = 0; i < introMessage.length; i++) {
-			sum += introMessage[i].getWidth();
+			sum += introMessage[i].getFontWidth();
 		}
 		
 		float offset = 0;
 		for (int i = 0; i < string.length(); i++) {
-			introMessage[i].setOriginX(((Gdx.graphics.getWidth() - sum) / 2) + offset);
-			introMessage[i].setOriginY(logo.getY() - introMessage[i].getHeight());
-			offset += introMessage[i].getWidth();
+			introMessage[i].setX(((Gdx.graphics.getWidth() - sum) / 2) + offset);
+			introMessage[i].setY(logo.getY() - introMessage[i].getFontHeight());
+			offset += introMessage[i].getFontWidth();
 			
 			if (blinkBegin <= i && i <= blinkEnd) {
 				introMessage[i].blink = true;
@@ -110,25 +111,21 @@ public class Game implements ApplicationListener {
 			sum += introMessage[i].getWidth();
 		}
 		
-		float offset = 0;
 		for (int i = 0; i < introMessage.length; i++) {
-			float heightDifferentiator = i * 64;
+			float differentiator = i * 64;
 			float sinScale = 0.0075f;
 
 			float sin = 0.3f * 3f;
-			sin *= Math.tan((stateTime + heightDifferentiator) * (sinScale / 4.0));
-			sin *= Math.sin((stateTime + heightDifferentiator) * (sinScale / 16.0));
-			sin *= Math.sin((stateTime + heightDifferentiator) * (sinScale / 8.0));
-			sin *= Math.sin((stateTime + heightDifferentiator) * sinScale);
+			sin *= Math.tan((stateTime + differentiator) * (sinScale / 4.0));
+			sin *= Math.sin((stateTime + differentiator) * (sinScale / 16.0));
+			sin *= Math.sin((stateTime + differentiator) * (sinScale / 8.0));
+			sin *= Math.sin((stateTime + differentiator) * sinScale);
 
-			introMessage[i].setY(sin * 2.0f * 3f);
-			introMessage[i].setOriginX(((Gdx.graphics.getWidth() - sum) / 2) + offset);
-			introMessage[i].setOriginY(logo.getY() - introMessage[i].getHeight());
-			offset += introMessage[i].getWidth();
+			introMessage[i].setOffsetY(sin * 2.0f * 3f);
 		}
 		
-		versionMessage.setOriginX(Gdx.graphics.getWidth() - versionMessage.getWidth() - versionMessage.getHeight());
-		versionMessage.setOriginY(versionMessage.getHeight() + versionMessage.getHeight());
+		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getFontWidth() - versionMessage.getFontHeight());
+		versionMessage.setY(versionMessage.getFontHeight() + versionMessage.getFontHeight());
 		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		
@@ -137,14 +134,12 @@ public class Game implements ApplicationListener {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
+		music.pause();
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
+		music.play();
 	}
 
 	@Override

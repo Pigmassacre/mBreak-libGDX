@@ -3,6 +3,7 @@ package com.pigmassacre.mbreak;
 public class Settings {
 
 	public static int GAME_SCALE = 4;
+	public static int GAME_FPS = 60;
 	
 	private static int BASE_SCREEN_WIDTH = 285;
 	private static int BASE_SCREEN_HEIGHT = 160;
