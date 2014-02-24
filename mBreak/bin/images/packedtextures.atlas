@@ -3,6 +3,20 @@ packedtextures-1.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+ai_easy
+  rotate: false
+  xy: 41, 109
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+ai_hard
+  rotate: false
+  xy: 41, 95
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
 mBreak_title
   rotate: false
   xy: 2, 2

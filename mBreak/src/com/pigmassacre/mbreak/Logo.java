@@ -10,11 +10,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
-public class Logo extends Actor {
+public class Logo extends Widget {
 	
 	private static final int FRAME_COLS = 1;
 	private static final int FRAME_ROWS = 7;
+	
+	private static TextureAtlas atlas;
 	
 	Animation logoAnimation;
 	TextureRegion logoSheet;
@@ -23,10 +26,10 @@ public class Logo extends Actor {
 	
 	float stateTime, waitTime;
 	
-	public Logo(TextureAtlas atlas) {
+	public Logo() {
 		super();
 		
-		logoSheet = atlas.findRegion("mBreak_title");
+		logoSheet = getAtlas().findRegion("mBreak_title");
 		TextureRegion[][] temp = logoSheet.split(logoSheet.getRegionWidth() / FRAME_COLS, logoSheet.getRegionHeight() / FRAME_ROWS);
 		logoFrames = new TextureRegion[(FRAME_COLS * FRAME_ROWS) + 1];
 
@@ -48,6 +51,12 @@ public class Logo extends Actor {
 		setY((Gdx.graphics.getHeight() / 2));
 	}
 	
+	protected TextureAtlas getAtlas() {
+		if (atlas == null)
+			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
+		return atlas;
+	}
+	
 	@Override
 	public float getWidth() {
 		if (currentFrame == null) {
@@ -59,7 +68,6 @@ public class Logo extends Actor {
 	@Override
 	public float getHeight() {
 		if (currentFrame == null) {
-			System.out.println("height " + logoFrames[0].getRegionHeight() * 6);
 			return logoFrames[0].getRegionHeight() * 2 * Settings.GAME_SCALE;
 		}
 		return currentFrame.getRegionHeight() * 2 * Settings.GAME_SCALE;

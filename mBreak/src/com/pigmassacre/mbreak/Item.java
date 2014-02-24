@@ -16,6 +16,7 @@ public class Item extends Widget {
 	float shadowOffsetX, shadowOffsetY;
 	
 	float offsetX, offsetY, maxOffsetX, maxOffsetY;
+
 	float offsetXRetreatSpeed, offsetYRetreatSpeed;
 	
 	boolean selected = false, chosen = false, disabled = false;
@@ -54,6 +55,22 @@ public class Item extends Widget {
 
 	void setOffsetY(float offsetY) {
 		this.offsetY = offsetY;
+	}
+	
+	public float getMaxOffsetX() {
+		return maxOffsetX;
+	}
+
+	public void setMaxOffsetX(float maxOffsetX) {
+		this.maxOffsetX = maxOffsetX;
+	}
+
+	public float getMaxOffsetY() {
+		return maxOffsetY;
+	}
+
+	public void setMaxOffsetY(float maxOffsetY) {
+		this.maxOffsetY = maxOffsetY;
 	}
 	
 	public float getShadowOffsetX() {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class IntroScreen extends AbstractScreen {
 
@@ -18,7 +19,8 @@ public class IntroScreen extends AbstractScreen {
 	
 	public IntroScreen(MBreak game) {
 		super(game);
-		logo = new Logo(getAtlas());
+		
+		logo = new Logo();
 		stage.addActor(logo);
 		
 		createIntroMessage();
@@ -55,6 +57,7 @@ public class IntroScreen extends AbstractScreen {
 		
 		for (int i = 0; i < string.length(); i++) {
 			introMessage[i] = new TextItem(string.subSequence(i, i + 1));
+			introMessage[i].setMaxOffsetY(10 * Settings.GAME_SCALE);
 			stage.addActor(introMessage[i]);
 		}
 		
@@ -78,14 +81,7 @@ public class IntroScreen extends AbstractScreen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		super.resize(width, height);
-		stage.setViewport(width, height, true);
-	}
-
-	@Override
 	public void render(float delta) {
-		super.render(delta);
 		stateTime += Gdx.graphics.getDeltaTime() * 1000;
 		
 		for (int i = 0; i < introMessage.length; i++) {
@@ -103,6 +99,8 @@ public class IntroScreen extends AbstractScreen {
 		
 		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getWidth() - versionMessage.getHeight());
 		versionMessage.setY(versionMessage.getHeight() + versionMessage.getHeight());
+		
+		super.render(delta);
 	}
 
 	@Override
@@ -115,12 +113,6 @@ public class IntroScreen extends AbstractScreen {
 	public void resume() {
 		super.resume();
 		music.play();
-	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
-		stage.dispose();
 	}
 	
 }
