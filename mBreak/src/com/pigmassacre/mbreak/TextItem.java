@@ -13,7 +13,7 @@ public class TextItem extends Item {
 	private BitmapFont font;
 	private CharSequence string;
 	
-	private Color fontColor, shadowColor;
+	private Color shadowColor;
 	
 	public boolean blink = false;
 	private float blinkRate = 0.75f;
@@ -24,7 +24,6 @@ public class TextItem extends Item {
 		
 		font = new BitmapFont(Gdx.files.internal("fonts/ADDLG__.fnt"), Gdx.files.internal("fonts/ADDLG__.png"), false);
 		font.setScale(Settings.GAME_SCALE);
-		fontColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		shadowColor = new Color(0.196f, 0.196f, 0.196f, 1.0f);
 		
 		this.string = string;
@@ -57,12 +56,12 @@ public class TextItem extends Item {
 		if (blink) {
 			stateBlinkTime += delta;
 			if (stateBlinkTime > blinkRate) {
-				if (fontColor.a == 1.0f) {
-					fontColor.set(fontColor.r, fontColor.g, fontColor.b, 0.0f);
+				if (getColor().a == 1.0f) {
+					getColor().set(getColor().r, getColor().g, getColor().b, 0.0f);
 					shadowColor.set(shadowColor.r, shadowColor.g, shadowColor.b, 0.0f);
 					stateBlinkTime = blinkRate / 3f;
 				} else {
-					fontColor.set(fontColor.r, fontColor.g, fontColor.b, 1.0f);
+					getColor().set(getColor().r, getColor().g, getColor().b, 1.0f);
 					shadowColor.set(shadowColor.r, shadowColor.g, shadowColor.b, 1.0f);
 					stateBlinkTime = 0;
 				}
@@ -73,7 +72,7 @@ public class TextItem extends Item {
 	public void draw(Batch batch, float parentAlpha) {
 		font.setColor(shadowColor);
 		font.draw(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY());
-		font.setColor(fontColor);
+		font.setColor(getColor());
 		font.draw(batch, string, getX() + getOffsetX(), getY() + getOffsetY());
 	}
 	

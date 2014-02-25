@@ -1,0 +1,110 @@
+package com.pigmassacre.mbreak;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
+public class Menu extends Actor {
+
+	protected List<Item> items;
+
+	protected List<Menu> otherMenus;
+	
+	protected Item previouslySelectedItem;
+	
+	protected int position = 0;
+	
+	public Menu() {
+		items = new ArrayList<Item>();
+		otherMenus = new ArrayList<Menu>();
+
+		setX(0);
+		setY(0);
+	}
+	
+	public float getWidth() {
+		cleanup();
+		float minX = Integer.MAX_VALUE;
+		float maxX = 0;
+		for (Item item : items) {
+			if (item.getX() < minX)
+				minX = item.getX();
+			if (item.getX() + item.getWidth() > maxX)
+				maxX = item.getX() + item.getWidth();
+		}
+		return maxX - minX;
+	}
+	
+	public float getHeight() {
+		cleanup();
+		float minY = Integer.MAX_VALUE;
+		float maxY = 0;
+		for (Item item : items) {
+			if (item.getY() < minY)
+				minY = item.getY();
+			if (item.getY() + item.getHeight() > maxY)
+				maxY = item.getY() + item.getHeight();
+		}
+		return maxY - minY;
+	}
+	
+	public List<Item> getItems() {
+		return items;
+	}
+	
+	public void add(Item item) {
+		items.add(item);
+		
+		positionItem(item);
+	}
+
+	public void positionItem(Item item) {
+		
+	}
+	
+	public void remove(Item item) {
+		items.remove(item);
+	}
+	
+	public void cleanup() {
+		for (Item item : items)
+			positionItem(item);
+	}
+	
+	public void registerOtherMenus(List<Menu> otherMenus) {
+		if (!this.otherMenus.contains(otherMenus)) {
+			for (Menu menu : otherMenus) {
+				if (menu != this)
+					this.otherMenus.add(menu);
+			}
+		}
+	}
+
+//	def is_mouse_over_item(self, item, mouse_pos):
+//		# Returns True if the given mouse_pos is inside the given item.
+//		x = mouse_pos[0]
+//		y = mouse_pos[1]
+//		return x >= item.x and x <= item.x + item.get_width() and y >= item.y and y <= item.y + item.get_height()
+	
+	public void act(float delta) {
+		List<Item> selectedItems = new ArrayList<Item>();
+		
+		for (Item item : items) {
+//			item.act(delta);
+			
+			if (item.selected) {
+				selectedItems.add(item);
+				
+				if (item != previouslySelectedItem) {
+					// TODO play sound
+					previouslySelectedItem = item;
+				}
+			}
+		}
+		
+		if (selectedItems.size() == 0)
+			previouslySelectedItem = null;
+	}
+	
+}

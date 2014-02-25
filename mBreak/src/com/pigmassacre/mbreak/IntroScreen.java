@@ -1,9 +1,12 @@
 package com.pigmassacre.mbreak;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -19,6 +22,20 @@ public class IntroScreen extends AbstractScreen {
 	
 	public IntroScreen(MBreak game) {
 		super(game);
+//		
+//		Table table = new Table();
+//		table.setFillParent(true);
+//		stage.addActor(table);
+//		
+//		table.addListener(new InputListener() {
+//			
+//			@Override
+//			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//				
+//				return true;
+//			}
+//			
+//		});
 		
 		logo = new Logo();
 		stage.addActor(logo);
@@ -28,6 +45,7 @@ public class IntroScreen extends AbstractScreen {
 		versionMessage = new TextItem("v0.9");
 		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getWidth() - versionMessage.getHeight());
 		versionMessage.setY(versionMessage.getHeight() + versionMessage.getHeight());
+		versionMessage.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		stage.addActor(versionMessage);
 		
 		music = Gdx.audio.newMusic(Gdx.files.internal("music/title/goluigi-nonuniform.ogg"));
@@ -58,6 +76,7 @@ public class IntroScreen extends AbstractScreen {
 		for (int i = 0; i < string.length(); i++) {
 			introMessage[i] = new TextItem(string.subSequence(i, i + 1));
 			introMessage[i].setMaxOffsetY(10 * Settings.GAME_SCALE);
+			introMessage[i].setColor(1.0f, 1.0f, 1.0f, 1.0f);
 			stage.addActor(introMessage[i]);
 		}
 		
@@ -82,6 +101,10 @@ public class IntroScreen extends AbstractScreen {
 
 	@Override
 	public void render(float delta) {
+		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.ENTER)) {
+			game.setScreen(new MainMenuScreen(game));
+		}
+		
 		stateTime += Gdx.graphics.getDeltaTime() * 1000;
 		
 		for (int i = 0; i < introMessage.length; i++) {

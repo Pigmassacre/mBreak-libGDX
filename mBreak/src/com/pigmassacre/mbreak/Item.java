@@ -19,7 +19,7 @@ public class Item extends Widget {
 
 	float offsetXRetreatSpeed, offsetYRetreatSpeed;
 	
-	boolean selected = false, chosen = false, disabled = false;
+	public boolean selected = false, chosen = false, disabled = false;
 	
 	float stateTime;
 
