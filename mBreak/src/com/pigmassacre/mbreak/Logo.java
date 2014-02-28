@@ -17,7 +17,7 @@ public class Logo extends Widget {
 	private static final int FRAME_COLS = 1;
 	private static final int FRAME_ROWS = 7;
 	
-	private static TextureAtlas atlas;
+	private TextureAtlas atlas;
 	
 	Animation logoAnimation;
 	TextureRegion logoSheet;
@@ -32,7 +32,7 @@ public class Logo extends Widget {
 		logoSheet = getAtlas().findRegion("mBreak_title");
 		TextureRegion[][] temp = logoSheet.split(logoSheet.getRegionWidth() / FRAME_COLS, logoSheet.getRegionHeight() / FRAME_ROWS);
 		logoFrames = new TextureRegion[(FRAME_COLS * FRAME_ROWS) + 1];
-
+		
 		int index = 0;
 		for (int i = 0; i < FRAME_COLS; i++) {
 			for (int j = 0; j < FRAME_ROWS; j++) {
@@ -46,9 +46,6 @@ public class Logo extends Widget {
 		
 		stateTime = 0f;
 		waitTime = 0f;
-		
-		setX((Gdx.graphics.getWidth() - getWidth()) / 2);
-		setY((Gdx.graphics.getHeight() / 2));
 	}
 	
 	protected TextureAtlas getAtlas() {

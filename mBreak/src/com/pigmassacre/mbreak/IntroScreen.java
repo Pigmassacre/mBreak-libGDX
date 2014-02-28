@@ -1,14 +1,13 @@
 package com.pigmassacre.mbreak;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquations;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class IntroScreen extends AbstractScreen {
 
@@ -20,25 +19,18 @@ public class IntroScreen extends AbstractScreen {
 	
 	Music music;
 	
+	float introTime, endTime;
+	
 	public IntroScreen(MBreak game) {
 		super(game);
-//		
-//		Table table = new Table();
-//		table.setFillParent(true);
-//		stage.addActor(table);
-//		
-//		table.addListener(new InputListener() {
-//			
-//			@Override
-//			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//				
-//				return true;
-//			}
-//			
-//		});
 		
 		logo = new Logo();
 		stage.addActor(logo);
+		logo.setX((Gdx.graphics.getWidth() - logo.getWidth()) / 2);
+		logo.setY((Gdx.graphics.getHeight() / 2));
+		Tween.from(logo, WidgetAccessor.POSITION_Y, 1.0f).target(logo.getX(), Gdx.graphics.getHeight())
+			.ease(TweenEquations.easeOutBack)
+			.start(getTweenManager());
 		
 		createIntroMessage();
 		
@@ -47,10 +39,17 @@ public class IntroScreen extends AbstractScreen {
 		versionMessage.setY(versionMessage.getHeight() + versionMessage.getHeight());
 		versionMessage.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		stage.addActor(versionMessage);
+		Tween.from(versionMessage, WidgetAccessor.POSITION_XY, 1.0f).target(Gdx.graphics.getWidth(), -versionMessage.getHeight())
+			.ease(TweenEquations.easeOutBack)
+			.start(getTweenManager());
+
 		
 		music = Gdx.audio.newMusic(Gdx.files.internal("music/title/goluigi-nonuniform.ogg"));
 		music.setLooping(true);
 		music.play();
+		
+		introTime = 0;
+		endTime = 1.0f;
 	}
 	
 	@SuppressWarnings("incomplete-switch")
@@ -94,6 +93,10 @@ public class IntroScreen extends AbstractScreen {
 			if (blinkBegin <= i && i <= blinkEnd) {
 				introMessage[i].blink = true;
 			}
+			
+			Tween.from(introMessage[i], WidgetAccessor.POSITION_Y, 1.0f).target(0, Gdx.graphics.getHeight())
+				.ease(TweenEquations.easeOutBounce)
+				.start(getTweenManager());
 		}
 		
 		stateTime = 0f;
@@ -111,7 +114,7 @@ public class IntroScreen extends AbstractScreen {
 			float differentiator = i * 64;
 			float sinScale = 0.0075f;
 
-			float sin = 0.3f * 3f;
+			float sin = 0.3f * Settings.GAME_SCALE;
 			sin *= Math.tan((stateTime + differentiator) * (sinScale / 4.0));
 			sin *= Math.sin((stateTime + differentiator) * (sinScale / 16.0));
 			sin *= Math.sin((stateTime + differentiator) * (sinScale / 8.0));
@@ -123,7 +126,10 @@ public class IntroScreen extends AbstractScreen {
 		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getWidth() - versionMessage.getHeight());
 		versionMessage.setY(versionMessage.getHeight() + versionMessage.getHeight());
 		
-		super.render(delta);
+		if (introTime < endTime)
+			introTime += delta;
+		if (introTime >= endTime)
+			super.render(delta);
 	}
 
 	@Override

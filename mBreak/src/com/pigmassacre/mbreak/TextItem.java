@@ -50,6 +50,16 @@ public class TextItem extends Item {
 		return font.getBounds(string).height;
 	}
 	
+	public void setHide(Boolean hide) {
+		if (hide) {
+			getColor().set(getColor().r, getColor().g, getColor().b, 0.0f);
+			shadowColor.set(shadowColor.r, shadowColor.g, shadowColor.b, 0.0f);
+		} else {
+			getColor().set(getColor().r, getColor().g, getColor().b, 1.0f);
+			shadowColor.set(shadowColor.r, shadowColor.g, shadowColor.b, 1.0f);
+		}
+	}
+	
 	public void act(float delta) {
 		super.act(delta);
 		
@@ -57,12 +67,10 @@ public class TextItem extends Item {
 			stateBlinkTime += delta;
 			if (stateBlinkTime > blinkRate) {
 				if (getColor().a == 1.0f) {
-					getColor().set(getColor().r, getColor().g, getColor().b, 0.0f);
-					shadowColor.set(shadowColor.r, shadowColor.g, shadowColor.b, 0.0f);
+					setHide(true);
 					stateBlinkTime = blinkRate / 3f;
 				} else {
-					getColor().set(getColor().r, getColor().g, getColor().b, 1.0f);
-					shadowColor.set(shadowColor.r, shadowColor.g, shadowColor.b, 1.0f);
+					setHide(false);
 					stateBlinkTime = 0;
 				}
 			}
@@ -72,7 +80,11 @@ public class TextItem extends Item {
 	public void draw(Batch batch, float parentAlpha) {
 		font.setColor(shadowColor);
 		font.draw(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY());
-		font.setColor(getColor());
+		if (selected) {
+			font.setColor(selectedColor);
+		} else {
+			font.setColor(getColor());
+		}
 		font.draw(batch, string, getX() + getOffsetX(), getY() + getOffsetY());
 	}
 	

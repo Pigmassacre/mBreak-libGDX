@@ -3,6 +3,8 @@ package com.pigmassacre.mbreak;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Menu extends Actor {
@@ -80,12 +82,6 @@ public class Menu extends Actor {
 			}
 		}
 	}
-
-//	def is_mouse_over_item(self, item, mouse_pos):
-//		# Returns True if the given mouse_pos is inside the given item.
-//		x = mouse_pos[0]
-//		y = mouse_pos[1]
-//		return x >= item.x and x <= item.x + item.get_width() and y >= item.y and y <= item.y + item.get_height()
 	
 	public void act(float delta) {
 		List<Item> selectedItems = new ArrayList<Item>();

@@ -1,5 +1,7 @@
 package com.pigmassacre.mbreak;
 
+import aurelienribon.tweenengine.TweenAccessor;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
@@ -39,6 +41,8 @@ public class Item extends Widget {
 		offsetXRetreatSpeed = 0.1f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		offsetYRetreatSpeed = 0.1f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		stateTime = 0;
+		
+		setColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 	
 	float getOffsetX() {

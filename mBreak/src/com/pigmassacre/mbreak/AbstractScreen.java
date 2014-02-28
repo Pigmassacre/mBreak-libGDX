@@ -1,11 +1,15 @@
 package com.pigmassacre.mbreak;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 public class AbstractScreen implements Screen {
 
@@ -14,6 +18,7 @@ public class AbstractScreen implements Screen {
 	protected Stage stage;
 	private SpriteBatch batch;
 	private TextureAtlas atlas;
+	private TweenManager tweenManager;
 	
 	protected String getName() {
 		return getClass().getSimpleName();
@@ -22,6 +27,7 @@ public class AbstractScreen implements Screen {
 	public AbstractScreen(MBreak game) {
 		this.game = game;
 		this.stage = new Stage();
+		Tween.registerAccessor(Widget.class, new WidgetAccessor());
 	}
 
 	public SpriteBatch getBatch() {
@@ -36,9 +42,17 @@ public class AbstractScreen implements Screen {
 		return atlas;
 	}
 	
+	public TweenManager getTweenManager() {
+		if (tweenManager == null)
+			tweenManager = new TweenManager();
+		return tweenManager;
+	}
+	
 	@Override
 	public void render(float delta) {
 		stage.act(delta);
+		
+		getTweenManager().update(delta);
 		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
