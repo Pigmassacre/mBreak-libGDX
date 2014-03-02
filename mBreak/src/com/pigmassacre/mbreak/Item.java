@@ -1,12 +1,17 @@
 package com.pigmassacre.mbreak;
 
-import aurelienribon.tweenengine.TweenAccessor;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 public class Item extends Widget {
+	
+	public interface Command {
+		public void execute(Object data);
+	}
+	
+	Command function;
 	
 	ShapeRenderer shapeRenderer;
 
@@ -24,6 +29,8 @@ public class Item extends Widget {
 	public boolean selected = false, chosen = false, disabled = false;
 	
 	float stateTime;
+	
+	Rectangle rectangle;
 
 	public Item() {
 		shapeRenderer = new ShapeRenderer();
@@ -45,19 +52,28 @@ public class Item extends Widget {
 		setColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 	
-	float getOffsetX() {
+	public void setFunction(Command function) {
+		this.function = function;
+	}
+	
+	public void executeFunction() {
+		if (function != null)
+			this.function.execute(this);
+	}
+	
+	public float getOffsetX() {
 		return offsetX;
 	}
 
-	void setOffsetX(float offsetX) {
+	public void setOffsetX(float offsetX) {
 		this.offsetX = offsetX;
 	}
 	
-	float getOffsetY() {
+	public float getOffsetY() {
 		return offsetY;
 	}
 
-	void setOffsetY(float offsetY) {
+	public void setOffsetY(float offsetY) {
 		this.offsetY = offsetY;
 	}
 	
@@ -92,6 +108,10 @@ public class Item extends Widget {
 	public void setShadowOffsetY(float y) {
 		this.shadowOffsetY = y;
 	}
+	
+	public boolean isPointerOverItem(float x, float y) {
+		return x >= rectangle.getX() && x <= rectangle.getX() + rectangle.getWidth() && y <= rectangle.getY() && y >= rectangle.getY() - rectangle.getHeight();
+	}
 
 	public void act(float delta) {
 		if (selected) {
@@ -121,6 +141,9 @@ public class Item extends Widget {
 		} else if (offsetY > maxOffsetY) {
 			offsetY = maxOffsetY;
 		}
+		
+		rectangle.setX(getX() + offsetX);
+		rectangle.setY(getY() + offsetY);
 	}
 	
 }

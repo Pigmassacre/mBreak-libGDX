@@ -71,9 +71,6 @@ public class Logo extends Widget {
 	}
 	
 	public void act(float delta) {
-		setX((Gdx.graphics.getWidth() - getWidth()) / 2);
-		setY((Gdx.graphics.getHeight() / 2));
-		
 		if (logoAnimation.getKeyFrameIndex(stateTime) == logoFrames.length - 1 || logoAnimation.getKeyFrameIndex(stateTime) == 0) {
 			waitTime += Gdx.graphics.getDeltaTime();
 			if (waitTime > 1.55f) {

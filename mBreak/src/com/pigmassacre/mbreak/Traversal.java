@@ -1,52 +1,104 @@
 package com.pigmassacre.mbreak;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
 
-public class Traversal {
-
-	public static boolean isPointerOverItem(Item item, float x, float y) {
-		return x >= item.getX() && x <= item.getX() + item.getWidth() && y <= item.getY() && y >= item.getY() - item.getHeight();
-	}
+public class Traversal implements InputProcessor {
 	
-	public static void traverseMenus(Vector3 coords, List<Menu> menus) {
-		if (menus.size() == 0)
-			return;
-		
-		if (Gdx.input.getDeltaX() != 0 || Gdx.input.getDeltaY() != 0) {
-			for (Menu menu : menus) {
-				for (Item item : menu.items) {
-					if (isPointerOverItem(item, coords.x, coords.y)) {
-						for (Item otherItem : menu.items) {
-							otherItem.selected = false;
-						}
-						for (Menu otherMenu : menu.otherMenus) {
-							for (Item anotherItem : otherMenu.items) {
-								anotherItem.selected = false;
-							}
-						}
-						item.selected = true;
-					}
+	public static List<Menu> menus;
+	private Camera camera;
+	
+	public Traversal(Camera camera) {
+		this.camera = camera;
+		if (menus == null)
+			menus = new ArrayList<Menu>();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		selectItems(screenX, screenY);
+		Vector3 coords = new Vector3(screenX, screenY, 0);
+		camera.unproject(coords);
+		for (Menu menu : menus) {
+			for (Item item : menu.items) {
+				if (item.isPointerOverItem(coords.x, coords.y) && item.selected) {
+					System.out.println("PRESSED " + item);
+					item.executeFunction();
 				}
 			}
 		}
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		selectItems(screenX, screenY);
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		selectItems(screenX, screenY);
+		return false;
+	}
+
+	private void selectItems(int screenX, int screenY) {
+		Vector3 coords = new Vector3(screenX, screenY, 0);
+		camera.unproject(coords);
+		for (Menu menu : menus) {
+			for (Item item : menu.items) {
+				if (item.isPointerOverItem(coords.x, coords.y)) {
+					for (Item otherItem : menu.items) {
+						otherItem.selected = false;
+					}
+					for (Menu otherMenu : menu.otherMenus) {
+						for (Item anotherItem : otherMenu.items) {
+							anotherItem.selected = false;
+						}
+					}
+					item.selected = true;
+				}
+			}
+		}
+	}
+	
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}	
 	
-	
-//		elif (event.type == KEYDOWN and event.key == K_RETURN) or (event.type == JOYBUTTONDOWN and event.button == 2) or (event.type == MOUSEBUTTONDOWN and event.button == 1):
-//			# If it is a list, check through all menus in the list.
-//			for a_menu in list_of_menus:
-//				for item in a_menu.items:
-//					if event.type == MOUSEBUTTONDOWN:
-//						# If the mouse button was clicked, we check if the mouse is positioned over the item, and if the item was selected.
-//						if a_menu.is_mouse_over_item(item, event.pos) and item.selected:
-//							a_menu.functions[item](item)
-//					else:
-//						# Otherwise, if the item is selected we just call it's function.
-//						if item.selected:
-//							a_menu.functions[item](item)
 //		elif ((event.type == KEYDOWN and event.key == K_LEFT) or (event.type == JOYHATMOTION and event.value[0] == -1) or
 //			  (event.type == JOYAXISMOTION and event.axis == 0 and event.value <= -0.25)):
 //			# We try to traverse the menu to the left.

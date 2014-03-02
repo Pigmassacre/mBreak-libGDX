@@ -9,7 +9,7 @@ public class RectItem extends Item {
 	float borderSizeSelected = 2 * Settings.GAME_SCALE;
 	float borderSizeChosen = 2 * Settings.GAME_SCALE;
 	
-	Rectangle rectangle, selectedRectangle, chosenRectangle, shadowRectangle;
+	Rectangle selectedRectangle, chosenRectangle, shadowRectangle;
 	
 	public RectItem() {
 		super();
@@ -23,8 +23,6 @@ public class RectItem extends Item {
 	public void act(float delta) {
 		super.act(delta);
 		
-		rectangle.setX(getX() + offsetX);
-		rectangle.setY(getY() + offsetY);
 		selectedRectangle.setX(getX() - (borderSizeSelected / 2) + offsetX);
 		selectedRectangle.setY(getY() - (borderSizeSelected / 2) + offsetY);
 		chosenRectangle.setX(getX() - (borderSizeChosen / 2) + offsetX);

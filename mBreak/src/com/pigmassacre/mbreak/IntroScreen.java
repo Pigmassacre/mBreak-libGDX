@@ -25,16 +25,17 @@ public class IntroScreen extends AbstractScreen {
 		super(game);
 		
 		logo = new Logo();
-		stage.addActor(logo);
 		logo.setX((Gdx.graphics.getWidth() - logo.getWidth()) / 2);
+		System.out.println(logo.getX());
 		logo.setY((Gdx.graphics.getHeight() / 2));
-		Tween.from(logo, WidgetAccessor.POSITION_Y, 1.0f).target(logo.getX(), Gdx.graphics.getHeight())
+		stage.addActor(logo);
+		Tween.from(logo, WidgetAccessor.POSITION_Y, 1.0f).target(Gdx.graphics.getHeight() + logo.getHeight())
 			.ease(TweenEquations.easeOutBack)
 			.start(getTweenManager());
 		
 		createIntroMessage();
 		
-		versionMessage = new TextItem("v0.9");
+		versionMessage = new TextItem("alpha 1");
 		versionMessage.setX(Gdx.graphics.getWidth() - versionMessage.getWidth() - versionMessage.getHeight());
 		versionMessage.setY(versionMessage.getHeight() + versionMessage.getHeight());
 		versionMessage.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -94,7 +95,7 @@ public class IntroScreen extends AbstractScreen {
 				introMessage[i].blink = true;
 			}
 			
-			Tween.from(introMessage[i], WidgetAccessor.POSITION_Y, 1.0f).target(0, Gdx.graphics.getHeight())
+			Tween.from(introMessage[i], WidgetAccessor.POSITION_Y, 1.0f).target(-introMessage[i].getHeight())
 				.ease(TweenEquations.easeOutBounce)
 				.start(getTweenManager());
 		}
@@ -105,7 +106,7 @@ public class IntroScreen extends AbstractScreen {
 	@Override
 	public void render(float delta) {
 		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.ENTER)) {
-			game.setScreen(new MainMenuScreen(game));
+			game.setScreen(new MainMenuScreen(game, logo));
 		}
 		
 		stateTime += Gdx.graphics.getDeltaTime() * 1000;

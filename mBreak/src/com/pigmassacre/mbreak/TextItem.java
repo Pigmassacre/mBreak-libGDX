@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class TextItem extends Item {
@@ -32,6 +33,13 @@ public class TextItem extends Item {
 		shadowOffsetY = -1f * Settings.GAME_SCALE;
 		
 		stateBlinkTime = 0f;
+
+		float selectionWidthIncrease = 1.0f;
+		float selectionHeightIncrease = 1.5f;
+		rectangle = new Rectangle(getX() + (getWidth() - getWidth() * selectionWidthIncrease), 
+								  getY() + (getHeight() - getHeight() * selectionHeightIncrease), 
+								  getWidth() * selectionWidthIncrease, 
+								  getHeight() * selectionHeightIncrease);
 	}
 	
 	public void setString(CharSequence string) {
