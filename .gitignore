@@ -6,4 +6,4 @@
 *.ear
 
 # Android Binary FIles
-*/bin/
+bin/
