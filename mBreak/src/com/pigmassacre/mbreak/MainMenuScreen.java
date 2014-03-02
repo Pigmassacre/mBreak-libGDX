@@ -1,6 +1,7 @@
 package com.pigmassacre.mbreak;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
@@ -11,33 +12,30 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.pigmassacre.mbreak.Item.Command;
+import com.pigmassacre.mbreak.Item.ItemCallback;
 
 public class MainMenuScreen extends AbstractScreen {
-
-	ArrayList<Menu> allMenus;
-	ListMenu menu;
 	
 	Logo logo;
 	
-	public MainMenuScreen(MBreak game, Logo logo) {
+	public MainMenuScreen(MBreak game, Logo givenLogo) {
 		super(game);
 		
-		if (logo == null) {
-			this.logo = new Logo();
-			this.logo.setX((Gdx.graphics.getWidth() - this.logo.getWidth()) / 2);
-			this.logo.setY((Gdx.graphics.getHeight() / 2) + this.logo.getHeight() / 2);
+		if (givenLogo == null) {
+			logo = new Logo();
+			logo.setX((Gdx.graphics.getWidth() - logo.getWidth()) / 2);
+			logo.setY((Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f);
 		} else {
-			this.logo = logo;
+			logo = givenLogo;
 		}
-		stage.addActor(this.logo);
-		Tween.to(this.logo, WidgetAccessor.POSITION_XY, 1.0f).target(this.logo.getX(), (Gdx.graphics.getHeight() / 2) + this.logo.getHeight() / 2)
+		stage.addActor(logo);
+		Tween.to(logo, WidgetAccessor.POSITION_XY, 1.0f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
 			.ease(TweenEquations.easeOutBack)
 			.start(getTweenManager());
 
-		allMenus = new ArrayList<Menu>();
+		List<Menu> allMenus = new ArrayList<Menu>();
 		
-		menu = new ListMenu();
+		Menu menu = new ListMenu();
 		menu.setX(Gdx.graphics.getWidth() / 2);
 		menu.setY(Gdx.graphics.getHeight() / 2);
 		allMenus.add(menu);
@@ -45,11 +43,11 @@ public class MainMenuScreen extends AbstractScreen {
 		TextItem textItem;
 		textItem = new TextItem("Start");
 		textItem.selected = true;
-		textItem.setFunction(new Command() {
+		textItem.setCallback(new ItemCallback() {
 
 			@Override
 			public void execute(Object data) {
-				// TODO: Start prepare menu.
+				startPrepareMenu(); 
 			}
 			
 		});
@@ -58,7 +56,7 @@ public class MainMenuScreen extends AbstractScreen {
 		stage.addActor(textItem);
 		
 		textItem = new TextItem("Options");
-		textItem.setFunction(new Command() {
+		textItem.setCallback(new ItemCallback() {
 
 			@Override
 			public void execute(Object data) {
@@ -71,7 +69,7 @@ public class MainMenuScreen extends AbstractScreen {
 		stage.addActor(textItem);
 		
 		textItem = new TextItem("Help");
-		textItem.setFunction(new Command() {
+		textItem.setCallback(new ItemCallback() {
 
 			@Override
 			public void execute(Object data) {
@@ -84,7 +82,7 @@ public class MainMenuScreen extends AbstractScreen {
 		stage.addActor(textItem);
 		
 		textItem = new TextItem("Quit");
-		textItem.setFunction(new Command() {
+		textItem.setCallback(new ItemCallback() {
 
 			@Override
 			public void execute(Object data) {
@@ -100,12 +98,9 @@ public class MainMenuScreen extends AbstractScreen {
 		
 		Traversal.menus = allMenus;
 	}
-	
-	@Override
-	public void render(float delta) {
-		Vector3 worldCoordinates = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		stage.getCamera().unproject(worldCoordinates);
-		super.render(delta);
-	}
 
+	public void startPrepareMenu() {
+		game.setScreen(new PrepareMenuScreen(game));
+	}
+	
 }

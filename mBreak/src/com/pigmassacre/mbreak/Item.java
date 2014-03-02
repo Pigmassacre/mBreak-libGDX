@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 public class Item extends Widget {
 	
-	public interface Command {
+	public interface ItemCallback {
 		public void execute(Object data);
 	}
 	
-	Command function;
+	ItemCallback callback;
 	
 	ShapeRenderer shapeRenderer;
 
@@ -52,13 +52,13 @@ public class Item extends Widget {
 		setColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 	
-	public void setFunction(Command function) {
-		this.function = function;
+	public void setCallback(ItemCallback callback) {
+		this.callback = callback;
 	}
 	
-	public void executeFunction() {
-		if (function != null)
-			this.function.execute(this);
+	public void executeCallback() {
+		if (callback != null)
+			this.callback.execute(this);
 	}
 	
 	public float getOffsetX() {

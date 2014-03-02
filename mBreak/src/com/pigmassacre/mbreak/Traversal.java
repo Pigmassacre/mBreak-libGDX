@@ -40,7 +40,7 @@ public class Traversal implements InputProcessor {
 			for (Menu menu : menus) {
 				for (Item item : menu.items) {
 					if (item.selected)
-						item.executeFunction();
+						item.executeCallback();
 				}
 			}
 			break;
@@ -68,7 +68,7 @@ public class Traversal implements InputProcessor {
 		for (Menu menu : menus) {
 			for (Item item : menu.items) {
 				if (item.isPointerOverItem(coords.x, coords.y) && item.selected) {
-					item.executeFunction();
+					item.executeCallback();
 				}
 			}
 		}
@@ -96,18 +96,24 @@ public class Traversal implements InputProcessor {
 	private void selectItems(int screenX, int screenY) {
 		Vector3 coords = new Vector3(screenX, screenY, 0);
 		camera.unproject(coords);
+		
+		boolean unselectAll = false;
+		Item selectedItem = null;
+		
 		for (Menu menu : menus) {
 			for (Item item : menu.items) {
 				if (item.isPointerOverItem(coords.x, coords.y)) {
-					for (Item otherItem : menu.items) {
-						otherItem.selected = false;
-					}
-					for (Menu otherMenu : menu.otherMenus) {
-						for (Item anotherItem : otherMenu.items) {
-							anotherItem.selected = false;
-						}
-					}
 					item.selected = true;
+					selectedItem = item;
+					unselectAll = true;
+				}
+			}
+		}
+		if (unselectAll) {
+			for (Menu menu : menus) {
+				for (Item item : menu.items) {
+					if (item != selectedItem)
+						item.selected = false;
 				}
 			}
 		}
@@ -121,6 +127,8 @@ public class Traversal implements InputProcessor {
 
 	public void traverseSideways(boolean left) {
 		Item selectedItem = getSelectedItem();
+		if (selectedItem == null)
+			return;
 		List<Item> possibleItems = fillListOfPossibleItems();
 		List<Item> temp;
 		
@@ -139,19 +147,8 @@ public class Traversal implements InputProcessor {
 			}
 		}
 		possibleItems = temp;
-		
-		List<Item> sameMenuItems = new ArrayList<Item>();
-		for (Menu menu : menus) {
-			if (menu.items.contains(selectedItem)) {
-				for (Item item : menu.items) {
-					if (possibleItems.contains(item)) {
-						sameMenuItems.add(item);
-					}
-				}
-			}
-		}
-		possibleItems = sameMenuItems;
-		
+		System.out.println("first check: " + possibleItems);
+
 		if (!possibleItems.isEmpty()) {
 			float difference = 0f;
 			
@@ -168,6 +165,7 @@ public class Traversal implements InputProcessor {
 					temp.add(item);
 			}
 			possibleItems = temp;
+			System.out.println("second check: " + possibleItems);
 			
 			float leastDifferenceX = Float.MAX_VALUE;
 			difference = 0f;
@@ -183,6 +181,7 @@ public class Traversal implements InputProcessor {
 					temp.add(item);
 			}
 			possibleItems = temp;
+			System.out.println("last check: " + possibleItems);
 			
 			selectedItem.selected = false;
 			possibleItems.get(0).selected = true;
@@ -191,6 +190,8 @@ public class Traversal implements InputProcessor {
 	
 	public void traverseUpAndDown(boolean up) {
 		Item selectedItem = getSelectedItem();
+		if (selectedItem == null)
+			return;
 		List<Item> possibleItems = fillListOfPossibleItems();
 		List<Item> temp;
 		
@@ -210,18 +211,6 @@ public class Traversal implements InputProcessor {
 		}
 		possibleItems = temp;
 		System.out.println("first check: " + possibleItems);
-		
-		List<Item> sameMenuItems = new ArrayList<Item>();
-		for (Menu menu : menus) {
-			if (menu.items.contains(selectedItem)) {
-				for (Item item : menu.items) {
-					if (possibleItems.contains(item)) {
-						sameMenuItems.add(item);
-					}
-				}
-			}
-		}
-		possibleItems = sameMenuItems;
 		
 		if (!possibleItems.isEmpty()) {
 			float difference = 0f;
@@ -282,14 +271,5 @@ public class Traversal implements InputProcessor {
 		}
 		return possibleItems;
 	}
-//	def fill_list_of_possible(list_of_menus):
-//		"""
-//		Returns a list that contains all the items in all the menus in list_of_menus.
-//		"""
-//		list_of_possible = []
-//		for a_menu in list_of_menus:
-//			for item in a_menu.items:
-//				list_of_possible.append(item)
-//		return list_of_possible
-	
+
 }
