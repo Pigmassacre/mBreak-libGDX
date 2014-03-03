@@ -10,6 +10,7 @@ import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GridMenu;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.ListMenu;
@@ -25,7 +26,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 
 	public PrepareMenuScreen(MBreak game) {
 		super(game);
-	
+		
 		List<Menu> allMenus = new ArrayList<Menu>();
 		
 		TextItem textItem = new TextItem("Back");
@@ -111,6 +112,12 @@ public class PrepareMenuScreen extends AbstractScreen {
 	
 	public void back() {
 		game.setScreen(new MainMenuScreen(game, null));
+	}
+	
+	@Override
+	public void show() {
+		getInputMultiplexer().addProcessor(new DebugInput(stage, stage.getCamera()));
+		super.show();
 	}
 
 }

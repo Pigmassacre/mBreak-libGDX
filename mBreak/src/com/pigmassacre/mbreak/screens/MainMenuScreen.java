@@ -8,6 +8,8 @@ import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -28,6 +30,26 @@ public class MainMenuScreen extends AbstractScreen {
 	
 	public MainMenuScreen(MBreak game, Logo givenLogo) {
 		super(game);
+		
+		getInputMultiplexer().addProcessor(new InputAdapter() {
+			
+			@Override
+			public boolean keyDown(int keycode) {
+				switch(keycode) {
+				case Keys.ESCAPE:
+					for (Menu menu : Traversal.menus) {
+						for (Item item : menu.items){
+							item.selected = false;
+						}
+						menu.items.get(menu.items.size() - 1).selected = true;
+						break;
+					}
+					break;
+				}
+				return false;
+			}
+			
+		});
 		
 		if (givenLogo == null) {
 			logo = new Logo();
