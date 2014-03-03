@@ -21,12 +21,13 @@ import com.pigmassacre.mbreak.gui.Traversal;
 import com.pigmassacre.mbreak.gui.TweenHelp;
 import com.pigmassacre.mbreak.gui.WidgetAccessor;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
+import com.pigmassacre.mbreak.objects.Groups;
 
 public class PrepareMenuScreen extends AbstractScreen {
 
 	public PrepareMenuScreen(MBreak game) {
 		super(game);
-		
+
 		List<Menu> allMenus = new ArrayList<Menu>();
 		
 		TextItem textItem = new TextItem("Back");
@@ -55,7 +56,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 
 			@Override
 			public void execute(Object data) {
-				// TODO: START GAME!
+				start();
 			}
 			
 		});
@@ -114,10 +115,8 @@ public class PrepareMenuScreen extends AbstractScreen {
 		game.setScreen(new MainMenuScreen(game, null));
 	}
 	
-	@Override
-	public void show() {
-		getInputMultiplexer().addProcessor(new DebugInput(stage, stage.getCamera()));
-		super.show();
+	public void start() {
+		game.setScreen(new GameScreen(game));
 	}
 
 }

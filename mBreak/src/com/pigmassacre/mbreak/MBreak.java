@@ -28,6 +28,7 @@ public class MBreak extends Game {
 		Gdx.app.log(MBreak.LOG, "Resizing game to: " + width + " x " + height);
 		super.resize(width, height);
 		
+		Gdx.input.setCatchBackKey(true);
 		if (getScreen() == null)
 			setScreen(new IntroScreen(this));
 	}

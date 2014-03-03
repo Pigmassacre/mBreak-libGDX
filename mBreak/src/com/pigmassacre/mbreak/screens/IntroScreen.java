@@ -33,7 +33,6 @@ public class IntroScreen extends AbstractScreen {
 		
 		logo = new Logo();
 		logo.setX((Gdx.graphics.getWidth() - logo.getWidth()) / 2);
-		System.out.println(logo.getX());
 		logo.setY((Gdx.graphics.getHeight() / 2));
 		stage.addActor(logo);
 		Tween.from(logo, WidgetAccessor.POSITION_Y, 1.0f).target(Gdx.graphics.getHeight() + logo.getHeight())

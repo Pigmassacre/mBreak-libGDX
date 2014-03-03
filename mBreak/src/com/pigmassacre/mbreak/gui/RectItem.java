@@ -40,39 +40,41 @@ public class RectItem extends Item {
 		batch.end();
 		
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		
 		shapeRenderer.setColor(shadowColor);
 		shapeRenderer.rect(shadowRectangle.getX(), shadowRectangle.getY(), shadowRectangle.getWidth(), shadowRectangle.getHeight());
-		shapeRenderer.end();
+//		shapeRenderer.end();
 
 		if (chosen) {
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(chosenColor);
 			shapeRenderer.rect(chosenRectangle.getX(), chosenRectangle.getY(), chosenRectangle.getWidth(), chosenRectangle.getHeight());
-			shapeRenderer.end();
+//			shapeRenderer.end();
 		}
 			
 		if (selected) {
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(selectedColor);
 			shapeRenderer.rect(selectedRectangle.getX(), selectedRectangle.getY(), selectedRectangle.getWidth(), selectedRectangle.getHeight());
-			shapeRenderer.end();
+//			shapeRenderer.end();
 		}
 
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		shapeRenderer.setColor(getColor());
 		shapeRenderer.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-		shapeRenderer.end();
+//		shapeRenderer.end();
 		
 		batch.begin();
 		drawBeforeDisabled(batch, parentAlpha);
 		batch.end();
 
 		if (disabled) {
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(disabledColor);
 			shapeRenderer.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-			shapeRenderer.end();
 		}
+		
+		shapeRenderer.end();
 		
 		batch.begin();
 	}
