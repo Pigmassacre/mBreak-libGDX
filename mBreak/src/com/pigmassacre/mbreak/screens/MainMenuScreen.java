@@ -1,4 +1,4 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.screens;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,15 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.pigmassacre.mbreak.Item.ItemCallback;
+import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.gui.Item;
+import com.pigmassacre.mbreak.gui.ListMenu;
+import com.pigmassacre.mbreak.gui.Logo;
+import com.pigmassacre.mbreak.gui.Menu;
+import com.pigmassacre.mbreak.gui.TextItem;
+import com.pigmassacre.mbreak.gui.Traversal;
+import com.pigmassacre.mbreak.gui.WidgetAccessor;
+import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 
 public class MainMenuScreen extends AbstractScreen {
 	
@@ -24,13 +32,13 @@ public class MainMenuScreen extends AbstractScreen {
 		if (givenLogo == null) {
 			logo = new Logo();
 			logo.setX((Gdx.graphics.getWidth() - logo.getWidth()) / 2);
-			logo.setY((Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f);
+			logo.setY(Gdx.graphics.getHeight() + logo.getHeight());
 		} else {
 			logo = givenLogo;
 		}
 		stage.addActor(logo);
-		Tween.to(logo, WidgetAccessor.POSITION_XY, 1.0f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
-			.ease(TweenEquations.easeOutBack)
+		Tween.to(logo, WidgetAccessor.POSITION_XY, 0.5f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
+			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
 
 		List<Menu> allMenus = new ArrayList<Menu>();
@@ -52,7 +60,7 @@ public class MainMenuScreen extends AbstractScreen {
 			
 		});
 		menu.add(textItem);
-		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutBack).start(getTweenManager());
+		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
 		stage.addActor(textItem);
 		
 		textItem = new TextItem("Options");
@@ -65,7 +73,7 @@ public class MainMenuScreen extends AbstractScreen {
 			
 		});
 		menu.add(textItem);
-		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(-textItem.getWidth(), textItem.getY()).ease(TweenEquations.easeOutBack).start(getTweenManager());
+		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(-textItem.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
 		stage.addActor(textItem);
 		
 		textItem = new TextItem("Help");
@@ -78,7 +86,7 @@ public class MainMenuScreen extends AbstractScreen {
 			
 		});
 		menu.add(textItem);
-		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutBack).start(getTweenManager());
+		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
 		stage.addActor(textItem);
 		
 		textItem = new TextItem("Quit");
@@ -91,7 +99,7 @@ public class MainMenuScreen extends AbstractScreen {
 			
 		});
 		menu.add(textItem);
-		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(-textItem.getWidth(), textItem.getY()).ease(TweenEquations.easeOutBack).start(getTweenManager());
+		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(-textItem.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
 		stage.addActor(textItem);
 		
 		stage.addActor(menu);

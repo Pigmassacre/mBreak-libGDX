@@ -1,4 +1,4 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.screens;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -7,7 +7,14 @@ import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
+import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.gui.Logo;
+import com.pigmassacre.mbreak.gui.TextItem;
+import com.pigmassacre.mbreak.gui.WidgetAccessor;
 
 public class IntroScreen extends AbstractScreen {
 
@@ -105,10 +112,6 @@ public class IntroScreen extends AbstractScreen {
 
 	@Override
 	public void render(float delta) {
-		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.ENTER)) {
-			game.setScreen(new MainMenuScreen(game, logo));
-		}
-		
 		stateTime += Gdx.graphics.getDeltaTime() * 1000;
 		
 		for (int i = 0; i < introMessage.length; i++) {
@@ -134,6 +137,12 @@ public class IntroScreen extends AbstractScreen {
 	}
 
 	@Override
+	public void show() {
+		getInputMultiplexer().addProcessor(new IntroInputProcessor());
+		super.show();
+	}
+	
+	@Override
 	public void pause() {
 		super.pause();
 		music.pause();
@@ -143,6 +152,30 @@ public class IntroScreen extends AbstractScreen {
 	public void resume() {
 		super.resume();
 		music.play();
+	}
+	
+	private void startMainMenu() {
+		game.setScreen(new MainMenuScreen(game, logo));
+	}
+	
+	private class IntroInputProcessor extends InputAdapter {
+
+		@Override
+		public boolean keyDown(int keycode) {
+			switch(keycode) {
+			case Keys.ENTER:
+				startMainMenu();
+				break;
+			}
+			return true;
+		}
+
+		@Override
+		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+			startMainMenu();
+			return true;
+		}
+
 	}
 	
 }

@@ -1,4 +1,4 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.pigmassacre.mbreak.Settings;
 
 public class TextItem extends Item {
 	

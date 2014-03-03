@@ -1,4 +1,4 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.gui;
 
 public class ListMenu extends Menu {
 

@@ -1,9 +1,11 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.gui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.pigmassacre.mbreak.Settings;
 
 public class Item extends Widget {
 	

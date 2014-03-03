@@ -1,4 +1,4 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,14 +154,14 @@ public class Traversal implements InputProcessor {
 			
 			float leastDifferenceY = Float.MAX_VALUE;
 			for (Item item : possibleItems) {
-				difference = Math.abs(item.getY() - (item.getHeight() / 2)) - (selectedItem.getY() - (selectedItem.getHeight() / 2));
+				difference = Math.abs(item.getY() - (item.getHeight() / 2) - (selectedItem.getY() - (selectedItem.getHeight() / 2)));
 				if (difference < leastDifferenceY)
 					leastDifferenceY = difference;
 			}
 			
 			temp = new ArrayList<Item>();
 			for (Item item : possibleItems) {
-				if (Math.abs(item.getY() - (item.getHeight() / 2)) - (selectedItem.getY() - (selectedItem.getHeight() / 2)) == leastDifferenceY)
+				if (Math.abs(item.getY() - (item.getHeight() / 2) - (selectedItem.getY() - (selectedItem.getHeight() / 2))) == leastDifferenceY)
 					temp.add(item);
 			}
 			possibleItems = temp;
@@ -217,14 +217,14 @@ public class Traversal implements InputProcessor {
 			
 			float leastDifferenceX = Float.MAX_VALUE;
 			for (Item item : possibleItems) {
-				difference = Math.abs(item.getX() + (item.getWidth() / 2)) - (selectedItem.getX() + (selectedItem.getWidth() / 2));
+				difference = Math.abs(item.getX() + (item.getWidth() / 2) - (selectedItem.getX() + (selectedItem.getWidth() / 2)));
 				if (difference < leastDifferenceX)
 					leastDifferenceX = difference;
 			}
 			
 			temp = new ArrayList<Item>();
 			for (Item item : possibleItems) {
-				if (Math.abs(item.getX() + (item.getWidth() / 2)) - (selectedItem.getX() + (selectedItem.getWidth() / 2)) == leastDifferenceX)
+				if (Math.abs(item.getX() + (item.getWidth() / 2) - (selectedItem.getX() + (selectedItem.getWidth() / 2))) == leastDifferenceX)
 					temp.add(item);
 			}
 			possibleItems = temp;

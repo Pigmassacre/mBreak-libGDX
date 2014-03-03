@@ -3,6 +3,7 @@ package com.pigmassacre.mbreak;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.pigmassacre.mbreak.screens.IntroScreen;
 
 public class MBreak extends Game {
 

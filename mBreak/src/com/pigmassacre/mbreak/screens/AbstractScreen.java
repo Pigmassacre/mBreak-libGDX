@@ -1,4 +1,4 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.screens;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
@@ -11,6 +11,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.gui.Traversal;
+import com.pigmassacre.mbreak.gui.WidgetAccessor;
 
 public class AbstractScreen implements Screen {
 
@@ -20,6 +23,8 @@ public class AbstractScreen implements Screen {
 	private SpriteBatch batch;
 	private TextureAtlas atlas;
 	private TweenManager tweenManager;
+	
+	private InputMultiplexer inputMultiplexer;
 	
 	protected String getName() {
 		return getClass().getSimpleName();
@@ -66,12 +71,17 @@ public class AbstractScreen implements Screen {
 		stage.setViewport(width, height, true);
 	}
 
+	public InputMultiplexer getInputMultiplexer() {
+		if (inputMultiplexer == null)
+			inputMultiplexer = new InputMultiplexer();
+		return inputMultiplexer;
+	}
+	
 	@Override
 	public void show() {
-		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-		inputMultiplexer.addProcessor(new Traversal(stage.getCamera()));
-		inputMultiplexer.addProcessor(stage);
-		Gdx.input.setInputProcessor(inputMultiplexer);
+		getInputMultiplexer().addProcessor(new Traversal(stage.getCamera()));
+		getInputMultiplexer().addProcessor(stage);
+		Gdx.input.setInputProcessor(getInputMultiplexer());
 	}
 
 	@Override

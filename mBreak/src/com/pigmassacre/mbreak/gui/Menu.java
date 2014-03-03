@@ -1,4 +1,4 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Menu extends Actor {
 
-	protected List<Item> items;
+	public List<Item> items;
 
 	protected List<Menu> otherMenus;
 	

@@ -1,8 +1,9 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.gui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.pigmassacre.mbreak.Settings;
 
 public class RectItem extends Item {
 
@@ -31,6 +32,10 @@ public class RectItem extends Item {
 		shadowRectangle.setY(getY() + getShadowOffsetY() + offsetY);
 	}
 	
+	public boolean isPointerOverItem(float x, float y) {
+		return x >= rectangle.getX() && x <= rectangle.getX() + rectangle.getWidth() && y >= rectangle.getY() && y <= rectangle.getY() + rectangle.getHeight();
+	}
+	
 	public void draw(Batch batch, float parentAlpha) {
 		batch.end();
 		
@@ -44,14 +49,9 @@ public class RectItem extends Item {
 			shapeRenderer.setColor(chosenColor);
 			shapeRenderer.rect(chosenRectangle.getX(), chosenRectangle.getY(), chosenRectangle.getWidth(), chosenRectangle.getHeight());
 			shapeRenderer.end();
-
-			if (selected) {
-				shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-				shapeRenderer.setColor(selectedColor);
-				shapeRenderer.rect(selectedRectangle.getX(), selectedRectangle.getY(), selectedRectangle.getWidth(), selectedRectangle.getHeight());
-				shapeRenderer.end();
-			}
-		} else if (selected) {
+		}
+			
+		if (selected) {
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(selectedColor);
 			shapeRenderer.rect(selectedRectangle.getX(), selectedRectangle.getY(), selectedRectangle.getWidth(), selectedRectangle.getHeight());

@@ -1,4 +1,4 @@
-package com.pigmassacre.mbreak;
+package com.pigmassacre.mbreak.gui;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
