@@ -5,29 +5,71 @@ filter: Nearest,Nearest
 repeat: none
 ai_easy
   rotate: false
-  xy: 41, 109
+  xy: 180, 104
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 ai_hard
   rotate: false
-  xy: 41, 95
+  xy: 403, 110
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 ball
   rotate: false
-  xy: 55, 117
+  xy: 194, 112
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
-mBreak_title
+corner_top_left
+  rotate: false
+  xy: 403, 104
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+corner_top_right
+  rotate: false
+  xy: 417, 118
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+floor
   rotate: false
   xy: 2, 2
+  size: 176, 120
+  orig: 176, 120
+  offset: 0, 0
+  index: -1
+mBreak_title
+  rotate: false
+  xy: 358, 3
   size: 37, 119
   orig: 37, 119
+  offset: 0, 0
+  index: -1
+paddle
+  rotate: false
+  xy: 180, 86
+  size: 4, 16
+  orig: 4, 16
+  offset: 0, 0
+  index: -1
+wall_horizontal
+  rotate: false
+  xy: 180, 118
+  size: 176, 4
+  orig: 176, 4
+  offset: 0, 0
+  index: -1
+wall_vertical
+  rotate: false
+  xy: 397, 2
+  size: 4, 120
+  orig: 4, 120
   offset: 0, 0
   index: -1

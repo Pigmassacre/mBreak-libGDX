@@ -31,26 +31,6 @@ public class MainMenuScreen extends AbstractScreen {
 	public MainMenuScreen(MBreak game, Logo givenLogo) {
 		super(game);
 		
-		getInputMultiplexer().addProcessor(new InputAdapter() {
-			
-			@Override
-			public boolean keyDown(int keycode) {
-				switch(keycode) {
-				case Keys.ESCAPE:
-					for (Menu menu : traversal.menus) {
-						for (Item item : menu.items){
-							item.selected = false;
-						}
-						menu.items.get(menu.items.size() - 1).selected = true;
-						break;
-					}
-					break;
-				}
-				return false;
-			}
-			
-		});
-		
 		if (givenLogo == null) {
 			logo = new Logo();
 			logo.setX((Gdx.graphics.getWidth() - logo.getWidth()) / 2);
@@ -114,7 +94,7 @@ public class MainMenuScreen extends AbstractScreen {
 
 			@Override
 			public void execute(Object data) {
-				Gdx.app.exit();
+				quit();
 			}
 			
 		});
@@ -127,6 +107,41 @@ public class MainMenuScreen extends AbstractScreen {
 
 	public void startPrepareMenu() {
 		game.setScreen(new PrepareMenuScreen(game));
+	}
+	
+	public void quit() {
+		Gdx.app.exit();
+	}
+	
+	@Override
+	public void show() {
+		getInputMultiplexer().addProcessor(new InputAdapter() {
+			
+			@Override
+			public boolean keyDown(int keycode) {
+				switch(keycode) {
+				case Keys.BACK:
+					for (Menu menu : traversal.menus) {
+						if (menu.items.get(menu.items.size() - 1).selected) {
+							quit();
+							break;
+						}
+					}
+				case Keys.ESCAPE:
+					for (Menu menu : traversal.menus) {
+						for (Item item : menu.items){
+							item.selected = false;
+						}
+						menu.items.get(menu.items.size() - 1).selected = true;
+						break;
+					}
+					break;
+				}
+				return false;
+			}
+			
+		});
+		super.show();
 	}
 	
 }

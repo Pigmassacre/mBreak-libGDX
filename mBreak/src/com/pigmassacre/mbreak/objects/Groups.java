@@ -7,6 +7,8 @@ public class Groups {
 
 	public static Group ballGroup = new Group();
 	public static Group traceGroup = new Group();
+	public static Group paddleGroup = new Group();
+	public static Group shadowGroup = new Group();
 //	World world;
 //	
 //	public GameSimulation() {

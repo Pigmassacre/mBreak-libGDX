@@ -31,7 +31,9 @@ public class Ball extends Actor {
 	
 	private float traceTime, traceRate;
 	
-	public Ball(float x, float y, float angle, Player owner) {
+	private Shadow shadow;
+	
+	public Ball(float x, float y, float angle, Player owner, Color color) {
 		super();
 
 		image = getAtlas().findRegion("ball");
@@ -59,11 +61,11 @@ public class Ball extends Actor {
 		traceTime = 0f;
 		traceRate = 0.00053f * Settings.GAME_FPS;
 		
-		// TEMPORARILY RED
-		setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		setColor(color);
+		
+		shadow = new Shadow(this, image, false);
 		
 		Groups.ballGroup.addActor(this);
-		System.out.println(Groups.ballGroup.getChildren().toString());
 	}
 	
 	protected TextureAtlas getAtlas() {
@@ -97,6 +99,7 @@ public class Ball extends Actor {
 			collided = false;
 			
 			checkCollisionBalls();
+			checkCollisionPaddles();
 			
 			if (angle > (Math.PI / 2) - leastAllowedVerticalAngle && angle < Math.PI / 2) {
 				angle = (float) ((Math.PI / 2) - leastAllowedVerticalAngle);
@@ -124,23 +127,23 @@ public class Ball extends Actor {
 			setX((float) (getX() + (Math.cos(angle) * tickSpeed * delta)));
 			setY((float) (getY() + (Math.sin(angle) * tickSpeed * delta)));
 			
-			if (getX() < 0) {
+			if (getX() < Settings.LEVEL_X) {
 				angle = (float) (Math.PI - angle);
-				setX(0);
+				setX(Settings.LEVEL_X);
 				collided = true;
-			} else if (getX() + getWidth() > Gdx.graphics.getWidth()) {
+			} else if (getX() + getWidth() > Settings.LEVEL_MAX_X) {
 				angle = (float) (Math.PI - angle);
-				setX(Gdx.graphics.getWidth() - getWidth());
+				setX(Settings.LEVEL_MAX_X - getWidth());
 				collided = true;
 			}
 			
-			if (getY() < 0) {
+			if (getY() < Settings.LEVEL_Y) {
 				angle = -angle;
-				setY(0);
+				setY(Settings.LEVEL_Y);
 				collided = true;
-			} else if (getY() + getHeight() > Gdx.graphics.getHeight()) {
+			} else if (getY() + getHeight() > Settings.LEVEL_MAX_Y) {
 				angle = -angle;
-				setY(Gdx.graphics.getHeight() - getHeight());
+				setY(Settings.LEVEL_MAX_Y - getHeight());
 				collided = true;
 			}
 
@@ -153,9 +156,77 @@ public class Ball extends Actor {
 		
 		traceTime += delta;
 		if (traceTime > traceRate) {
-			System.out.println("new trace");
 			new Trace(this, this.image);
 			traceTime = 0f;
+		}
+	}
+	
+	private void hitLeftSideOfPaddle(Paddle paddle) {
+		float paddleCenter = paddle.rectangle.getY() + (paddle.rectangle.getHeight() / 2);
+		float distanceFromPaddleCenter = paddleCenter - (rectangle.getY() + (rectangle.getHeight() / 2));
+		float maxDistance = paddleCenter - (paddle.rectangle.getY() + paddle.rectangle.getHeight() + rectangle.getHeight());
+		float normalizedDistance = distanceFromPaddleCenter / maxDistance;
+		angle = (float) (Math.PI - normalizedDistance * (Math.PI / 2 - leastAllowedVerticalAngle));
+		setX(paddle.rectangle.getX() - rectangle.getWidth() - 1);
+	}
+	
+	private void hitRightSideOfPaddle(Paddle paddle) {
+		float paddleCenter = paddle.rectangle.getY() + (paddle.rectangle.getHeight() / 2);
+		float distanceFromPaddleCenter = paddleCenter - (rectangle.getY() + (rectangle.getHeight() / 2));
+		float maxDistance = paddleCenter - (paddle.rectangle.getY() + paddle.rectangle.getHeight() + rectangle.getHeight());
+		float normalizedDistance = distanceFromPaddleCenter / maxDistance;
+		angle = (float) (normalizedDistance * (Math.PI / 2 - leastAllowedVerticalAngle));
+		setX(paddle.getX() + paddle.getWidth() + 1);
+	}
+	
+	private void checkCollisionPaddles() {
+		Paddle paddle;
+		float rX, rY, rWidth, rHeight, bX, bY, bWidth, bHeight;
+		
+		for (Actor actor : Groups.paddleGroup.getChildren().items) {
+			if (actor instanceof Paddle) {
+				paddle = (Paddle) actor;
+				if (Intersector.overlaps(paddle.rectangle, this.rectangle)) {
+					collided = true;
+					rX = this.rectangle.getX();
+					rY = this.rectangle.getY();
+					rWidth = this.rectangle.getWidth();
+					rHeight = this.rectangle.getHeight();
+					
+					bX = paddle.rectangle.getX();
+					bY = paddle.rectangle.getY();
+					bWidth = paddle.rectangle.getWidth();
+					bHeight = paddle.rectangle.getHeight();
+					
+					if (rY <= bY + bHeight && rY + rHeight > bY + bHeight) {
+						if (bX - rX > (rY + rHeight) - (bY + bHeight)) {
+							hitLeftSideOfPaddle(paddle);
+						} else if (rX + rWidth - (bX + bWidth) > (rY + rHeight) - (bY + bHeight)) {
+							hitRightSideOfPaddle(paddle);
+						} else {
+							if (angle > Math.PI)
+								angle = -angle;
+							
+							setY(bY + bHeight + 1);
+						}
+					} else if (rY + rHeight >= bY && rY < bY) {
+						if (bX - rX > bY - rY) {
+							hitLeftSideOfPaddle(paddle);
+						} else if (rX + rWidth - (bX + bWidth) > bY - rY) {
+							hitRightSideOfPaddle(paddle);
+						} else {
+							if (angle < Math.PI) 
+								angle = -angle;
+							
+							setY(bY - rHeight - 1);
+						}
+					} else if (rX + rWidth >= bX && rX < bX) {
+						hitLeftSideOfPaddle(paddle);
+					} else if (rX <= bX + bWidth && rX + rWidth > bX + bWidth) {
+						hitRightSideOfPaddle(paddle);
+					}
+				}
+			}
 		}
 	}
 	
@@ -213,12 +284,14 @@ public class Ball extends Actor {
 		}
 	}
 	
+	private Color temp;
+	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		Color c = new Color(batch.getColor());
+		temp = batch.getColor();
 		batch.setColor(getColor());
 		batch.draw(image, getX(), getY(), getWidth(), getHeight());
-		batch.setColor(c);
+		batch.setColor(temp);
 	}
 	
 }

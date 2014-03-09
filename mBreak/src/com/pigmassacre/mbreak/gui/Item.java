@@ -1,5 +1,7 @@
 package com.pigmassacre.mbreak.gui;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -33,6 +35,8 @@ public class Item extends Widget {
 	float stateTime;
 	
 	Rectangle rectangle;
+	
+	private Random random = new Random();
 
 	public Item() {
 		shapeRenderer = new ShapeRenderer();
@@ -119,6 +123,10 @@ public class Item extends Widget {
 		if (selected) {
 			offsetY = (float) ((Math.sin(stateTime * 0.0075) + 1) / 2.0f) * maxOffsetY;
 			stateTime += delta * 1000;
+//		} else if (true) {
+//			offsetY = (float) ((float) ((Math.sin(stateTime * 0.0075) + 1) / 2.0f) * (maxOffsetY / 2));
+//			offsetX = (float) ((Math.cos(stateTime * 0.005) + 1) / 2.0f) * maxOffsetX;
+//			stateTime += delta * 1000 * random.nextFloat();
 		} else {
 			stateTime = 0;
 			if (offsetY < 0) {

@@ -15,6 +15,8 @@ public class Settings {
 	public static int BASE_SCREEN_WIDTH = 285;
 	public static int BASE_SCREEN_HEIGHT = 160;
 	
+	public static float LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_X, LEVEL_MAX_X, LEVEL_Y, LEVEL_MAX_Y;
+	
 	public Settings() {
 
 	}

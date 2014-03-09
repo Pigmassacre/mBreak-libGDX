@@ -6,8 +6,9 @@ public class Player extends Actor {
 
 	private String name;
 	
-	public Player() {
+	public Player(String name) {
 		super();
+		this.name = name;
 	}
 	
 }

@@ -9,6 +9,8 @@ import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Input.Keys;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GridMenu;
@@ -113,6 +115,25 @@ public class PrepareMenuScreen extends AbstractScreen {
 	
 	public void start() {
 		game.setScreen(new GameScreen(game));
+	}
+	
+	@Override
+	public void show() {
+		getInputMultiplexer().addProcessor(new InputAdapter() {
+			
+			@Override
+			public boolean keyDown(int keycode) {
+				switch(keycode) {
+				case Keys.ESCAPE:
+				case Keys.BACK:
+					back();
+					break;
+				}
+				return false;
+			}
+			
+		});
+		super.show();
 	}
 
 }
