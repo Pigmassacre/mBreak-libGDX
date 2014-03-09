@@ -29,6 +29,8 @@ public class Ball extends Actor {
 	public float speed, maxSpeed, tickSpeed, speedStep, speedHandled;
 	private float leastAllowedVerticalAngle = 0.32f;
 	
+	private float traceTime, traceRate;
+	
 	public Ball(float x, float y, float angle, Player owner) {
 		super();
 
@@ -53,6 +55,12 @@ public class Ball extends Actor {
 		speedStep = 0.75f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		
 		this.owner = owner;
+		
+		traceTime = 0f;
+		traceRate = 0.00053f * Settings.GAME_FPS;
+		
+		// TEMPORARILY RED
+		setColor(1.0f, 0.0f, 0.0f, 1.0f);
 		
 		Groups.ballGroup.addActor(this);
 		System.out.println(Groups.ballGroup.getChildren().toString());
@@ -142,6 +150,13 @@ public class Ball extends Actor {
 			
 			speedHandled += tickSpeed;
 		}
+		
+		traceTime += delta;
+		if (traceTime > traceRate) {
+			System.out.println("new trace");
+			new Trace(this, this.image);
+			traceTime = 0f;
+		}
 	}
 	
 	public void checkCollisionBalls() {
@@ -201,7 +216,7 @@ public class Ball extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		Color c = new Color(batch.getColor());
-		batch.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		batch.setColor(getColor());
 		batch.draw(image, getX(), getY(), getWidth(), getHeight());
 		batch.setColor(c);
 	}

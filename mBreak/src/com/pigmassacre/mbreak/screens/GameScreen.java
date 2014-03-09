@@ -12,6 +12,7 @@ public class GameScreen extends AbstractScreen {
 	public GameScreen(MBreak game) {
 		super(game);
 		stage.addActor(Groups.ballGroup);
+		stage.addActor(Groups.traceGroup);
 	}
 	
 	@Override
@@ -42,6 +43,7 @@ public class GameScreen extends AbstractScreen {
 	public void dispose() {
 		super.dispose();
 		Groups.ballGroup.clear();
+		Groups.traceGroup.clear();
 	}
 	
 }

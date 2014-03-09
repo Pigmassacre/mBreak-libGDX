@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 public class Groups {
 
 	public static Group ballGroup = new Group();
+	public static Group traceGroup = new Group();
 //	World world;
 //	
 //	public GameSimulation() {
