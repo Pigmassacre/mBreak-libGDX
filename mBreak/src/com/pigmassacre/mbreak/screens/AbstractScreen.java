@@ -28,6 +28,7 @@ public class AbstractScreen implements Screen {
 	private TweenManager tweenManager;
 	
 	private InputMultiplexer inputMultiplexer;
+	protected Traversal traversal;
 	
 	protected String getName() {
 		return getClass().getSimpleName();
@@ -37,6 +38,7 @@ public class AbstractScreen implements Screen {
 		this.game = game;
 		this.stage = new Stage();
 		Tween.registerAccessor(Widget.class, new WidgetAccessor());
+		this.traversal = new Traversal(stage.getCamera());
 	}
 
 	public SpriteBatch getBatch() {
@@ -82,7 +84,7 @@ public class AbstractScreen implements Screen {
 	
 	@Override
 	public void show() {
-		getInputMultiplexer().addProcessor(new Traversal(stage.getCamera()));
+		getInputMultiplexer().addProcessor(traversal);
 		getInputMultiplexer().addProcessor(stage);
 		Gdx.input.setInputProcessor(getInputMultiplexer());
 	}

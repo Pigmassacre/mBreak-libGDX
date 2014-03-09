@@ -4,13 +4,13 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.DebugInput;
+import com.pigmassacre.mbreak.gui.Traversal;
 import com.pigmassacre.mbreak.objects.Groups;
 
 public class GameScreen extends AbstractScreen {
 
 	public GameScreen(MBreak game) {
 		super(game);
-
 		stage.addActor(Groups.ballGroup);
 	}
 	

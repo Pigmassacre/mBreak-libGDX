@@ -37,7 +37,7 @@ public class MainMenuScreen extends AbstractScreen {
 			public boolean keyDown(int keycode) {
 				switch(keycode) {
 				case Keys.ESCAPE:
-					for (Menu menu : Traversal.menus) {
+					for (Menu menu : traversal.menus) {
 						for (Item item : menu.items){
 							item.selected = false;
 						}
@@ -62,13 +62,11 @@ public class MainMenuScreen extends AbstractScreen {
 		Tween.to(logo, WidgetAccessor.POSITION_XY, 0.5f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
-
-		List<Menu> allMenus = new ArrayList<Menu>();
 		
 		Menu menu = new ListMenu();
 		menu.setX(Gdx.graphics.getWidth() / 2);
 		menu.setY(Gdx.graphics.getHeight() / 2);
-		allMenus.add(menu);
+		traversal.menus.add(menu);
 		
 		TextItem textItem;
 		textItem = new TextItem("Start");
@@ -125,8 +123,6 @@ public class MainMenuScreen extends AbstractScreen {
 		stage.addActor(textItem);
 		
 		stage.addActor(menu);
-		
-		Traversal.menus = allMenus;
 	}
 
 	public void startPrepareMenu() {

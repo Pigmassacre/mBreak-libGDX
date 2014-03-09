@@ -28,8 +28,6 @@ public class PrepareMenuScreen extends AbstractScreen {
 	public PrepareMenuScreen(MBreak game) {
 		super(game);
 
-		List<Menu> allMenus = new ArrayList<Menu>();
-		
 		TextItem textItem = new TextItem("Back");
 		textItem.setCallback(new ItemCallback() {
 
@@ -45,7 +43,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		menu.setX(textItem.getHeight() + textItem.getWidth() / 2);
 		menu.setY(textItem.getHeight());
 		menu.add(textItem);
-		allMenus.add(menu);
+		traversal.menus.add(menu);
 		stage.addActor(menu);
 		Tween.from(textItem, WidgetAccessor.POSITION_XY, 0.5f).target(-textItem.getWidth(), -textItem.getHeight())
 			.ease(TweenEquations.easeOutExpo)
@@ -65,7 +63,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		menu.setX(Gdx.graphics.getWidth() - textItem.getWidth() - textItem.getHeight() + textItem.getWidth() / 2);
 		menu.setY(textItem.getHeight());
 		menu.add(textItem);
-		allMenus.add(menu);
+		traversal.menus.add(menu);
 		stage.addActor(menu);
 		Tween.from(textItem, WidgetAccessor.POSITION_XY, 0.5f).target(Gdx.graphics.getWidth() + textItem.getWidth(), -textItem.getHeight())
 			.ease(TweenEquations.easeOutExpo)
@@ -105,10 +103,8 @@ public class PrepareMenuScreen extends AbstractScreen {
 			TweenHelp.setupSingleItemTween(item, getTweenManager(), TweenEquations.easeOutExpo, 0.5f, true, true, true, true);
 		}
 		
-		allMenus.add(colorMenu);
+		traversal.menus.add(colorMenu);
 		stage.addActor(colorMenu);
-		
-		Traversal.menus = allMenus;
 	}
 	
 	public void back() {

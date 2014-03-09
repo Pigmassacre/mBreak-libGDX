@@ -1,6 +1,7 @@
 package com.pigmassacre.mbreak.gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -12,15 +13,13 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Traversal implements InputProcessor {
 	
-	public static List<Menu> menus;
+	public List<Menu> menus = new ArrayList<Menu>();
 	private Camera camera;
 	
 	public Traversal(Camera camera) {
 		this.camera = camera;
-		if (menus == null)
-			menus = new ArrayList<Menu>();
 	}
-
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		switch(keycode) {
