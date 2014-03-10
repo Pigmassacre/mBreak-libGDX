@@ -17,15 +17,17 @@ import com.pigmassacre.mbreak.objects.Player;
 public class GameScreen extends AbstractScreen {
 
 	Paddle leftPaddle, rightPaddle;
-	TextureRegion background;
+	Background background;
+	Foreground foreground;
 	
 	public GameScreen(MBreak game) {
 		super(game);
 		
-		background = getAtlas().findRegion("floor");
+		background = new Background("planks");
+		foreground = new Foreground("planks");
 		
-		Settings.LEVEL_WIDTH = background.getRegionWidth() * Settings.GAME_SCALE; 
-		Settings.LEVEL_HEIGHT = background.getRegionHeight() * Settings.GAME_SCALE;
+		Settings.LEVEL_WIDTH = background.getWidth(); 
+		Settings.LEVEL_HEIGHT = background.getHeight();
 		Settings.LEVEL_X = (Gdx.graphics.getWidth() - Settings.LEVEL_WIDTH) / 2;
 		Settings.LEVEL_Y = (Gdx.graphics.getHeight() - Settings.LEVEL_HEIGHT) / 2;
 		Settings.LEVEL_MAX_X = Settings.LEVEL_X + Settings.LEVEL_WIDTH;
@@ -34,7 +36,7 @@ public class GameScreen extends AbstractScreen {
 		Player leftPlayer = new Player("left");
 		leftPlayer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 		leftPaddle = new Paddle(leftPlayer);
-		leftPaddle.setX(Gdx.graphics.getWidth() / 5);
+		leftPaddle.setX(Settings.LEVEL_X + leftPaddle.getWidth() * 4);
 		leftPaddle.setY((Gdx.graphics.getHeight() - leftPaddle.getHeight()) / 2);
 		
 		leftPaddle.upRectangle = new Rectangle(0, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
@@ -42,10 +44,23 @@ public class GameScreen extends AbstractScreen {
 		leftPaddle.keyUp = Keys.W;
 		leftPaddle.keyDown = Keys.S;
 		
+		Player rightPlayer = new Player("right");
+		rightPlayer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		rightPaddle = new Paddle(leftPlayer);
+		rightPaddle.setX(Settings.LEVEL_MAX_X - rightPaddle.getWidth() * 5);
+		rightPaddle.setY((Gdx.graphics.getHeight() - rightPaddle.getHeight()) / 2);
+		
+		rightPaddle.upRectangle = new Rectangle(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		rightPaddle.downRectangle = new Rectangle(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		rightPaddle.keyUp = Keys.UP;
+		rightPaddle.keyDown = Keys.DOWN;
+		
+		stage.addActor(background);
 		stage.addActor(Groups.shadowGroup);
 		stage.addActor(Groups.traceGroup);
 		stage.addActor(Groups.ballGroup);
 		stage.addActor(Groups.paddleGroup);
+		stage.addActor(foreground);
 	}
 	
 	@Override
@@ -70,19 +85,6 @@ public class GameScreen extends AbstractScreen {
 	
 	private void back() {
 		game.setScreen(new PrepareMenuScreen(game));
-	}
-	
-	@Override
-	public void renderBackground(float delta) {
-		stage.getSpriteBatch().begin();
-		
-		if (background != null) {
-			stage.getSpriteBatch().draw(background, (Gdx.graphics.getWidth() - background.getRegionWidth() * Settings.GAME_SCALE) / 2, 
-					(Gdx.graphics.getHeight() - background.getRegionHeight() * Settings.GAME_SCALE) / 2,
-					background.getRegionWidth() * Settings.GAME_SCALE, background.getRegionHeight() * Settings.GAME_SCALE);
-		}
-		
-		stage.getSpriteBatch().end();
 	}
 	
 	@Override
