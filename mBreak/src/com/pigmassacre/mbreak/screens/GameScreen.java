@@ -39,8 +39,7 @@ public class GameScreen extends AbstractScreen {
 		leftPaddle.setX(Settings.LEVEL_X + leftPaddle.getWidth() * 4);
 		leftPaddle.setY((Gdx.graphics.getHeight() - leftPaddle.getHeight()) / 2);
 		
-		leftPaddle.upRectangle = new Rectangle(0, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		leftPaddle.downRectangle = new Rectangle(0, Gdx.graphics.getHeight() / 2, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		leftPaddle.touchRectangle = new Rectangle(0, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
 		leftPaddle.keyUp = Keys.W;
 		leftPaddle.keyDown = Keys.S;
 		
@@ -50,8 +49,7 @@ public class GameScreen extends AbstractScreen {
 		rightPaddle.setX(Settings.LEVEL_MAX_X - rightPaddle.getWidth() * 5);
 		rightPaddle.setY((Gdx.graphics.getHeight() - rightPaddle.getHeight()) / 2);
 		
-		rightPaddle.upRectangle = new Rectangle(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		rightPaddle.downRectangle = new Rectangle(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		rightPaddle.touchRectangle = new Rectangle(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
 		rightPaddle.keyUp = Keys.UP;
 		rightPaddle.keyDown = Keys.DOWN;
 		
@@ -93,6 +91,7 @@ public class GameScreen extends AbstractScreen {
 		Groups.ballGroup.clear();
 		Groups.traceGroup.clear();
 		Groups.paddleGroup.clear();
+		Groups.shadowGroup.clear();
 	}
 	
 }

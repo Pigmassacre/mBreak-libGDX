@@ -2,6 +2,7 @@ package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -29,8 +30,10 @@ public class Paddle extends Actor {
 	private float hitEffectTickAmount;
 	
 	public boolean moveUp, moveDown;
-	public Rectangle upRectangle, downRectangle;
+	public Rectangle touchRectangle;
+	private float touchGraceSize;
 	public int keyUp, keyDown;
+	private float touchY;
 	
 	public Paddle(Player owner) {
 		this.owner = owner;
@@ -44,16 +47,17 @@ public class Paddle extends Actor {
 		
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		
-		acceleration = 1.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
-		retardation = 2.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
-		maxSpeed = 2.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		acceleration = 3.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		retardation = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		maxSpeed = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		
 		velocityY = 0f;
 		
 		stabilizeSpeed = 0.1f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		maxNudgeDistance = 2.5f * Settings.GAME_SCALE;
 		
-		moveUp = false; 
+		touchGraceSize = getHeight() / 8;
+		moveUp = false;
 		moveDown = false;
 		
 		new Shadow(this, this.image, false);
@@ -81,12 +85,17 @@ public class Paddle extends Actor {
 	
 	@Override
 	public void act(float delta) {
+		moveUp = false; 
+		moveDown = false;
 		if (Gdx.app.getType() == ApplicationType.Android) {
 			for (int i = 0; i < 10; i++) {
-				moveUp = upRectangle.contains(Gdx.input.getX(i), Gdx.input.getY(i)) && Gdx.input.isTouched(i);
-				moveDown = downRectangle.contains(Gdx.input.getX(i), Gdx.input.getY(i)) && Gdx.input.isTouched(i);
-				if (moveUp || moveDown)
-					break;
+				if (touchRectangle.contains(Gdx.input.getX(i), Gdx.input.getY(i)) && Gdx.input.isTouched(i)) {
+					touchY = Gdx.graphics.getHeight() - Gdx.input.getY(i);
+					moveUp = getY() + (getHeight() / 2) < touchY - touchGraceSize;
+					moveDown = getY() + (getHeight() / 2) > touchY + touchGraceSize;
+					if (moveUp || moveDown)
+						break;
+				}
 			}
 		} else {
 			moveUp = Gdx.input.isKeyPressed(keyUp);
@@ -98,18 +107,22 @@ public class Paddle extends Actor {
 				velocityY -= acceleration;
 				if (velocityY < -maxSpeed)
 					velocityY = -maxSpeed;
-			} else if (moveUp) {
+			}
+			if (moveUp) {
 				velocityY += acceleration;
 				if (velocityY > maxSpeed)
 					velocityY = maxSpeed;
-			} else if (velocityY > 0) {
-				velocityY -= retardation;
-				if (velocityY < 0)
-					velocityY = 0;
-			} else if (velocityY < 0) {
-				velocityY += retardation;
-				if (velocityY > 0)
-					velocityY = 0;
+			}
+			if (!moveUp && !moveDown) {
+				if (velocityY > 0) {
+					velocityY -= retardation;
+					if (velocityY < 0)
+						velocityY = 0;
+				} else if (velocityY < 0) {
+					velocityY += retardation;
+					if (velocityY > 0)
+						velocityY = 0;
+				}
 			}
 		} else {
 			 if (velocityY > 0) {
