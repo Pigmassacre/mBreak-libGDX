@@ -32,16 +32,20 @@ public class Trace extends Actor {
 		Groups.traceGroup.addActor(this);
 	}
 
+	public void destroy() {
+		remove();
+		clear();
+		shadow.remove();
+		shadow.clear();
+	}
+	
 	@Override
 	public void act(float delta) {
 		if (alphaStep > 0) {
 			getColor().a -= alphaStep * delta;
 			shadow.getColor().a -= alphaStep / 2 * delta;
 			if (getColor().a - (alphaStep * delta) < 0) {
-				remove();
-				clear();
-				shadow.remove();
-				shadow.clear();
+				destroy();
 			}
 			getColor().clamp();
 			shadow.getColor().clamp();

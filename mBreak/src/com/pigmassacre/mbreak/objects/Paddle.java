@@ -47,7 +47,7 @@ public class Paddle extends Actor {
 		
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		
-		acceleration = 3.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		acceleration = 1.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		retardation = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		maxSpeed = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		

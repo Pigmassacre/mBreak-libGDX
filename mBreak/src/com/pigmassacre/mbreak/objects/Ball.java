@@ -98,6 +98,7 @@ public class Ball extends Actor {
 			
 			collided = false;
 			
+			checkCollisionBlocks();
 			checkCollisionBalls();
 			checkCollisionPaddles();
 			
@@ -279,6 +280,56 @@ public class Ball extends Actor {
 					deltaX = bX + (bWidth / 2) - (rX + (rWidth / 2));
 					deltaY = bY + (bHeight / 2) - (rY + (rHeight / 2));
 					ball.angle = (float) Math.atan2(deltaY, deltaX);
+				}
+			}
+		}
+	}
+	
+	public void checkCollisionBlocks() {
+		Block block;
+		double deltaX, deltaY;
+		float rX, rY, rWidth, rHeight, bX, bY, bWidth, bHeight;
+		
+		for (Actor actor : Groups.blockGroup.getChildren().items) {
+			if (actor instanceof Block) {
+				block = (Block) actor;
+				if (Intersector.overlaps(block.rectangle, this.rectangle)) {
+					collided = true;
+					rX = this.rectangle.getX();
+					rY = this.rectangle.getY();
+					rWidth = this.rectangle.getWidth();
+					rHeight = this.rectangle.getHeight();
+					
+					bX = block.rectangle.getX();
+					bY = block.rectangle.getY();
+					bWidth = block.rectangle.getWidth();
+					bHeight = block.rectangle.getHeight();
+					
+					if (rY <= bY + bHeight && rY + rHeight > bY + bHeight) {
+						if (bX - rX > (rY + rHeight) - (bY + bHeight)) {
+							setX(bX - rWidth - 1);
+						} else if (rX + rWidth - (bX + bWidth) > (rY + rHeight) - (bY + bHeight)) {
+							setX(bX + bWidth + 1);
+						} else {
+							setY(bY + bHeight + 1);
+						}
+					} else if (rY + rHeight >= bY && rY < bY) {
+						if (bX - rX > bY - rY) {
+							setX(bX - rWidth - 1);
+						} else if (rX + rWidth - (bX + bWidth) > bY - rY) {
+							setX(bX + bWidth + 1);
+						} else {
+							setY(bY - rHeight - 1);
+						}
+					} else if (rX + rWidth >= bX && rX < bX) {
+						setX(bX - rWidth - 1);
+					} else if (rX <= bX + bWidth && rX + rWidth > bX + bWidth) {
+						setX(bX + bWidth + 1);
+					}
+
+					deltaX = rX + (rWidth / 2) - (bX + (bWidth / 2));
+					deltaY = rY + (rHeight / 2) - (bY + (bHeight / 2));
+					angle = (float) Math.atan2(deltaY, deltaX);
 				}
 			}
 		}
