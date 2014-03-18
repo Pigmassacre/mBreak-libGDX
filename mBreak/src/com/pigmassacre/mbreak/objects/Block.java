@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -29,12 +30,12 @@ public class Block extends Actor {
 		super();
 
 		Random random = new Random();
-		if (random.nextFloat() < 0.33)
-			image = getAtlas().findRegion("block");
-		else if (random.nextFloat() < 0.66)
-			image = getAtlas().findRegion("block2");
+		if (random.nextFloat() <= 0.33)
+			image = getAtlas().findRegion("block_normal", 3);
+		else if (random.nextFloat() <= 0.66)
+			image = getAtlas().findRegion("block_normal", 3);
 		else
-			image = getAtlas().findRegion("block3");
+			image = getAtlas().findRegion("block_normal", 3);
 		
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		

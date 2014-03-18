@@ -294,6 +294,7 @@ public class Ball extends Actor {
 			if (actor instanceof Block) {
 				block = (Block) actor;
 				if (Intersector.overlaps(block.rectangle, this.rectangle)) {
+					block.damage(10);
 					collided = true;
 					rX = this.rectangle.getX();
 					rY = this.rectangle.getY();
@@ -308,28 +309,32 @@ public class Ball extends Actor {
 					if (rY <= bY + bHeight && rY + rHeight > bY + bHeight) {
 						if (bX - rX > (rY + rHeight) - (bY + bHeight)) {
 							setX(bX - rWidth - 1);
+							angle = (float) (Math.PI - angle);
 						} else if (rX + rWidth - (bX + bWidth) > (rY + rHeight) - (bY + bHeight)) {
 							setX(bX + bWidth + 1);
+							angle = (float) (Math.PI - angle);
 						} else {
 							setY(bY + bHeight + 1);
+							angle = -angle;
 						}
 					} else if (rY + rHeight >= bY && rY < bY) {
 						if (bX - rX > bY - rY) {
 							setX(bX - rWidth - 1);
+							angle = (float) (Math.PI - angle);
 						} else if (rX + rWidth - (bX + bWidth) > bY - rY) {
 							setX(bX + bWidth + 1);
+							angle = (float) (Math.PI - angle);
 						} else {
 							setY(bY - rHeight - 1);
+							angle = -angle;
 						}
 					} else if (rX + rWidth >= bX && rX < bX) {
 						setX(bX - rWidth - 1);
+						angle = (float) (Math.PI - angle);
 					} else if (rX <= bX + bWidth && rX + rWidth > bX + bWidth) {
 						setX(bX + bWidth + 1);
+						angle = (float) (Math.PI - angle);
 					}
-
-					deltaX = rX + (rWidth / 2) - (bX + (bWidth / 2));
-					deltaY = rY + (rHeight / 2) - (bY + (bHeight / 2));
-					angle = (float) Math.atan2(deltaY, deltaX);
 				}
 			}
 		}

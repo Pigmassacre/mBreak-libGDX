@@ -19,7 +19,7 @@ ai_hard
   index: -1
 ball
   rotate: false
-  xy: 41, 63
+  xy: 41, 21
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -45,6 +45,48 @@ block3
   orig: 6, 12
   offset: 0, 0
   index: -1
+block_normal
+  rotate: false
+  xy: 41, 57
+  size: 6, 12
+  orig: 6, 12
+  offset: 0, 0
+  index: 1
+block_normal
+  rotate: false
+  xy: 49, 67
+  size: 6, 12
+  orig: 6, 12
+  offset: 0, 0
+  index: 2
+block_normal
+  rotate: false
+  xy: 41, 43
+  size: 6, 12
+  orig: 6, 12
+  offset: 0, 0
+  index: 3
+block_strong
+  rotate: false
+  xy: 49, 53
+  size: 6, 12
+  orig: 6, 12
+  offset: 0, 0
+  index: 1
+block_strong
+  rotate: false
+  xy: 41, 29
+  size: 6, 12
+  orig: 6, 12
+  offset: 0, 0
+  index: 2
+block_strong
+  rotate: false
+  xy: 49, 39
+  size: 6, 12
+  orig: 6, 12
+  offset: 0, 0
+  index: 3
 mBreak_title
   rotate: false
   xy: 2, 2
@@ -66,30 +108,30 @@ filter: Nearest,Nearest
 repeat: none
 planks/corner_bottom_left
   rotate: false
-  xy: 180, 112
-  size: 4, 4
-  orig: 4, 4
-  offset: 0, 0
-  index: -1
-planks/corner_top_right
-  rotate: false
-  xy: 180, 112
-  size: 4, 4
-  orig: 4, 4
+  xy: 180, 70
+  size: 14, 14
+  orig: 14, 14
   offset: 0, 0
   index: -1
 planks/corner_bottom_right
   rotate: false
-  xy: 358, 118
-  size: 4, 4
-  orig: 4, 4
+  xy: 403, 108
+  size: 14, 14
+  orig: 14, 14
   offset: 0, 0
   index: -1
 planks/corner_top_left
   rotate: false
-  xy: 358, 118
-  size: 4, 4
-  orig: 4, 4
+  xy: 180, 54
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+planks/corner_top_right
+  rotate: false
+  xy: 196, 70
+  size: 14, 14
+  orig: 14, 14
   offset: 0, 0
   index: -1
 planks/floor
@@ -101,15 +143,43 @@ planks/floor
   index: -1
 planks/wall_horizontal
   rotate: false
-  xy: 180, 118
+  xy: 180, 86
   size: 176, 4
   orig: 176, 4
   offset: 0, 0
   index: -1
+planks/wall_horizontal_bottom
+  rotate: false
+  xy: 180, 108
+  size: 176, 14
+  orig: 176, 14
+  offset: 0, 0
+  index: -1
+planks/wall_horizontal_top
+  rotate: false
+  xy: 180, 92
+  size: 176, 14
+  orig: 176, 14
+  offset: 0, 0
+  index: -1
 planks/wall_vertical
   rotate: false
-  xy: 364, 2
-  size: 4, 120
-  orig: 4, 120
+  xy: 390, 2
+  size: 11, 120
+  orig: 11, 120
+  offset: 0, 0
+  index: -1
+planks/wall_vertical_left
+  rotate: false
+  xy: 358, 2
+  size: 14, 120
+  orig: 14, 120
+  offset: 0, 0
+  index: -1
+planks/wall_vertical_right
+  rotate: false
+  xy: 374, 2
+  size: 14, 120
+  orig: 14, 120
   offset: 0, 0
   index: -1

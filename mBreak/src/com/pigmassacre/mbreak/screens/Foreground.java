@@ -17,17 +17,19 @@ import com.pigmassacre.mbreak.Settings;
 public class Foreground extends Actor {
 
 	private TextureAtlas atlas;
-	private TextureRegion verticalWall, horizontalWall;
+	private TextureRegion verticalWallLeft, verticalWallRight, horizontalWallTop, horizontalWallBottom;
 	private TextureRegion topLeftCorner, bottomLeftCorner, topRightCorner, bottomRightCorner;
 	
 	public Foreground(String id) {
 		TextureRegion background = getAtlas().findRegion(id + "/floor");
-		verticalWall = getAtlas().findRegion(id + "/wall_vertical");
-		horizontalWall = getAtlas().findRegion(id + "/wall_horizontal");
+		verticalWallLeft = getAtlas().findRegion(id + "/wall_vertical_left");
+		verticalWallRight = getAtlas().findRegion(id + "/wall_vertical_right");
+		horizontalWallTop = getAtlas().findRegion(id + "/wall_horizontal_top");
+		horizontalWallBottom = getAtlas().findRegion(id + "/wall_horizontal_bottom");
 		topLeftCorner = getAtlas().findRegion(id + "/corner_top_left");
-		bottomLeftCorner = getAtlas().findRegion(id + "/corner_top_right");
+		bottomLeftCorner = getAtlas().findRegion(id + "/corner_bottom_left");
 		topRightCorner = getAtlas().findRegion(id + "/corner_top_right");
-		bottomRightCorner = getAtlas().findRegion(id + "/corner_top_left");
+		bottomRightCorner = getAtlas().findRegion(id + "/corner_bottom_right");
 		
 		setX((Gdx.graphics.getWidth() - background.getRegionWidth() * Settings.GAME_SCALE) / 2);
 		setY((Gdx.graphics.getHeight() - background.getRegionHeight() * Settings.GAME_SCALE) / 2);
@@ -43,10 +45,10 @@ public class Foreground extends Actor {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(horizontalWall, getX(), getY() - horizontalWall.getRegionHeight() * Settings.GAME_SCALE, horizontalWall.getRegionWidth() * Settings.GAME_SCALE, horizontalWall.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(horizontalWall, getX(), getY() + getHeight(), horizontalWall.getRegionWidth() * Settings.GAME_SCALE, horizontalWall.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(verticalWall, getX() - verticalWall.getRegionWidth() * Settings.GAME_SCALE, getY(), verticalWall.getRegionWidth() * Settings.GAME_SCALE, verticalWall.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(verticalWall, getX() + getWidth(), getY(), verticalWall.getRegionWidth() * Settings.GAME_SCALE, verticalWall.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(horizontalWallBottom, getX(), getY() - horizontalWallBottom.getRegionHeight() * Settings.GAME_SCALE, horizontalWallBottom.getRegionWidth() * Settings.GAME_SCALE, horizontalWallBottom.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(horizontalWallTop, getX(), getY() + getHeight(), horizontalWallTop.getRegionWidth() * Settings.GAME_SCALE, horizontalWallTop.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(verticalWallLeft, getX() - verticalWallLeft.getRegionWidth() * Settings.GAME_SCALE, getY(), verticalWallLeft.getRegionWidth() * Settings.GAME_SCALE, verticalWallLeft.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(verticalWallRight, getX() + getWidth(), getY(), verticalWallRight.getRegionWidth() * Settings.GAME_SCALE, verticalWallRight.getRegionHeight() * Settings.GAME_SCALE);
 		batch.draw(topLeftCorner, getX() - topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, getY() + getHeight(), topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, topLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
 		batch.draw(bottomLeftCorner, getX() - bottomLeftCorner.getRegionWidth() * Settings.GAME_SCALE, getY() - bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE, bottomLeftCorner.getRegionWidth() * Settings.GAME_SCALE, bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
 		batch.draw(topRightCorner, getX() + getWidth(), getY() + getHeight(), topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, topLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
