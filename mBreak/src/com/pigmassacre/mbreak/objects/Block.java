@@ -31,9 +31,9 @@ public class Block extends Actor {
 
 		Random random = new Random();
 		if (random.nextFloat() <= 0.33)
-			image = getAtlas().findRegion("block_normal", 3);
+			image = getAtlas().findRegion("block_normal", 1);
 		else if (random.nextFloat() <= 0.66)
-			image = getAtlas().findRegion("block_normal", 3);
+			image = getAtlas().findRegion("block_normal", 2);
 		else
 			image = getAtlas().findRegion("block_normal", 3);
 		
