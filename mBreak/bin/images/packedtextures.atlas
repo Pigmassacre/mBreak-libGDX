@@ -19,7 +19,7 @@ ai_hard
   index: -1
 ball
   rotate: false
-  xy: 41, 21
+  xy: 49, 31
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -87,6 +87,13 @@ block_strong
   orig: 6, 12
   offset: 0, 0
   index: 3
+block_weak
+  rotate: false
+  xy: 41, 15
+  size: 6, 12
+  orig: 6, 12
+  offset: 0, 0
+  index: -1
 mBreak_title
   rotate: false
   xy: 2, 2

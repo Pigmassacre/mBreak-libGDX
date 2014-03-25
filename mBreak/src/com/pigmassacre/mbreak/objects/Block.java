@@ -16,7 +16,7 @@ import com.pigmassacre.mbreak.Settings;
 public class Block extends Actor {
 
 	private TextureAtlas atlas;
-	private TextureRegion image;
+	protected TextureRegion image;
 
 	private Player owner;
 	
@@ -24,7 +24,8 @@ public class Block extends Actor {
 	
 	private Shadow shadow;
 	
-	private float health;
+	protected float health, maxHealth;
+	private Color originalColor;
 	
 	public Block(float x, float y, Player owner, Color color) {
 		super();
@@ -49,9 +50,11 @@ public class Block extends Actor {
 				
 		this.owner = owner;
 		
-		health = 20;
+		maxHealth = 20;
+		health = maxHealth;
 		
 		setColor(color);
+		originalColor = color;
 		
 		shadow = new Shadow(this, image, false);
 		
@@ -78,6 +81,9 @@ public class Block extends Actor {
 	
 	public void damage(float damage) {
 		health -= damage;
+		getColor().r = originalColor.r * (health / maxHealth);
+		getColor().g = originalColor.g * (health / maxHealth);
+		getColor().b = originalColor.b * (health / maxHealth);
 	}
 	
 	public void onHit(float damage) {

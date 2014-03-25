@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -23,10 +24,12 @@ public class Ball extends Actor {
 	
 	private Player owner;
 	
-	private Rectangle rectangle;
+	private Circle circle;
+	
+	private float damage;
 	
 	private float angle;
-	public float speed, maxSpeed, tickSpeed, speedStep, speedHandled;
+	public float speed, baseSpeed, maxSpeed, tickSpeed, speedStep, speedHandled;
 	private float leastAllowedVerticalAngle = 0.32f;
 	
 	private float traceTime, traceRate;
@@ -40,19 +43,14 @@ public class Ball extends Actor {
 		
 		sound = Gdx.audio.newSound(Gdx.files.internal("sound/ball.ogg"));
 		
-		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		
-		setX(x);
-		setY(y);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
 		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
 		
-		rectangle.setWidth(getWidth());
-		rectangle.setHeight(getHeight());
+		circle = new Circle(x, y, getWidth() / 2);
 		
 		this.angle = angle;
 		
-		speed = 1.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		baseSpeed = speed = 1.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		maxSpeed = 5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		speedStep = 0.75f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		
@@ -65,6 +63,8 @@ public class Ball extends Actor {
 		
 		shadow = new Shadow(this, image, false);
 		
+		damage = 10;
+		
 		Groups.ballGroup.addActor(this);
 	}
 	
@@ -76,14 +76,14 @@ public class Ball extends Actor {
 	
 	@Override
 	public void setX(float x) {
-		super.setX(x);
-		rectangle.setX(getX());
+		circle.setX(x);
+		super.setX(x - circle.radius);
 	}
 	
 	@Override
 	public void setY(float y) {
-		super.setY(y);
-		rectangle.setY(getY());
+		circle.setY(y);
+		super.setY(y - circle.radius);
 	}
 	
 	@Override
@@ -125,26 +125,26 @@ public class Ball extends Actor {
 			if (speed > maxSpeed)
 				speed = maxSpeed;
 			
-			setX((float) (getX() + (Math.cos(angle) * tickSpeed * delta)));
-			setY((float) (getY() + (Math.sin(angle) * tickSpeed * delta)));
+			setX((float) (circle.x + (Math.cos(angle) * tickSpeed * delta)));
+			setY((float) (circle.y + (Math.sin(angle) * tickSpeed * delta)));
 			
-			if (getX() < Settings.LEVEL_X) {
+			if (circle.x - circle.radius < Settings.LEVEL_X) {
 				angle = (float) (Math.PI - angle);
-				setX(Settings.LEVEL_X);
+				setX(Settings.LEVEL_X + circle.radius);
 				collided = true;
-			} else if (getX() + getWidth() > Settings.LEVEL_MAX_X) {
+			} else if (circle.x + circle.radius > Settings.LEVEL_MAX_X) {
 				angle = (float) (Math.PI - angle);
-				setX(Settings.LEVEL_MAX_X - getWidth());
+				setX(Settings.LEVEL_MAX_X - circle.radius);
 				collided = true;
 			}
 			
-			if (getY() < Settings.LEVEL_Y) {
+			if (circle.y - circle.radius < Settings.LEVEL_Y) {
 				angle = -angle;
-				setY(Settings.LEVEL_Y);
+				setY(Settings.LEVEL_Y + circle.radius);
 				collided = true;
-			} else if (getY() + getHeight() > Settings.LEVEL_MAX_Y) {
+			} else if (circle.y + circle.radius > Settings.LEVEL_MAX_Y) {
 				angle = -angle;
-				setY(Settings.LEVEL_MAX_Y - getHeight());
+				setY(Settings.LEVEL_MAX_Y - circle.radius);
 				collided = true;
 			}
 
@@ -163,67 +163,59 @@ public class Ball extends Actor {
 	}
 	
 	private void hitLeftSideOfPaddle(Paddle paddle) {
-		float paddleCenter = paddle.rectangle.getY() + (paddle.rectangle.getHeight() / 2);
-		float distanceFromPaddleCenter = paddleCenter - (rectangle.getY() + (rectangle.getHeight() / 2));
-		float maxDistance = paddleCenter - (paddle.rectangle.getY() + paddle.rectangle.getHeight() + rectangle.getHeight());
-		float normalizedDistance = distanceFromPaddleCenter / maxDistance;
-		angle = (float) (Math.PI - normalizedDistance * (Math.PI / 2 - leastAllowedVerticalAngle));
-		setX(paddle.rectangle.getX() - rectangle.getWidth() - 1);
+		angle = (float) Math.atan2(circle.y - (paddle.getY() + paddle.getHeight() / 2), circle.x - (paddle.getX() + paddle.getWidth() / 2));
+		setX(paddle.rectangle.getX() - circle.radius - 1);
 	}
 	
 	private void hitRightSideOfPaddle(Paddle paddle) {
-		float paddleCenter = paddle.rectangle.getY() + (paddle.rectangle.getHeight() / 2);
-		float distanceFromPaddleCenter = paddleCenter - (rectangle.getY() + (rectangle.getHeight() / 2));
-		float maxDistance = paddleCenter - (paddle.rectangle.getY() + paddle.rectangle.getHeight() + rectangle.getHeight());
-		float normalizedDistance = distanceFromPaddleCenter / maxDistance;
-		angle = (float) (normalizedDistance * (Math.PI / 2 - leastAllowedVerticalAngle));
-		setX(paddle.getX() + paddle.getWidth() + 1);
+		angle = (float) Math.atan2(circle.y - (paddle.getY() + paddle.getHeight() / 2), circle.x - (paddle.getX() + paddle.getWidth() / 2));
+		setX(paddle.getX() + paddle.getWidth() + circle.radius + 1);
 	}
 	
 	private void checkCollisionPaddles() {
 		Paddle paddle;
-		float rX, rY, rWidth, rHeight, bX, bY, bWidth, bHeight;
+		float rX, rY, rRadius, bX, bY, bWidth, bHeight;
 		
 		for (Actor actor : Groups.paddleGroup.getChildren().items) {
 			if (actor instanceof Paddle) {
 				paddle = (Paddle) actor;
-				if (Intersector.overlaps(paddle.rectangle, this.rectangle)) {
+				if (Intersector.overlaps(this.circle, paddle.rectangle)) {
 					collided = true;
-					rX = this.rectangle.getX();
-					rY = this.rectangle.getY();
-					rWidth = this.rectangle.getWidth();
-					rHeight = this.rectangle.getHeight();
+					speed += maxSpeed / 8;
+					rX = this.circle.x;
+					rY = this.circle.y;
+					rRadius = this.circle.radius * 2;
 					
 					bX = paddle.rectangle.getX();
 					bY = paddle.rectangle.getY();
 					bWidth = paddle.rectangle.getWidth();
 					bHeight = paddle.rectangle.getHeight();
 					
-					if (rY <= bY + bHeight && rY + rHeight > bY + bHeight) {
-						if (bX - rX > (rY + rHeight) - (bY + bHeight)) {
+					if (rY - rRadius <= bY + bHeight && rY + rRadius > bY + bHeight) {
+						if (bX - (rX - rRadius) > (rY + rRadius) - (bY + bHeight)) {
 							hitLeftSideOfPaddle(paddle);
-						} else if (rX + rWidth - (bX + bWidth) > (rY + rHeight) - (bY + bHeight)) {
+						} else if (rX + rRadius - (bX + bWidth) > (rY + rRadius) - (bY + bHeight)) {
 							hitRightSideOfPaddle(paddle);
 						} else {
 							if (angle > Math.PI)
 								angle = -angle;
 							
-							setY(bY + bHeight + 1);
+							setY(bY + bHeight + rRadius + 1);
 						}
-					} else if (rY + rHeight >= bY && rY < bY) {
-						if (bX - rX > bY - rY) {
+					} else if (rY + rRadius >= bY && (rY - rRadius) < bY) {
+						if (bX - (rX - rRadius) > bY - (rY - rRadius)) {
 							hitLeftSideOfPaddle(paddle);
-						} else if (rX + rWidth - (bX + bWidth) > bY - rY) {
+						} else if (rX + rRadius - (bX + bWidth) > bY - (rY - rRadius)) {
 							hitRightSideOfPaddle(paddle);
 						} else {
 							if (angle < Math.PI) 
 								angle = -angle;
 							
-							setY(bY - rHeight - 1);
+							setY(bY - rRadius - 1);
 						}
-					} else if (rX + rWidth >= bX && rX < bX) {
+					} else if (rX + rRadius >= bX && (rX - rRadius) < bX) {
 						hitLeftSideOfPaddle(paddle);
-					} else if (rX <= bX + bWidth && rX + rWidth > bX + bWidth) {
+					} else if (rX - rRadius <= bX + bWidth && rX + rRadius > bX + bWidth) {
 						hitRightSideOfPaddle(paddle);
 					}
 				}
@@ -234,51 +226,49 @@ public class Ball extends Actor {
 	public void checkCollisionBalls() {
 		Ball ball;
 		double deltaX, deltaY;
-		float rX, rY, rWidth, rHeight, bX, bY, bWidth, bHeight;
+		float rX, rY, rRadius, bX, bY, bRadius;
 		
 		for (Actor actor : Groups.ballGroup.getChildren().items) {
 			if (actor instanceof Ball) {
 				ball = (Ball) actor;
-				if (Intersector.overlaps(ball.rectangle, this.rectangle) && ball != this) {
+				if (Intersector.overlaps(ball.circle, this.circle) && ball != this) {
 					collided = true;
-					rX = this.rectangle.getX();
-					rY = this.rectangle.getY();
-					rWidth = this.rectangle.getWidth();
-					rHeight = this.rectangle.getHeight();
+					rX = this.circle.x;
+					rY = this.circle.y;
+					rRadius = this.circle.radius;
 					
-					bX = ball.rectangle.getX();
-					bY = ball.rectangle.getY();
-					bWidth = ball.rectangle.getWidth();
-					bHeight = ball.rectangle.getHeight();
+					bX = ball.circle.x;
+					bY = ball.circle.y;
+					bRadius = ball.circle.radius;
 					
-					if (rY <= bY + bHeight && rY + rHeight > bY + bHeight) {
-						if (bX - rX > (rY + rHeight) - (bY + bHeight)) {
-							setX(bX - rWidth - 1);
-						} else if (rX + rWidth - (bX + bWidth) > (rY + rHeight) - (bY + bHeight)) {
-							setX(bX + bWidth + 1);
+					if (rY <= bY && rY > bY) {
+						if (bX - rX > rY - bY) {
+							setX(bX - rRadius - 1);
+						} else if (rX - bX > rY - bY) {
+							setX(bX + bRadius + 1);
 						} else {
-							setY(bY + bHeight + 1);
+							setY(bY + bRadius + 1);
 						}
-					} else if (rY + rHeight >= bY && rY < bY) {
+					} else if (rY >= bY && rY < bY) {
 						if (bX - rX > bY - rY) {
-							setX(bX - rWidth - 1);
-						} else if (rX + rWidth - (bX + bWidth) > bY - rY) {
-							setX(bX + bWidth + 1);
+							setX(bX - rRadius - 1);
+						} else if (rX - bX > bY - rY) {
+							setX(bX + bRadius + 1);
 						} else {
-							setY(bY - rHeight - 1);
+							setY(bY - rRadius - 1);
 						}
-					} else if (rX + rWidth >= bX && rX < bX) {
-						setX(bX - rWidth - 1);
-					} else if (rX <= bX + bWidth && rX + rWidth > bX + bWidth) {
-						setX(bX + bWidth + 1);
+					} else if (rX >= bX && rX < bX) {
+						setX(bX - rRadius - 1);
+					} else if (rX <= bX && rX > bX ) {
+						setX(bX + bRadius + 1);
 					}
 
-					deltaX = rX + (rWidth / 2) - (bX + (bWidth / 2));
-					deltaY = rY + (rHeight / 2) - (bY + (bHeight / 2));
+					deltaX = rX - bX;
+					deltaY = rY - bY;
 					angle = (float) Math.atan2(deltaY, deltaX);
 
-					deltaX = bX + (bWidth / 2) - (rX + (rWidth / 2));
-					deltaY = bY + (bHeight / 2) - (rY + (rHeight / 2));
+					deltaX = bX - rX;
+					deltaY = bY - rY;
 					ball.angle = (float) Math.atan2(deltaY, deltaX);
 				}
 			}
@@ -287,52 +277,51 @@ public class Ball extends Actor {
 	
 	public void checkCollisionBlocks() {
 		Block block;
-		double deltaX, deltaY;
-		float rX, rY, rWidth, rHeight, bX, bY, bWidth, bHeight;
+		float rX, rY, rRadius, bX, bY, bWidth, bHeight;
 		
 		for (Actor actor : Groups.blockGroup.getChildren().items) {
 			if (actor instanceof Block) {
 				block = (Block) actor;
-				if (Intersector.overlaps(block.rectangle, this.rectangle)) {
-					block.damage(10);
+				if (Intersector.overlaps(this.circle, block.rectangle)) {
+					block.damage(damage);
 					collided = true;
-					rX = this.rectangle.getX();
-					rY = this.rectangle.getY();
-					rWidth = this.rectangle.getWidth();
-					rHeight = this.rectangle.getHeight();
+					speed = baseSpeed;
+					rX = this.circle.x;
+					rY = this.circle.y;
+					rRadius = this.circle.radius;
 					
 					bX = block.rectangle.getX();
 					bY = block.rectangle.getY();
 					bWidth = block.rectangle.getWidth();
 					bHeight = block.rectangle.getHeight();
 					
-					if (rY <= bY + bHeight && rY + rHeight > bY + bHeight) {
-						if (bX - rX > (rY + rHeight) - (bY + bHeight)) {
-							setX(bX - rWidth - 1);
+					if (rY - rRadius <= bY + bHeight && rY + rRadius > bY + bHeight) {
+						if (bX - (rX - rRadius) > (rY + rRadius) - (bY + bHeight)) {
+							setX(bX - rRadius - 1);
 							angle = (float) (Math.PI - angle);
-						} else if (rX + rWidth - (bX + bWidth) > (rY + rHeight) - (bY + bHeight)) {
-							setX(bX + bWidth + 1);
-							angle = (float) (Math.PI - angle);
-						} else {
-							setY(bY + bHeight + 1);
-							angle = -angle;
-						}
-					} else if (rY + rHeight >= bY && rY < bY) {
-						if (bX - rX > bY - rY) {
-							setX(bX - rWidth - 1);
-							angle = (float) (Math.PI - angle);
-						} else if (rX + rWidth - (bX + bWidth) > bY - rY) {
-							setX(bX + bWidth + 1);
+						} else if (rX + rRadius - (bX + bWidth) > (rY + rRadius) - (bY + bHeight)) {
+							setX(bX + bWidth + rRadius + 1);
 							angle = (float) (Math.PI - angle);
 						} else {
-							setY(bY - rHeight - 1);
+							setY(bY + bHeight + rRadius + 1);
 							angle = -angle;
 						}
-					} else if (rX + rWidth >= bX && rX < bX) {
-						setX(bX - rWidth - 1);
+					} else if (rY + rRadius >= bY && (rY - rRadius) < bY) {
+						if (bX - (rX - rRadius) > bY - (rY - rRadius)) {
+							setX(bX - rRadius - 1);
+							angle = (float) (Math.PI - angle);
+						} else if (rX + rRadius - (bX + bWidth) > bY - (rY - rRadius)) {
+							setX(bX + bWidth + rRadius + 1);
+							angle = (float) (Math.PI - angle);
+						} else {
+							setY(bY - rRadius - 1);
+							angle = -angle;
+						}
+					} else if (rX + rRadius >= bX && (rX - rRadius) < bX) {
+						setX(bX - rRadius - 1);
 						angle = (float) (Math.PI - angle);
-					} else if (rX <= bX + bWidth && rX + rWidth > bX + bWidth) {
-						setX(bX + bWidth + 1);
+					} else if (rX - rRadius <= bX + bWidth && rX + rRadius > bX + bWidth) {
+						setX(bX + bWidth + rRadius + 1);
 						angle = (float) (Math.PI - angle);
 					}
 				}
@@ -346,7 +335,7 @@ public class Ball extends Actor {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY(), getWidth(), getHeight());
+		batch.draw(image, circle.x - circle.radius, circle.y - circle.radius, getWidth(), getHeight());
 		batch.setColor(temp);
 	}
 	
