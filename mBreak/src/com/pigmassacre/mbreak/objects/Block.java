@@ -13,10 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
 
-public class Block extends Actor {
-
-	private TextureAtlas atlas;
-	protected TextureRegion image;
+public class Block extends GameActor {	
 
 	private Player owner;
 	
@@ -38,15 +35,13 @@ public class Block extends Actor {
 		else
 			image = getAtlas().findRegion("block_normal", 3);
 		
+		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
+		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
+		
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		
 		setX(x);
 		setY(y);
-		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
-		
-		rectangle.setWidth(getWidth());
-		rectangle.setHeight(getHeight());
 				
 		this.owner = owner;
 		
@@ -59,12 +54,6 @@ public class Block extends Actor {
 		shadow = new Shadow(this, image, false);
 		
 		Groups.blockGroup.addActor(this);
-	}
-	
-	protected TextureAtlas getAtlas() {
-		if (atlas == null)
-			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
-		return atlas;
 	}
 	
 	@Override
@@ -91,8 +80,7 @@ public class Block extends Actor {
 	}
 	
 	public void destroy() {
-		remove();
-		clear();
+		super.destroy();
 		shadow.remove();
 		shadow.clear();
 	}

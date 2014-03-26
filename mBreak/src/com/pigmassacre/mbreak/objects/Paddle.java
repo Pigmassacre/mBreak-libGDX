@@ -12,10 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.pigmassacre.mbreak.Settings;
 
-public class Paddle extends Actor {
-
-	private TextureAtlas atlas;
-	private TextureRegion image;
+public class Paddle extends GameActor {
 	
 	private Player owner;
 	
@@ -63,12 +60,6 @@ public class Paddle extends Actor {
 		new Shadow(this, this.image, false);
 		
 		Groups.paddleGroup.addActor(this);
-	}
-	
-	protected TextureAtlas getAtlas() {
-		if (atlas == null)
-			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
-		return atlas;
 	}
 	
 	@Override

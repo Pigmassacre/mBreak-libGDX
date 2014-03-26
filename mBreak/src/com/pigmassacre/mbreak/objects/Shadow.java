@@ -8,12 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
 
-public class Shadow extends Actor {
+public class Shadow extends GameActor {
 
 	private Actor parent;
-	
-	private TextureAtlas atlas;
-	private TextureRegion image;
 	
 	private float offsetX, offsetY;
 	

@@ -13,10 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.pigmassacre.mbreak.Settings;
 
-public class Ball extends Actor {
-	
-	private TextureAtlas atlas;
-	private TextureRegion image;
+public class Ball extends GameActor {
 	
 	private Sound sound;
 	
@@ -51,8 +48,8 @@ public class Ball extends Actor {
 		this.angle = angle;
 		
 		baseSpeed = speed = 1.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
-		maxSpeed = 5f * Settings.GAME_FPS * Settings.GAME_SCALE;
-		speedStep = 0.75f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		maxSpeed = 10f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		speedStep = 0.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		
 		this.owner = owner;
 		
@@ -66,12 +63,6 @@ public class Ball extends Actor {
 		damage = 10;
 		
 		Groups.ballGroup.addActor(this);
-	}
-	
-	protected TextureAtlas getAtlas() {
-		if (atlas == null)
-			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
-		return atlas;
 	}
 	
 	@Override
@@ -277,7 +268,7 @@ public class Ball extends Actor {
 	
 	public void checkCollisionBlocks() {
 		Block block;
-		float rX, rY, rRadius, bX, bY, bWidth, bHeight;
+		float rX = this.circle.x, rY = this.circle.y, rRadius = this.circle.radius, bX = 0, bY = 0, bWidth = 0, bHeight = 0;
 		
 		for (Actor actor : Groups.blockGroup.getChildren().items) {
 			if (actor instanceof Block) {
@@ -285,48 +276,46 @@ public class Ball extends Actor {
 				if (Intersector.overlaps(this.circle, block.rectangle)) {
 					block.damage(damage);
 					collided = true;
-					speed = baseSpeed;
-					rX = this.circle.x;
-					rY = this.circle.y;
-					rRadius = this.circle.radius;
-					
 					bX = block.rectangle.getX();
 					bY = block.rectangle.getY();
 					bWidth = block.rectangle.getWidth();
 					bHeight = block.rectangle.getHeight();
-					
-					if (rY - rRadius <= bY + bHeight && rY + rRadius > bY + bHeight) {
-						if (bX - (rX - rRadius) > (rY + rRadius) - (bY + bHeight)) {
-							setX(bX - rRadius - 1);
-							angle = (float) (Math.PI - angle);
-						} else if (rX + rRadius - (bX + bWidth) > (rY + rRadius) - (bY + bHeight)) {
-							setX(bX + bWidth + rRadius + 1);
-							angle = (float) (Math.PI - angle);
-						} else {
-							setY(bY + bHeight + rRadius + 1);
-							angle = -angle;
-						}
-					} else if (rY + rRadius >= bY && (rY - rRadius) < bY) {
-						if (bX - (rX - rRadius) > bY - (rY - rRadius)) {
-							setX(bX - rRadius - 1);
-							angle = (float) (Math.PI - angle);
-						} else if (rX + rRadius - (bX + bWidth) > bY - (rY - rRadius)) {
-							setX(bX + bWidth + rRadius + 1);
-							angle = (float) (Math.PI - angle);
-						} else {
-							setY(bY - rRadius - 1);
-							angle = -angle;
-						}
-					} else if (rX + rRadius >= bX && (rX - rRadius) < bX) {
-						setX(bX - rRadius - 1);
-						angle = (float) (Math.PI - angle);
-					} else if (rX - rRadius <= bX + bWidth && rX + rRadius > bX + bWidth) {
-						setX(bX + bWidth + rRadius + 1);
-						angle = (float) (Math.PI - angle);
-					}
 				}
 			}
 		}
+		if (collided) {
+			speed = baseSpeed;
+			if (rY - rRadius <= bY + bHeight && rY + rRadius > bY + bHeight) {
+				if (bX - (rX - rRadius) > (rY + rRadius) - (bY + bHeight)) {
+					setX(bX - rRadius - 1);
+					angle = (float) (Math.PI - angle);
+				} else if (rX + rRadius - (bX + bWidth) > (rY + rRadius) - (bY + bHeight)) {
+					setX(bX + bWidth + rRadius + 1);
+					angle = (float) (Math.PI - angle);
+				} else {
+					setY(bY + bHeight + rRadius + 1);
+					angle = -angle;
+				}
+			} else if (rY + rRadius >= bY && (rY - rRadius) < bY) {
+				if (bX - (rX - rRadius) > bY - (rY - rRadius)) {
+					setX(bX - rRadius - 1);
+					angle = (float) (Math.PI - angle);
+				} else if (rX + rRadius - (bX + bWidth) > bY - (rY - rRadius)) {
+					setX(bX + bWidth + rRadius + 1);
+					angle = (float) (Math.PI - angle);
+				} else {
+					setY(bY - rRadius - 1);
+					angle = -angle;
+				}
+			} else if (rX + rRadius >= bX && (rX - rRadius) < bX) {
+				setX(bX - rRadius - 1);
+				angle = (float) (Math.PI - angle);
+			} else if (rX - rRadius <= bX + bWidth && rX + rRadius > bX + bWidth) {
+				setX(bX + bWidth + rRadius + 1);
+				angle = (float) (Math.PI - angle);
+			}
+		}
+		
 	}
 	
 	private Color temp;
