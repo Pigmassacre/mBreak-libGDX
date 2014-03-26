@@ -141,6 +141,7 @@ public class Ball extends GameActor {
 
 			if (collided) {
 				sound.play();
+				Groups.effectGroup.addActor(new Flash(this, 3f, 0.04f * Settings.GAME_FPS));
 			}
 			
 			speedHandled += tickSpeed;
@@ -171,6 +172,7 @@ public class Ball extends GameActor {
 			if (actor instanceof Paddle) {
 				paddle = (Paddle) actor;
 				if (Intersector.overlaps(this.circle, paddle.rectangle)) {
+					Groups.effectGroup.addActor(new Flash(paddle, 3f, 0.04f * Settings.GAME_FPS, true));
 					collided = true;
 					speed += maxSpeed / 8;
 					rX = this.circle.x;

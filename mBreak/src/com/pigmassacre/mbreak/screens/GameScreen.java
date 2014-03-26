@@ -70,6 +70,7 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(Groups.blockGroup);
 		stage.addActor(Groups.ballGroup);
 		stage.addActor(Groups.paddleGroup);
+		stage.addActor(Groups.effectGroup);
 		stage.addActor(foreground);
 	}
 	

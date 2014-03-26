@@ -20,6 +20,7 @@ public class Paddle extends GameActor {
 	private float maxHeight, minHeight, maxWidth, minWidth;
 	
 	private float acceleration, retardation, maxSpeed, velocityX, velocityY;
+	private float centerX;
 	
 	private float stabilizeSpeed, maxNudgeDistance;
 	
@@ -49,6 +50,8 @@ public class Paddle extends GameActor {
 		maxSpeed = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		
 		velocityY = 0f;
+		
+		centerX = getX();
 		
 		stabilizeSpeed = 0.1f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		maxNudgeDistance = 2.5f * Settings.GAME_SCALE;
@@ -134,6 +137,8 @@ public class Paddle extends GameActor {
 		} else if (getY() < Settings.LEVEL_Y) {
 			setY(Settings.LEVEL_Y);
 		}
+		
+		
 	}
 	
 	private Color temp;
