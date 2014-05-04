@@ -1,9 +1,8 @@
 package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.pigmassacre.mbreak.objects.effects.Effect;
 
 public class Flash extends Effect {
 
@@ -53,19 +52,22 @@ public class Flash extends Effect {
 	
 	@Override
 	public void act(float delta) {
-		if (followParent)
+		if (followParent) {
 			super.act(delta);
+		}
 		
 		if (add) {
-			if (currentColor.a + tickAmount * delta < finalColor.a)
+			if (currentColor.a + tickAmount * delta < finalColor.a) {
 				currentColor.a += tickAmount * delta;
-			else
+			} else {
 				destroy();
+			}
 		} else {
-			if (currentColor.a - tickAmount * delta > finalColor.a)
+			if (currentColor.a - tickAmount * delta > finalColor.a) {
 				currentColor.a -= tickAmount * delta;
-			else
+			} else {
 				destroy();
+			}
 		}
 	}
 	

@@ -5,93 +5,128 @@ filter: Nearest,Nearest
 repeat: none
 ai_easy
   rotate: false
-  xy: 49, 109
+  xy: 51, 109
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 ai_hard
   rotate: false
-  xy: 49, 95
+  xy: 65, 109
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 ball
   rotate: false
-  xy: 49, 31
+  xy: 119, 115
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 block
   rotate: false
-  xy: 41, 85
+  xy: 41, 59
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: -1
 block2
   rotate: false
-  xy: 41, 71
+  xy: 79, 109
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: -1
 block3
   rotate: false
-  xy: 49, 81
+  xy: 41, 45
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: -1
 block_normal
   rotate: false
-  xy: 41, 57
+  xy: 87, 109
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 1
 block_normal
   rotate: false
-  xy: 49, 67
+  xy: 41, 31
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 2
 block_normal
   rotate: false
-  xy: 41, 43
+  xy: 95, 109
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 3
 block_strong
   rotate: false
-  xy: 49, 53
+  xy: 41, 17
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 1
 block_strong
   rotate: false
-  xy: 41, 29
+  xy: 103, 109
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 2
 block_strong
   rotate: false
-  xy: 49, 39
+  xy: 41, 3
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 3
 block_weak
   rotate: false
-  xy: 41, 15
+  xy: 111, 109
   size: 6, 12
   orig: 6, 12
+  offset: 0, 0
+  index: -1
+doublespeed
+  rotate: false
+  xy: 51, 99
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+electricity
+  rotate: false
+  xy: 61, 99
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+enlarger
+  rotate: false
+  xy: 71, 99
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+fire
+  rotate: false
+  xy: 81, 99
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+frost
+  rotate: false
+  xy: 41, 97
+  size: 8, 24
+  orig: 8, 24
   offset: 0, 0
   index: -1
 mBreak_title
@@ -101,11 +136,32 @@ mBreak_title
   orig: 37, 119
   offset: 0, 0
   index: -1
+multiball
+  rotate: false
+  xy: 91, 99
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 paddle
   rotate: false
-  xy: 41, 99
+  xy: 41, 73
   size: 6, 22
   orig: 6, 22
+  offset: 0, 0
+  index: -1
+reducer
+  rotate: false
+  xy: 101, 99
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+rocket
+  rotate: false
+  xy: 111, 99
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 

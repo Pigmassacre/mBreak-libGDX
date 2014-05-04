@@ -1,20 +1,21 @@
 package com.pigmassacre.mbreak.screens;
 
-import com.badlogic.gdx.Application.ApplicationType;
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.DebugInput;
-import com.pigmassacre.mbreak.gui.Traversal;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Paddle;
 import com.pigmassacre.mbreak.objects.Player;
+import com.pigmassacre.mbreak.objects.powerups.ElectricityPowerup;
+import com.pigmassacre.mbreak.objects.powerups.FrostPowerup;
 
 public class GameScreen extends AbstractScreen {
 
@@ -46,9 +47,11 @@ public class GameScreen extends AbstractScreen {
 		leftPaddle.keyDown = Keys.S;
 		
 		Block tempBlock = new Block(0, 0, new Player("temp"), new Color(Color.BLACK));
-		for (int x = 0; x < 3; x++)
-			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++)
+		for (int x = 0; x < 3; x++) {
+			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
 				new Block(Settings.LEVEL_X + x * tempBlock.getWidth(), Settings.LEVEL_Y + (y * tempBlock.getHeight()), leftPlayer, leftPlayer.getColor());
+			}
+		}
 		
 		Player rightPlayer = new Player("right");
 		rightPlayer.setColor(1.0f, 0.0f, 1.0f, 1.0f);
@@ -60,14 +63,27 @@ public class GameScreen extends AbstractScreen {
 		rightPaddle.keyUp = Keys.UP;
 		rightPaddle.keyDown = Keys.DOWN;
 		
-		for (int x = 0; x < 3; x++)
-			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++)
+		for (int x = 0; x < 3; x++) {
+			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
 				new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_Y + (y * tempBlock.getHeight()), rightPlayer, rightPlayer.getColor());
+			}
+		}
+
+		Random random = new Random();
+
+		float powerupWidth = Settings.LEVEL_WIDTH / 2 - 8 * Settings.GAME_SCALE;
+		float powerupHeight = Settings.LEVEL_HEIGHT - 8 * Settings.GAME_SCALE;
+		float powerupX = Settings.LEVEL_X + powerupWidth / 2;
+		float powerupY = Settings.LEVEL_Y;
+		for (int i = 0; i < 50; i++) {
+			new FrostPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
+		}
 		
 		stage.addActor(background);
 		stage.addActor(Groups.shadowGroup);
 		stage.addActor(Groups.traceGroup);
 		stage.addActor(Groups.blockGroup);
+		stage.addActor(Groups.powerupGroup);
 		stage.addActor(Groups.ballGroup);
 		stage.addActor(Groups.paddleGroup);
 		stage.addActor(Groups.effectGroup);
@@ -104,7 +120,10 @@ public class GameScreen extends AbstractScreen {
 		Groups.ballGroup.clear();
 		Groups.traceGroup.clear();
 		Groups.paddleGroup.clear();
+		Groups.blockGroup.clear();
 		Groups.shadowGroup.clear();
+		Groups.effectGroup.clear();
+		Groups.powerupGroup.clear();
 	}
 	
 }

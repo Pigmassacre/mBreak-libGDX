@@ -2,24 +2,13 @@ package com.pigmassacre.mbreak.objects;
 
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
 
 public class Block extends GameActor {	
 
 	private Player owner;
-	
-	public Rectangle rectangle;
-	
-	private Shadow shadow;
 	
 	protected float health, maxHealth;
 	private Color originalColor;
@@ -35,13 +24,12 @@ public class Block extends GameActor {
 		else
 			image = getAtlas().findRegion("block_normal", 3);
 		
+		setX(x);
+		setY(y);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
 		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
 		
-		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		
-		setX(x);
-		setY(y);
+		rectangle.set(getX(), getY(), getWidth(), getHeight());
 				
 		this.owner = owner;
 		
@@ -51,7 +39,7 @@ public class Block extends GameActor {
 		setColor(color);
 		originalColor = color;
 		
-		shadow = new Shadow(this, image, false);
+		shadow = new Shadow(this, false);
 		
 		Groups.blockGroup.addActor(this);
 	}
@@ -77,12 +65,6 @@ public class Block extends GameActor {
 	
 	public void onHit(float damage) {
 		damage(damage);
-	}
-	
-	public void destroy() {
-		super.destroy();
-		shadow.remove();
-		shadow.clear();
 	}
 	
 	@Override

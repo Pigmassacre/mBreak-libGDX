@@ -4,14 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.SnapshotArray;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.powerups.Powerup;
 
 public class Ball extends GameActor {
 	
@@ -31,8 +28,6 @@ public class Ball extends GameActor {
 	
 	private float traceTime, traceRate;
 	
-	private Shadow shadow;
-	
 	public Ball(float x, float y, float angle, Player owner, Color color) {
 		super();
 
@@ -40,10 +35,12 @@ public class Ball extends GameActor {
 		
 		sound = Gdx.audio.newSound(Gdx.files.internal("sound/ball.ogg"));
 		
+		circle = new Circle();
+		
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
 		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
-		
-		circle = new Circle(x, y, getWidth() / 2);
+		setX(x);
+		setY(y);
 		
 		this.angle = angle;
 		
@@ -58,7 +55,7 @@ public class Ball extends GameActor {
 		
 		setColor(color);
 		
-		shadow = new Shadow(this, image, false);
+		shadow = new Shadow(this, false);
 		
 		damage = 10;
 		
@@ -78,6 +75,18 @@ public class Ball extends GameActor {
 	}
 	
 	@Override
+	public void setWidth(float width) {
+		super.setWidth(width);
+		circle.setRadius(width / 2);
+	}
+	
+	@Override
+	public void setHeight(float height) {
+		super.setHeight(height);
+		circle.setRadius(height / 2);
+	}
+	
+	@Override
 	public void act(float delta) {
 		speedHandled = 0f;
 		while (speedHandled < speed) {
@@ -92,6 +101,7 @@ public class Ball extends GameActor {
 			checkCollisionBlocks();
 			checkCollisionBalls();
 			checkCollisionPaddles();
+			checkCollisionPowerups();
 			
 			if (angle > (Math.PI / 2) - leastAllowedVerticalAngle && angle < Math.PI / 2) {
 				angle = (float) ((Math.PI / 2) - leastAllowedVerticalAngle);
@@ -174,7 +184,7 @@ public class Ball extends GameActor {
 				if (Intersector.overlaps(this.circle, paddle.rectangle)) {
 					Groups.effectGroup.addActor(new Flash(paddle, 3f, 0.04f * Settings.GAME_FPS, true));
 					collided = true;
-					speed += maxSpeed / 8;
+					speed += maxSpeed / 10;
 					rX = this.circle.x;
 					rY = this.circle.y;
 					rRadius = this.circle.radius * 2;
@@ -234,6 +244,7 @@ public class Ball extends GameActor {
 					bY = ball.circle.y;
 					bRadius = ball.circle.radius;
 					
+					// TODO: This is retarded. These if else clauses never equal true.
 					if (rY <= bY && rY > bY) {
 						if (bX - rX > rY - bY) {
 							setX(bX - rRadius - 1);
@@ -320,13 +331,25 @@ public class Ball extends GameActor {
 		
 	}
 	
+	private void checkCollisionPowerups() {
+		Powerup powerup;
+		for (Actor actor : Groups.powerupGroup.getChildren()) {
+			if (actor instanceof Powerup) {
+				powerup = (Powerup) actor;
+				if (Intersector.overlaps(circle, powerup.rectangle)) {
+					powerup.hit(this);
+				}
+			}
+		}
+	}
+	
 	private Color temp;
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, circle.x - circle.radius, circle.y - circle.radius, getWidth(), getHeight());
+		batch.draw(image, getX(), getY(), getWidth(), getHeight());
 		batch.setColor(temp);
 	}
 	

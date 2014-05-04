@@ -10,5 +10,6 @@ public class Groups {
 	public static Group shadowGroup = new Group();
 	public static Group blockGroup = new Group();
 	public static Group effectGroup = new Group();
+	public static Group powerupGroup = new Group();
 	
 }

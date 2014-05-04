@@ -1,31 +1,39 @@
-package com.pigmassacre.mbreak.objects;
+package com.pigmassacre.mbreak.objects.effects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.pigmassacre.mbreak.objects.Ball;
+import com.pigmassacre.mbreak.objects.Block;
+import com.pigmassacre.mbreak.objects.GameActor;
+import com.pigmassacre.mbreak.objects.Groups;
+import com.pigmassacre.mbreak.objects.Paddle;
+import com.pigmassacre.mbreak.objects.Player;
 
 public class Effect extends GameActor {
 
-	private Actor parent;
+	protected GameActor parent;
+	protected Player realOwner;
 	
 	private float duration;
-	
-	private Rectangle rectangle;
 	
 	private float stateTime;
 	
 //	private List<Powerup> connectedPowerups;
 	
-	public Effect(Actor parent, float duration) {
+	public Effect(Effect effect) {
+		this(effect.parent, effect.duration);
+	}
+	
+	public Effect(GameActor parent, float duration) {
 		this.parent = parent;
-		// store player owner also
+		this.realOwner = this.parent.owner;
 		this.duration = duration;
 		
 		stateTime = 0;
 		
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		
-		// store self in parent effect group
+		parent.effectGroup.addActor(this);
 		
 //		connectedPowerups = new ArrayList<Powerup>();
 		
@@ -78,6 +86,10 @@ public class Effect extends GameActor {
 	
 	public void onKill() {
 		
+	}
+	
+	public Effect clone() {
+		return new Effect(this);
 	}
 	
 }

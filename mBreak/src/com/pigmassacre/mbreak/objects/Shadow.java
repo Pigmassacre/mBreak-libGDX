@@ -1,16 +1,14 @@
 package com.pigmassacre.mbreak.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
 
 public class Shadow extends GameActor {
 
-	private Actor parent;
+	private GameActor parent;
 	
 	private float offsetX, offsetY;
 	
@@ -19,16 +17,11 @@ public class Shadow extends GameActor {
 	
 	private float alphaStep = (float) (0.19 * Settings.GAME_SCALE);
 	
-	public Shadow(Actor parent, TextureRegion image, boolean linger) {
+	public Shadow(GameActor parent, boolean linger) {
 		this.parent = parent;
 		
 		setColor(0f, 0f, 0f, 0.5f);
 		
-		this.image = new TextureRegion(image);
-		
-		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
-	
 		offsetX = 1 * Settings.GAME_SCALE;
 		offsetY = -2 * Settings.GAME_SCALE;
 		
@@ -36,6 +29,26 @@ public class Shadow extends GameActor {
 		lingerTime = 0.025f * Settings.GAME_FPS;
 		
 		Groups.shadowGroup.addActor(this);
+	}
+	
+	@Override
+	public float getX() {
+		return super.getX() + parent.getX() + offsetX;
+	}
+	
+	@Override
+	public float getY() {
+		return super.getY() + parent.getY() + offsetY;
+	}
+	
+	@Override
+	public float getWidth() {
+		return super.getWidth() + parent.getWidth();
+	}
+	
+	@Override
+	public float getHeight() {
+		return super.getHeight() + parent.getHeight();
 	}
 	
 	@Override
@@ -57,10 +70,12 @@ public class Shadow extends GameActor {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		temp = batch.getColor();
-		batch.setColor(getColor());
-		batch.draw(image, parent.getX() + offsetX, parent.getY() + offsetY, getWidth(), getHeight());
-		batch.setColor(temp);
+		if (this.parent.image != null) {
+			temp = batch.getColor();
+			batch.setColor(getColor());
+			batch.draw(this.parent.image, getX(), getY(), getWidth(), getHeight());
+			batch.setColor(temp);
+		}
 	}
 	
 }

@@ -25,7 +25,7 @@ public class Trace extends GameActor {
 		setWidth(parent.getWidth());
 		setHeight(parent.getHeight());
 		
-		shadow = new Shadow(this, this.image, false);
+		shadow = new Shadow(this, false);
 		shadow.getColor().mul(shadowBlendColor);
 		
 		Groups.traceGroup.addActor(this);
