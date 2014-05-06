@@ -14,9 +14,6 @@ import com.pigmassacre.mbreak.Settings;
 
 public class Paddle extends GameActor {
 	
-	private Player owner;
-	
-	public Rectangle rectangle;
 	private float maxHeight, minHeight, maxWidth, minWidth;
 	
 	private float acceleration, retardation, maxSpeed, velocityX, velocityY;

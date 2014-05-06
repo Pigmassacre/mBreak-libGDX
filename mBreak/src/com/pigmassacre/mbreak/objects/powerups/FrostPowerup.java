@@ -35,7 +35,6 @@ public class FrostPowerup extends Powerup {
 	public void act(float delta) {
 		super.act(delta);
 
-		System.out.println(offsetY);
 		if (offsetY < -centerYGrace) {
 			image = frames[0];
 		} else if (offsetY > centerYGrace) {

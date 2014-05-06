@@ -10,6 +10,7 @@ import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Shadow;
 import com.pigmassacre.mbreak.objects.effects.Effect;
+import com.pigmassacre.mbreak.objects.effects.FireEffect;
 
 public class Powerup extends GameActor {
 
@@ -65,13 +66,13 @@ public class Powerup extends GameActor {
 		for (Actor ballActor : Groups.ballGroup.getChildren()) {
 			if (ballActor instanceof Ball) {
 				Ball ball = (Ball) ballActor;
-				for (Actor effectActor : ball.effectGroup.getChildren()) {
-					if (effectActor instanceof Effect) {
-						Effect ballEffect = (Effect) effectActor;
-						// TODO: Stuff with timeout.						
-					}
-				}
-				ball.effectGroup.addActor(effect.clone());
+//				for (Actor effectActor : ball.effectGroup.getChildren()) {
+//					if (effectActor instanceof Effect) {
+//						Effect ballEffect = (Effect) effectActor;
+//						// TODO: Stuff with timeout.						
+//					}
+//				}
+				ball.effectGroup.addActor(new Effect(effect));
 			}
 		}
 		/*

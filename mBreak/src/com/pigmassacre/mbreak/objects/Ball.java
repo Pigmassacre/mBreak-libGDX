@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.effects.Effect;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
 
 public class Ball extends GameActor {
@@ -15,8 +16,6 @@ public class Ball extends GameActor {
 	private Sound sound;
 	
 	private boolean collided;
-	
-	private Player owner;
 	
 	private Circle circle;
 	
@@ -132,20 +131,32 @@ public class Ball extends GameActor {
 			if (circle.x - circle.radius < Settings.LEVEL_X) {
 				angle = (float) (Math.PI - angle);
 				setX(Settings.LEVEL_X + circle.radius);
+				for (Actor effect : effectGroup.getChildren()) {
+					((Effect) effect).onHitWall(GameActor.WallSide.LEFT);
+				}
 				collided = true;
 			} else if (circle.x + circle.radius > Settings.LEVEL_MAX_X) {
 				angle = (float) (Math.PI - angle);
 				setX(Settings.LEVEL_MAX_X - circle.radius);
+				for (Actor effect : effectGroup.getChildren()) {
+					((Effect) effect).onHitWall(GameActor.WallSide.RIGHT);
+				}
 				collided = true;
 			}
 			
 			if (circle.y - circle.radius < Settings.LEVEL_Y) {
 				angle = -angle;
 				setY(Settings.LEVEL_Y + circle.radius);
+				for (Actor effect : effectGroup.getChildren()) {
+					((Effect) effect).onHitWall(GameActor.WallSide.DOWN);
+				}
 				collided = true;
 			} else if (circle.y + circle.radius > Settings.LEVEL_MAX_Y) {
 				angle = -angle;
 				setY(Settings.LEVEL_MAX_Y - circle.radius);
+				for (Actor effect : effectGroup.getChildren()) {
+					((Effect) effect).onHitWall(GameActor.WallSide.UP);
+				}
 				collided = true;
 			}
 
@@ -183,6 +194,7 @@ public class Ball extends GameActor {
 				paddle = (Paddle) actor;
 				if (Intersector.overlaps(this.circle, paddle.rectangle)) {
 					Groups.effectGroup.addActor(new Flash(paddle, 3f, 0.04f * Settings.GAME_FPS, true));
+					onHitObject(paddle);
 					collided = true;
 					speed += maxSpeed / 10;
 					rX = this.circle.x;
@@ -235,6 +247,7 @@ public class Ball extends GameActor {
 			if (actor instanceof Ball) {
 				ball = (Ball) actor;
 				if (Intersector.overlaps(ball.circle, this.circle) && ball != this) {
+					onHitObject(ball);
 					collided = true;
 					rX = this.circle.x;
 					rY = this.circle.y;
@@ -288,6 +301,7 @@ public class Ball extends GameActor {
 				block = (Block) actor;
 				if (Intersector.overlaps(this.circle, block.rectangle)) {
 					block.damage(damage);
+					onHitObject(block);
 					collided = true;
 					bX = block.rectangle.getX();
 					bY = block.rectangle.getY();

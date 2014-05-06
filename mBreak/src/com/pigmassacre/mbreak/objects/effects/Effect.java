@@ -11,69 +11,47 @@ import com.pigmassacre.mbreak.objects.Player;
 
 public class Effect extends GameActor {
 
-	protected GameActor parent;
+	protected GameActor parentActor;
 	protected Player realOwner;
 	
-	private float duration;
-	
-	private float stateTime;
+	protected float duration;
 	
 //	private List<Powerup> connectedPowerups;
 	
 	public Effect(Effect effect) {
-		this(effect.parent, effect.duration);
+		this(effect.parentActor, effect.duration);
 	}
 	
 	public Effect(GameActor parent, float duration) {
-		this.parent = parent;
-		this.realOwner = this.parent.owner;
+		this.parentActor = parent;
+		this.owner = this.parentActor.owner;
+		this.realOwner = this.parentActor.owner;
 		this.duration = duration;
-		
-		stateTime = 0;
 		
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		
-		parent.effectGroup.addActor(this);
-		
 //		connectedPowerups = new ArrayList<Powerup>();
 		
+		parent.effectGroup.addActor(this);
 		Groups.effectGroup.addActor(this);
-	}
-	
-	public void onHitBall(Ball ball) {
-		
-	}
-	
-	public void onHitBlock(Block block) {
-		
-	}
-	
-	public void onHitPaddle(Paddle paddle) {
-		
-	}
-	
-	private enum WallSide {
-		LEFT, RIGHT, UP, DOWN;
-	}
-	
-	public void onHitWall(WallSide side) {
-		
 	}
 	
 	@Override
 	public void act(float delta) {
-		setX(parent.getX() + ((parent.getWidth() - getWidth()) / 2));
-		setY(parent.getY() + ((parent.getHeight() - getHeight()) / 2));
+		setX(parentActor.getX() + ((parentActor.getWidth() - getWidth()) / 2));
+		setY(parentActor.getY() + ((parentActor.getHeight() - getHeight()) / 2));
 		
 		stateTime += delta;
-		if (stateTime >= duration)
+		if (stateTime >= duration) {
 			destroy();
+		}
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		if (image != null)
+		if (image != null) {
 			batch.draw(image, getX(), getY(), getWidth(), getHeight());
+		}
 	}
 	
 	@Override
@@ -81,15 +59,16 @@ public class Effect extends GameActor {
 		super.destroy();
 //		for (Powerup powerup : connectedPowerups)
 //			powerup.destroy(false);
-		onKill();
+		onDestroy();
 	}
 	
-	public void onKill() {
+	public void onDestroy() {
 		
 	}
 	
-	public Effect clone() {
-		return new Effect(this);
+	@Override
+	public void onHitPaddle(Paddle paddle) {
+		owner = paddle.owner;
 	}
 	
 }

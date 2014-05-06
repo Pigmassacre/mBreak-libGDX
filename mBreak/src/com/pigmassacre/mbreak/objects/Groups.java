@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 
 public class Groups {
 
+	public static Group playerGroup = new Group();
 	public static Group ballGroup = new Group();
 	public static Group traceGroup = new Group();
 	public static Group paddleGroup = new Group();

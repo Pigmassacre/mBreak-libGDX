@@ -8,8 +8,6 @@ import com.pigmassacre.mbreak.Settings;
 
 public class Block extends GameActor {	
 
-	private Player owner;
-	
 	protected float health, maxHealth;
 	private Color originalColor;
 	
