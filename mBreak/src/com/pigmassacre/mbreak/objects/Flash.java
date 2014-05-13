@@ -52,9 +52,10 @@ public class Flash extends Effect {
 	
 	@Override
 	public void act(float delta) {
-		if (followParent) {
-			super.act(delta);
-		}
+		super.act(delta);
+//		if (followParent) {
+//			super.act(delta);
+//		}
 		
 		if (add) {
 			if (currentColor.a + tickAmount * delta < finalColor.a) {

@@ -86,16 +86,15 @@ public class GameActor extends Actor {
 	}
 
 	public void onHitBall(Ball ball) {
-
+		System.out.println(toString() + ": hit ball: " + ball);
 	}
 
 	public void onHitPaddle(Paddle paddle) {
-
+		System.out.println(toString() + ": hit paddle: " + paddle);
 	}
 
 	public void onHitBlock(Block block) {
-		System.out.println(toString() + ": got called with " + block);
-
+		System.out.println(toString() + ": hit block: " + block);
 	}
 
 	public enum WallSide {
@@ -104,6 +103,11 @@ public class GameActor extends Actor {
 
 	public void onHitWall(WallSide side) {
 
+	}
+	
+	@Override
+	public void act(float delta) {
+		effectGroup.act(delta);
 	}
 
 }

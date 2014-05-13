@@ -2,6 +2,8 @@ package com.pigmassacre.mbreak.objects.powerups;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.GameActor;
+import com.pigmassacre.mbreak.objects.effects.FrostEffect;
 
 public class FrostPowerup extends Powerup {
 
@@ -11,6 +13,8 @@ public class FrostPowerup extends Powerup {
 	private TextureRegion[] frames;
 
 	private float centerYGrace = 0.25f * Settings.GAME_SCALE;
+	
+	private static final float FROST_EFFECT_DURATION = 5f;
 
 	public FrostPowerup(float x, float y) {
 		super(x, y);
@@ -31,6 +35,11 @@ public class FrostPowerup extends Powerup {
 		setHeight((sheet.getRegionHeight() / FRAME_ROWS) * Settings.GAME_SCALE);
 	}
 
+	@Override
+	protected void onHit(GameActor actor) {
+		actor.effectGroup.addActor(new FrostEffect(actor, FROST_EFFECT_DURATION));
+	}
+	
 	@Override
 	public void act(float delta) {
 		super.act(delta);

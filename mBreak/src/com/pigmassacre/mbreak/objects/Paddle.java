@@ -16,7 +16,9 @@ public class Paddle extends GameActor {
 	
 	private float maxHeight, minHeight, maxWidth, minWidth;
 	
-	private float acceleration, retardation, maxSpeed, velocityX, velocityY;
+	private float acceleration, retardation, velocityX, velocityY;
+	public float maxSpeed;
+	public final float defaultMaxSpeed;
 	private float centerX;
 	
 	private float stabilizeSpeed, maxNudgeDistance;
@@ -44,7 +46,7 @@ public class Paddle extends GameActor {
 		
 		acceleration = 1.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		retardation = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
-		maxSpeed = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		defaultMaxSpeed = maxSpeed = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		
 		velocityY = 0f;
 		
@@ -76,6 +78,7 @@ public class Paddle extends GameActor {
 	
 	@Override
 	public void act(float delta) {
+		super.act(delta);
 		moveUp = false; 
 		moveDown = false;
 		if (Gdx.app.getType() == ApplicationType.Android) {

@@ -6,7 +6,7 @@ import com.pigmassacre.mbreak.objects.effects.FireEffect;
 
 public class FirePowerup extends Powerup {
 
-	private float duration = 10f;
+	private float FIRE_EFFECT_DURATION = 10f;
 	
 	public FirePowerup(float x, float y) {
 		super(x, y);
@@ -19,7 +19,7 @@ public class FirePowerup extends Powerup {
 
 	@Override
 	protected void onHit(GameActor actor) {
-		actor.effectGroup.addActor(new FireEffect(actor, duration));
+		actor.effectGroup.addActor(new FireEffect(actor, FIRE_EFFECT_DURATION));
 //		applyEffectToAllBalls(actor, new FireEffect(actor, duration));
 	}
 	

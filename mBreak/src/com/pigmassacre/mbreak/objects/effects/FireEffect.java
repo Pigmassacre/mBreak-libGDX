@@ -5,7 +5,7 @@ import com.pigmassacre.mbreak.objects.GameActor;
 
 public class FireEffect extends Effect {
 
-	private float damagePerSecond = 2f;
+	private static float DAMAGE_PER_SECOND = 2f;
 	
 	public FireEffect(FireEffect fireEffect) {
 		super(fireEffect);
@@ -26,7 +26,7 @@ public class FireEffect extends Effect {
 	public void act(float delta) {
 		super.act(delta);
 		if (parentActor instanceof Block) {
-			((Block) parentActor).damage(damagePerSecond* delta);
+			((Block) parentActor).damage(DAMAGE_PER_SECOND * delta);
 		}
 	}
 	

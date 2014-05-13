@@ -67,6 +67,7 @@ public class Block extends GameActor {
 	
 	@Override
 	public void act(float delta) {
+		super.act(delta);
 		if (health <= 0)
 			destroy();
 	}
