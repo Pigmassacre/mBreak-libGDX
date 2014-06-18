@@ -79,10 +79,10 @@ public class GameScreen extends AbstractScreen {
 		float powerupX = Settings.LEVEL_X + powerupWidth / 2;
 		float powerupY = Settings.LEVEL_Y;
 		for (int i = 0; i < 10; i++) {
-//			new FirePowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
+			new FirePowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
 //			new SpeedPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
 //			new ElectricityPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-			new FrostPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
+//			new FrostPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
 		}
 		
 		stage.addActor(background);
@@ -94,6 +94,7 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(Groups.ballGroup);
 		stage.addActor(Groups.paddleGroup);
 		stage.addActor(Groups.effectGroup);
+		stage.addActor(Groups.particleGroup);
 		stage.addActor(foreground);
 	}
 	
@@ -132,6 +133,7 @@ public class GameScreen extends AbstractScreen {
 		Groups.shadowGroup.clear();
 		Groups.effectGroup.clear();
 		Groups.powerupGroup.clear();
+		Groups.particleGroup.clear();
 	}
 	
 }

@@ -5,161 +5,168 @@ filter: Nearest,Nearest
 repeat: none
 ai_easy
   rotate: false
-  xy: 51, 109
+  xy: 51, 112
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 ai_hard
   rotate: false
-  xy: 65, 109
+  xy: 65, 112
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
 ball
   rotate: false
-  xy: 119, 115
+  xy: 119, 118
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 block
   rotate: false
-  xy: 41, 59
+  xy: 41, 62
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: -1
 block2
   rotate: false
-  xy: 79, 109
+  xy: 79, 112
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: -1
 block3
   rotate: false
-  xy: 41, 45
+  xy: 41, 48
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: -1
 block_normal
   rotate: false
-  xy: 87, 109
+  xy: 87, 112
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 1
 block_normal
   rotate: false
-  xy: 41, 31
+  xy: 41, 34
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 2
 block_normal
   rotate: false
-  xy: 95, 109
+  xy: 95, 112
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 3
 block_strong
   rotate: false
-  xy: 41, 17
+  xy: 41, 20
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 1
 block_strong
   rotate: false
-  xy: 103, 109
+  xy: 103, 112
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 2
 block_strong
   rotate: false
-  xy: 41, 3
+  xy: 41, 6
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: 3
 block_weak
   rotate: false
-  xy: 111, 109
+  xy: 111, 112
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: -1
 doublespeed
   rotate: false
-  xy: 51, 99
+  xy: 51, 102
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 electricity
   rotate: false
-  xy: 61, 99
+  xy: 61, 102
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 enlarger
   rotate: false
-  xy: 71, 99
+  xy: 71, 102
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 fire
   rotate: false
-  xy: 81, 99
+  xy: 81, 102
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 frost
   rotate: false
-  xy: 41, 97
+  xy: 41, 100
   size: 8, 24
   orig: 8, 24
   offset: 0, 0
   index: -1
 mBreak_title
   rotate: false
-  xy: 2, 2
+  xy: 2, 5
   size: 37, 119
   orig: 37, 119
   offset: 0, 0
   index: -1
 multiball
   rotate: false
-  xy: 91, 99
+  xy: 91, 102
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 paddle
   rotate: false
-  xy: 41, 73
+  xy: 41, 76
   size: 6, 22
   orig: 6, 22
   offset: 0, 0
   index: -1
+particle
+  rotate: false
+  xy: 2, 2
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
 reducer
   rotate: false
-  xy: 101, 99
+  xy: 101, 102
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 rocket
   rotate: false
-  xy: 111, 99
+  xy: 111, 102
   size: 8, 8
   orig: 8, 8
   offset: 0, 0

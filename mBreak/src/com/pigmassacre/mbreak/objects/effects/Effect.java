@@ -2,11 +2,12 @@ package com.pigmassacre.mbreak.objects.effects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
-import com.pigmassacre.mbreak.objects.Ball;
-import com.pigmassacre.mbreak.objects.Block;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Paddle;
+import com.pigmassacre.mbreak.objects.Particle;
 import com.pigmassacre.mbreak.objects.Player;
 
 public class Effect extends GameActor {
@@ -15,6 +16,15 @@ public class Effect extends GameActor {
 	protected Player realOwner;
 	
 	protected float duration;
+	
+	protected final Array<Particle> activeParticles = new Array<Particle>();
+	protected final Pool<Particle> particlePool = new Pool<Particle>() {
+		
+		protected Particle newObject() {
+			return new Particle();
+		};
+		
+	};
 	
 //	private List<Powerup> connectedPowerups;
 	
@@ -45,6 +55,18 @@ public class Effect extends GameActor {
 		if (stateTime >= duration) {
 			destroy();
 		}
+		
+		Particle item;
+        int len = activeParticles.size;
+        for (int i = len; --i >= 0;) {
+            item = activeParticles.get(i);
+            if (item.alive == false) {
+                activeParticles.removeIndex(i);
+                particlePool.free(item);
+            }
+        }
+        
+//        System.out.println(particlePool.getFree());
 	}
 	
 	@Override
