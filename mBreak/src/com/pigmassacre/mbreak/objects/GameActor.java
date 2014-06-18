@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.pigmassacre.mbreak.objects.effects.Effect;
 
 public class GameActor extends Actor {
 
@@ -64,6 +66,17 @@ public class GameActor extends Actor {
 			shadow.remove();
 			shadow.clear();
 		}
+//		for (Actor actor : effectGroup.getChildren()) {
+//			System.out.println(actor);
+//			if (actor instanceof GameActor) {
+//				((GameActor) actor).destroy();
+//			} else {
+//				actor.remove();
+//				actor.clear();
+//			}
+//		}
+//		effectGroup.remove();
+//		effectGroup.clear();
 	}
 
 	public void onHitObject(GameActor object) {

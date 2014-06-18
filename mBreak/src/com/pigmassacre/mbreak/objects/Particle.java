@@ -12,7 +12,7 @@ import com.pigmassacre.mbreak.Settings;
 
 public class Particle extends GameActor implements Poolable {
 	
-	private final Color SHADOW_BLEND_COLOR = new Color(100/255f, 100/255f, 100/255f, 1.0f);
+	private final Color SHADOW_BLEND_COLOR = new Color(0.4f, 0.4f, 0.4f, 1.0f);
 	
 	public float angle, speed, retardation;
 	public float alphaStep;
@@ -22,8 +22,6 @@ public class Particle extends GameActor implements Poolable {
 	private static TextureRegion image = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas")).findRegion("particle");
 	
 	public Particle() {
-//		image = getAtlas().findRegion("particle");
-		
 		shadow = new Shadow(this, true);
 		
 		Groups.particleGroup.addActor(this);

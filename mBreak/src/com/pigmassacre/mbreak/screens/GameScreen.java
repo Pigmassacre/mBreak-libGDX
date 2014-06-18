@@ -24,52 +24,54 @@ public class GameScreen extends AbstractScreen {
 	Paddle leftPaddle, rightPaddle;
 	Background background;
 	Foreground foreground;
-	
+
 	public GameScreen(MBreak game) {
 		super(game);
-		
+
 		background = new Background("planks");
 		foreground = new Foreground("planks");
-		
-		Settings.LEVEL_WIDTH = background.getWidth(); 
+
+		Settings.LEVEL_WIDTH = background.getWidth();
 		Settings.LEVEL_HEIGHT = background.getHeight();
 		Settings.LEVEL_X = (Gdx.graphics.getWidth() - Settings.LEVEL_WIDTH) / 2;
 		Settings.LEVEL_Y = (Gdx.graphics.getHeight() - Settings.LEVEL_HEIGHT) / 2;
 		Settings.LEVEL_MAX_X = Settings.LEVEL_X + Settings.LEVEL_WIDTH;
 		Settings.LEVEL_MAX_Y = Settings.LEVEL_Y + Settings.LEVEL_HEIGHT;
-		
+
 		Player leftPlayer = new Player("left");
 		Groups.playerGroup.addActor(leftPlayer);
 		leftPlayer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 		leftPaddle = new Paddle(leftPlayer);
 		leftPaddle.setX(Settings.LEVEL_X + leftPaddle.getWidth() * 4);
 		leftPaddle.setY((Gdx.graphics.getHeight() - leftPaddle.getHeight()) / 2);
-		
+
 		leftPaddle.touchRectangle = new Rectangle(0, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
 		leftPaddle.keyUp = Keys.W;
 		leftPaddle.keyDown = Keys.S;
-		
+
 		Block tempBlock = new Block(0, 0, new Player("temp"), new Color(Color.BLACK));
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
-				new Block(Settings.LEVEL_X + x * tempBlock.getWidth(), Settings.LEVEL_Y + (y * tempBlock.getHeight()), leftPlayer, leftPlayer.getColor());
+				new Block(Settings.LEVEL_X + x * tempBlock.getWidth(), Settings.LEVEL_Y + (y * tempBlock.getHeight()), leftPlayer,
+						leftPlayer.getColor());
 			}
 		}
-		
+
 		Player rightPlayer = new Player("right");
 		Groups.playerGroup.addActor(rightPlayer);
 		rightPlayer.setColor(1.0f, 0.0f, 1.0f, 1.0f);
 		rightPaddle = new Paddle(rightPlayer);
 		rightPaddle.setX(Settings.LEVEL_MAX_X - rightPaddle.getWidth() * 5);
 		rightPaddle.setY((Gdx.graphics.getHeight() - rightPaddle.getHeight()) / 2);
-		
+
 		rightPaddle.touchRectangle = new Rectangle(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
 		rightPaddle.keyUp = Keys.UP;
 		rightPaddle.keyDown = Keys.DOWN;
-		
+
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
-				new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_Y + (y * tempBlock.getHeight()), rightPlayer, rightPlayer.getColor());
+				new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_Y + (y * tempBlock.getHeight()),
+						rightPlayer, rightPlayer.getColor());
 			}
 		}
 
@@ -80,11 +82,14 @@ public class GameScreen extends AbstractScreen {
 		float powerupY = Settings.LEVEL_Y;
 		for (int i = 0; i < 10; i++) {
 			new FirePowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-//			new SpeedPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-//			new ElectricityPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-//			new FrostPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
+			// new SpeedPowerup(powerupX + random.nextFloat() * powerupWidth,
+			// powerupY + random.nextFloat() * powerupHeight);
+			// new ElectricityPowerup(powerupX + random.nextFloat() *
+			// powerupWidth, powerupY + random.nextFloat() * powerupHeight);
+			// new FrostPowerup(powerupX + random.nextFloat() * powerupWidth,
+			// powerupY + random.nextFloat() * powerupHeight);
 		}
-		
+
 		stage.addActor(background);
 		stage.addActor(Groups.playerGroup);
 		stage.addActor(Groups.shadowGroup);
@@ -93,18 +98,18 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(Groups.powerupGroup);
 		stage.addActor(Groups.ballGroup);
 		stage.addActor(Groups.paddleGroup);
-		stage.addActor(Groups.effectGroup);
+//		stage.addActor(Groups.effectGroup);
 		stage.addActor(Groups.particleGroup);
 		stage.addActor(foreground);
 	}
-	
+
 	@Override
 	public void show() {
 		getInputMultiplexer().addProcessor(new InputAdapter() {
-			
+
 			@Override
 			public boolean keyDown(int keycode) {
-				switch(keycode) {
+				switch (keycode) {
 				case Keys.ESCAPE:
 				case Keys.BACK:
 					back();
@@ -112,16 +117,16 @@ public class GameScreen extends AbstractScreen {
 				}
 				return false;
 			}
-			
+
 		});
 		getInputMultiplexer().addProcessor(new DebugInput(stage));
 		super.show();
 	}
-	
+
 	private void back() {
 		game.setScreen(new PrepareMenuScreen(game));
 	}
-	
+
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -131,9 +136,9 @@ public class GameScreen extends AbstractScreen {
 		Groups.paddleGroup.clear();
 		Groups.blockGroup.clear();
 		Groups.shadowGroup.clear();
-		Groups.effectGroup.clear();
+//		Groups.effectGroup.clear();
 		Groups.powerupGroup.clear();
 		Groups.particleGroup.clear();
 	}
-	
+
 }

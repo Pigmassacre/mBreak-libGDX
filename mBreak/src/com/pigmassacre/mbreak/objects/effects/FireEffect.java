@@ -49,12 +49,12 @@ public class FireEffect extends Effect {
 				float speed = MathUtils.random(0.75f * Settings.GAME_FPS * Settings.GAME_SCALE, 0.9f * Settings.GAME_FPS * Settings.GAME_SCALE);
 				float retardation = speed / 12f;
 				Color tempColor;
-//				if (MathUtils.random() > 0.1) {
+				if (MathUtils.random() > 0.1) {
 					tempColor = new Color(MathUtils.random(0.75f, 1f), MathUtils.random(0f, 1f), 0f, 1f);
-//				} else {
-//					float temp = MathUtils.random(0, 1f);
-//					tempColor = new Color(temp, temp, temp, 1f);
-//				}
+				} else {
+					float temp = MathUtils.random(0, 1f);
+					tempColor = new Color(temp, temp, temp, 1f);
+				}
 				Particle particle = particlePool.obtain();
 				particle.init(getX(), getY(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
 				activeParticles.add(particle);
