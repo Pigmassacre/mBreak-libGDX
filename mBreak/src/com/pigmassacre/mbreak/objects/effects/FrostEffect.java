@@ -1,13 +1,22 @@
 package com.pigmassacre.mbreak.objects.effects;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Paddle;
+import com.pigmassacre.mbreak.objects.Particle;
 
 public class FrostEffect extends Effect {
 
 	private static final float PADDLE_FREEZE_DURATION = 2f;
 	private static final float PADDLE_FREEZE_SPEED_REDUCTION = 2f * Settings.GAME_FPS * Settings.GAME_SCALE;
+	
+	private static float PARTICLE_SPAWN_RATE = 0.6f;
+	private static int PARTICLE_LEAST_SPAWN_AMOUNT = 2;
+	private static int PARTICLE_MAXIMUM_SPAWN_AMOUNT = 2;
+	
+	private float particleSpawnTime = 0f;
 	
 	public FrostEffect(GameActor parent, float duration) {
 		super(parent, duration);
@@ -26,7 +35,22 @@ public class FrostEffect extends Effect {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		System.out.println("time left: " + stateTime);
+		
+		particleSpawnTime += delta;
+		if (particleSpawnTime >= PARTICLE_SPAWN_RATE) {
+			particleSpawnTime = 0f;
+			
+			for (int i = 0; i < MathUtils.random(PARTICLE_LEAST_SPAWN_AMOUNT, PARTICLE_MAXIMUM_SPAWN_AMOUNT); i++) {
+				float width = MathUtils.random(2.25f * Settings.GAME_SCALE, 3f * Settings.GAME_SCALE);
+				float angle = MathUtils.random(0, 2 * MathUtils.PI);
+				float speed = MathUtils.random(0.2f * Settings.GAME_FPS * Settings.GAME_SCALE, 0.35f * Settings.GAME_FPS * Settings.GAME_SCALE);
+				float retardation = speed / 52f;
+				Color tempColor = new Color(MathUtils.random(0, 0.2f), MathUtils.random(0.5f, 1f), MathUtils.random(0.85f, 1f), 1f);
+				Particle particle = particlePool.obtain();
+				particle.init(getX(), getY(), width, width, angle, speed, retardation, 0.03f * Settings.GAME_FPS, tempColor);
+				activeParticles.add(particle);
+			}
+		}
 	}
 	
 	@Override
