@@ -7,10 +7,20 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pigmassacre.mbreak.Settings;
 
 public class Particle extends GameActor implements Poolable {
+	
+//	public static final Array<Particle> activeParticles = new Array<Particle>();
+	public static final Pool<Particle> particlePool = new Pool<Particle>() {
+
+		protected Particle newObject() {
+			return new Particle();
+		};
+
+	};
 	
 	private final Color SHADOW_BLEND_COLOR = new Color(0.4f, 0.4f, 0.4f, 1.0f);
 	
@@ -60,27 +70,33 @@ public class Particle extends GameActor implements Poolable {
 	
 	@Override
 	public void act(float delta) {
-		speed -= retardation * delta;
-		if (speed <= 0) {
-			reset();
-		}
-		
-		if (alphaStep > 0) {
-			if (getColor().a - alphaStep * delta < 0) {
+		if (alive) {
+			speed -= retardation * delta;
+			if (speed <= 0) {
 				reset();
-			} else {
-				getColor().a -= alphaStep * delta;
 			}
-		}
-		
-		setX(getX() + MathUtils.cos(angle) * speed * delta);
-		setY(getY() + MathUtils.sin(angle) * speed * delta);
-		
-		if (rectangle.x + rectangle.width <= Settings.LEVEL_X
-				|| rectangle.x >= Settings.LEVEL_MAX_X
-				|| rectangle.y <= Settings.LEVEL_Y
-				|| rectangle.y + rectangle.height >= Settings.LEVEL_MAX_Y) {
-			reset();
+			
+			if (alphaStep > 0) {
+				if (getColor().a - alphaStep * delta < 0) {
+					reset();
+				} else {
+					getColor().a -= alphaStep * delta;
+				}
+			}
+			
+			setX(getX() + MathUtils.cos(angle) * speed * delta);
+			setY(getY() + MathUtils.sin(angle) * speed * delta);
+			
+			if (rectangle.x + rectangle.width <= Settings.LEVEL_X
+					|| rectangle.x >= Settings.LEVEL_MAX_X
+					|| rectangle.y <= Settings.LEVEL_Y
+					|| rectangle.y + rectangle.height >= Settings.LEVEL_MAX_Y) {
+				reset();
+			}
+			
+			if (!alive) {
+				particlePool.free(this);
+			}
 		}
 	}
 	

@@ -66,17 +66,6 @@ public class GameActor extends Actor {
 			shadow.remove();
 			shadow.clear();
 		}
-//		for (Actor actor : effectGroup.getChildren()) {
-//			System.out.println(actor);
-//			if (actor instanceof GameActor) {
-//				((GameActor) actor).destroy();
-//			} else {
-//				actor.remove();
-//				actor.clear();
-//			}
-//		}
-//		effectGroup.remove();
-//		effectGroup.clear();
 	}
 
 	public void onHitObject(GameActor object) {
@@ -120,7 +109,12 @@ public class GameActor extends Actor {
 	
 	@Override
 	public void act(float delta) {
+		move(delta);
 		effectGroup.act(delta);
+	}
+	
+	public void move(float delta) {
+		
 	}
 
 }

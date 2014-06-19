@@ -62,7 +62,13 @@ public class Powerup extends GameActor {
 		
 	}
 	
-	protected void applyEffectToAllBalls(GameActor touchingActor, Effect effect) {
+	public interface EffectCommand {
+
+		public void execute(GameActor actor);
+		
+	}
+	
+	protected void applyEffectToAllBalls(GameActor touchingActor, EffectCommand command) {
 		for (Actor ballActor : Groups.ballGroup.getChildren()) {
 			if (ballActor instanceof Ball) {
 				Ball ball = (Ball) ballActor;
@@ -72,7 +78,7 @@ public class Powerup extends GameActor {
 //						// TODO: Stuff with timeout.						
 //					}
 //				}
-				ball.effectGroup.addActor(new Effect(effect));
+				command.execute(ball);
 			}
 		}
 		/*

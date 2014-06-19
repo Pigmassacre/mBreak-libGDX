@@ -13,7 +13,7 @@ public class SpeedEffect extends Effect {
 		super.act(delta);
 		
 		if (parentActor.owner == realOwner) {
-			parentActor.act(delta);
+			parentActor.move(delta);
 		}
 	}
 	

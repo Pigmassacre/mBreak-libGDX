@@ -88,6 +88,10 @@ public class Ball extends GameActor {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+	}
+	
+	@Override
+	public void move(float delta) {
 		speedHandled = 0f;
 		while (speedHandled < speed) {
 			if (speed - speedHandled >= speedStep) {

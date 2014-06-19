@@ -107,6 +107,43 @@ public class PrepareMenuScreen extends AbstractScreen {
 		
 		traversal.menus.add(colorMenu);
 		stage.addActor(colorMenu);
+		
+		colorMenu = new GridMenu(3);
+		colorItem = new RectItem();
+		colorItem.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		stage.addActor(colorItem);
+		colorMenu.add(colorItem);
+		colorItem = new RectItem();
+		colorItem.setColor(0.0f, 1.0f, 0.0f, 1.0f);
+		stage.addActor(colorItem);
+		colorMenu.add(colorItem);
+		colorItem = new RectItem();
+		colorItem.setColor(0.0f, 0.0f, 1.0f, 1.0f);
+		stage.addActor(colorItem);
+		colorMenu.add(colorItem);
+		colorItem = new RectItem();
+		colorItem.setColor(1.0f, 1.0f, 0.0f, 1.0f);
+		stage.addActor(colorItem);
+		colorMenu.add(colorItem);
+		colorItem = new RectItem();
+		colorItem.setColor(1.0f, 0.0f, 1.0f, 1.0f);
+		stage.addActor(colorItem);
+		colorMenu.add(colorItem);
+		colorItem = new RectItem();
+		colorItem.setColor(0.0f, 1.0f, 1.0f, 1.0f);
+		stage.addActor(colorItem);
+		colorMenu.add(colorItem);
+		
+		colorMenu.setX(Gdx.graphics.getWidth() - 2 * colorMenu.getWidth());
+		colorMenu.setY(colorMenu.getHeight() * 2);
+		colorMenu.cleanup();
+
+		for (Item item : colorMenu.items) {
+			TweenHelp.setupSingleItemTween(item, getTweenManager(), TweenEquations.easeOutExpo, 0.5f, true, true, true, true);
+		}
+		
+		traversal.menus.add(colorMenu);
+		stage.addActor(colorMenu);
 	}
 	
 	public void back() {

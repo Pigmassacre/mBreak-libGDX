@@ -9,11 +9,11 @@ import com.pigmassacre.mbreak.objects.Particle;
 
 public class FireEffect extends Effect {
 
-	private static float DAMAGE_PER_SECOND = 2f;
+	public static final float DAMAGE_PER_SECOND = 2f;
 	
-	private static float PARTICLE_SPAWN_RATE = 0.1f;
-	private static int PARTICLE_LEAST_SPAWN_AMOUNT = 2;
-	private static int PARTICLE_MAXIMUM_SPAWN_AMOUNT = 4;
+	public static final float PARTICLE_SPAWN_RATE = 0.1f;
+	public static final int PARTICLE_LEAST_SPAWN_AMOUNT = 2;
+	public static final int PARTICLE_MAXIMUM_SPAWN_AMOUNT = 4;
 	
 	private float particleSpawnTime = 0f;
 	
@@ -55,9 +55,9 @@ public class FireEffect extends Effect {
 					float temp = MathUtils.random(0, 1f);
 					tempColor = new Color(temp, temp, temp, 1f);
 				}
-				Particle particle = particlePool.obtain();
-				particle.init(getX(), getY(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
-				activeParticles.add(particle);
+				Particle particle = Particle.particlePool.obtain();
+				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
+//				activeParticles.add(particle);
 			}
 		}
 	}

@@ -19,7 +19,14 @@ public class SpeedPowerup extends Powerup {
 
 	@Override
 	protected void onHit(GameActor actor) {
-		applyEffectToAllBalls(actor, new SpeedEffect(actor, duration));
+		applyEffectToAllBalls(actor, new Powerup.EffectCommand() {
+
+			@Override
+			public void execute(GameActor actor) {
+				new SpeedEffect(actor, duration);				
+			}
+			
+		});
 	}
 	
 }

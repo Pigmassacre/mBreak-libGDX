@@ -16,15 +16,6 @@ public class Effect extends GameActor {
 
 	protected float duration;
 
-	protected final Array<Particle> activeParticles = new Array<Particle>();
-	protected final Pool<Particle> particlePool = new Pool<Particle>() {
-
-		protected Particle newObject() {
-			return new Particle();
-		};
-
-	};
-
 	// private List<Powerup> connectedPowerups;
 
 	public Effect(Effect effect) {
@@ -53,16 +44,6 @@ public class Effect extends GameActor {
 		stateTime += delta;
 		if (stateTime >= duration) {
 			destroy();
-		}
-
-		Particle item;
-		int len = activeParticles.size;
-		for (int i = len; --i >= 0;) {
-			item = activeParticles.get(i);
-			if (item.alive == false) {
-				activeParticles.removeIndex(i);
-				particlePool.free(item);
-			}
 		}
 
 		// System.out.println(particlePool.getFree());
