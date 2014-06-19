@@ -37,7 +37,8 @@ public class Block extends GameActor {
 		setColor(color);
 		originalColor = color;
 		
-		shadow = new Shadow(this, false);
+		shadow = Shadow.shadowPool.obtain();
+		shadow.init(this, false);
 		
 		Groups.blockGroup.addActor(this);
 	}

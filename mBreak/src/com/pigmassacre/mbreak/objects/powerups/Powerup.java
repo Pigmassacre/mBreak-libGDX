@@ -37,7 +37,8 @@ public class Powerup extends GameActor {
 		
 		Groups.powerupGroup.addActor(this);
 		
-		shadow = new Shadow(this, false);
+		shadow = Shadow.shadowPool.obtain();
+		shadow.init(this, false);
 		
 		new Flash(this, flashDuration, flashTickAmount, true);
 	}

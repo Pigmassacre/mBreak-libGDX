@@ -2,23 +2,37 @@ package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pigmassacre.mbreak.Settings;
 
-public class Shadow extends GameActor {
+public class Shadow extends GameActor implements Poolable {
 
-	private GameActor parent;
+	public static final Pool<Shadow> shadowPool = new Pool<Shadow>() {
+
+		protected Shadow newObject() {
+			return new Shadow();
+		};
+
+	};
+	
+	private GameActor parentActor;
 	
 	private float offsetX, offsetY;
 	
-	private boolean linger;
+	public boolean linger;
 	private float lingerTime;
 	
-	private float alphaStep = (float) (0.19 * Settings.GAME_SCALE);
+	private float alphaStep = 0.19f * Settings.GAME_FPS;
 	
-	public Shadow(GameActor parent, boolean linger) {
-		this.parent = parent;
+	public boolean alive;
+	
+	public Shadow() {
+		alive = true;
+	}
+	
+	public void init(GameActor parent, boolean linger) {
+		parentActor = parent;
 		
 		setColor(0f, 0f, 0f, 0.5f);
 		
@@ -26,42 +40,52 @@ public class Shadow extends GameActor {
 		offsetY = -2 * Settings.GAME_SCALE;
 		
 		this.linger = linger;
-		lingerTime = 0.025f * Settings.GAME_FPS;
+		lingerTime = 0.1f * Settings.GAME_FPS;
 		
 		Groups.shadowGroup.addActor(this);
 	}
 	
 	@Override
+	public void reset() {
+		parentActor = null;
+		alive = false;
+		remove();
+	}
+	
+	@Override
 	public float getX() {
-		return super.getX() + parent.getX() + offsetX;
+		return super.getX() /*+ parentActor.getX()*/ + offsetX;
 	}
 	
 	@Override
 	public float getY() {
-		return super.getY() + parent.getY() + offsetY;
+		return super.getY() /*+ parentActor.getY()*/ + offsetY;
 	}
 	
 	@Override
 	public float getWidth() {
-		return super.getWidth() + parent.getWidth();
+		return parentActor.getWidth();
 	}
 	
 	@Override
 	public float getHeight() {
-		return super.getHeight() + parent.getHeight();
+		return parentActor.getHeight();
 	}
 	
 	@Override
 	public void act(float delta) {
-		if (linger) {
+		if (parentActor.alive) {
+			setX(parentActor.getX());
+			setY(parentActor.getY());
+		}
+		
+		if (linger && !parentActor.alive) {
 			lingerTime -= delta;
 			if (lingerTime <= 0) {
 				getColor().a -= alphaStep * delta;
 				if (getColor().a < 0) {
-					remove();
-					clear();
+					shadowPool.free(this);
 				}
-				getColor().clamp();
 			}
 		}
 	}
@@ -70,12 +94,12 @@ public class Shadow extends GameActor {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		if (this.parent.image != null) {
+		if (parentActor.image != null) {
 			temp = batch.getColor();
 			batch.setColor(getColor());
-			batch.draw(this.parent.image, getX(), getY(), getWidth(), getHeight());
+			batch.draw(parentActor.image, getX(), getY(), getWidth(), getHeight());
 			batch.setColor(temp);
 		}
 	}
-	
+
 }

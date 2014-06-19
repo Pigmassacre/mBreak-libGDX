@@ -8,7 +8,7 @@ import com.pigmassacre.mbreak.Settings;
 
 public class Trace extends GameActor {
 
-	private Actor parent;
+	private Actor parentActor;
 	
 	private float alphaStep = 0.06f * Settings.GAME_FPS;
 	
@@ -16,7 +16,7 @@ public class Trace extends GameActor {
 	private Color shadowBlendColor = new Color(0.4f, 0.4f, 0.4f, 1.0f);
 	
 	public Trace(Actor parent, TextureRegion image) {
-		this.parent = parent;
+		parentActor = parent;
 		setColor(new Color(parent.getColor()));
 		this.image = image;
 		
@@ -25,7 +25,8 @@ public class Trace extends GameActor {
 		setWidth(parent.getWidth());
 		setHeight(parent.getHeight());
 		
-		shadow = new Shadow(this, false);
+		shadow = Shadow.shadowPool.obtain();
+		shadow.init(this, false);
 		shadow.getColor().mul(shadowBlendColor);
 		
 		Groups.traceGroup.addActor(this);

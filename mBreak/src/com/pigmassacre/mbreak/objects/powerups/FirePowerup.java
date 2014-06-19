@@ -54,7 +54,6 @@ public class FirePowerup extends Powerup {
 				}
 				Particle particle = Particle.particlePool.obtain();
 				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
-//				activeParticles.add(particle);
 			}
 		}
 	}

@@ -22,11 +22,14 @@ public class GameActor extends Actor {
 	protected float stateTime;
 
 	public Group effectGroup;
+	
+	public boolean alive;
 
 	public GameActor() {
 		rectangle = new Rectangle();
 		stateTime = 0f;
 		effectGroup = new Group();
+		alive = true;
 	}
 
 	@Override
@@ -62,9 +65,9 @@ public class GameActor extends Actor {
 	public void destroy() {
 		remove();
 		clear();
+		alive = false;
 		if (shadow != null) {
-			shadow.remove();
-			shadow.clear();
+			shadow.reset();
 		}
 	}
 

@@ -59,7 +59,8 @@ public class Paddle extends GameActor {
 		moveUp = false;
 		moveDown = false;
 		
-		new Shadow(this, false);
+		shadow = Shadow.shadowPool.obtain();
+		shadow.init(this, false);
 		
 		Groups.paddleGroup.addActor(this);
 	}

@@ -54,7 +54,8 @@ public class Ball extends GameActor {
 		
 		setColor(color);
 		
-		shadow = new Shadow(this, false);
+		shadow = Shadow.shadowPool.obtain();
+		shadow.init(this, false);
 		
 		damage = 10;
 		

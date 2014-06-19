@@ -13,7 +13,6 @@ import com.pigmassacre.mbreak.Settings;
 
 public class Particle extends GameActor implements Poolable {
 	
-//	public static final Array<Particle> activeParticles = new Array<Particle>();
 	public static final Pool<Particle> particlePool = new Pool<Particle>() {
 
 		protected Particle newObject() {
@@ -27,21 +26,17 @@ public class Particle extends GameActor implements Poolable {
 	public float angle, speed, retardation;
 	public float alphaStep;
 	
-	public boolean alive;
+//	public boolean alive;
 	
 	private static TextureRegion image = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas")).findRegion("particle");
 	
 	public Particle() {
-		shadow = new Shadow(this, true);
-		
-		Groups.particleGroup.addActor(this);
-		
 		alive = false;
 	}
 	
 	public void init(float x, float y, float width, float height, float angle, float speed, float retardation, float alphaStep, Color color) {
 		rectangle = new Rectangle(x, y, width, height);
-
+		super.image = image;
 		setX(x);
 		setY(y);
 		setWidth(width);
@@ -54,8 +49,12 @@ public class Particle extends GameActor implements Poolable {
 		this.alphaStep = alphaStep;
 		
 		setColor(color);
-		
+		shadow = Shadow.shadowPool.obtain();
+		shadow.init(this, true);
 		shadow.setColor(color.cpy().mul(SHADOW_BLEND_COLOR));
+		shadow.getColor().a = 0.5f;
+		
+		Groups.particleGroup.addActor(this);
 		
 		alive = true;
 	}
@@ -66,37 +65,32 @@ public class Particle extends GameActor implements Poolable {
 		setX(0);
 		setY(0);
 		alive = false;
+		remove();
 	}
 	
 	@Override
 	public void act(float delta) {
-		if (alive) {
-			speed -= retardation * delta;
-			if (speed <= 0) {
-				reset();
-			}
-			
-			if (alphaStep > 0) {
-				if (getColor().a - alphaStep * delta < 0) {
-					reset();
-				} else {
-					getColor().a -= alphaStep * delta;
-				}
-			}
-			
-			setX(getX() + MathUtils.cos(angle) * speed * delta);
-			setY(getY() + MathUtils.sin(angle) * speed * delta);
-			
-			if (rectangle.x + rectangle.width <= Settings.LEVEL_X
-					|| rectangle.x >= Settings.LEVEL_MAX_X
-					|| rectangle.y <= Settings.LEVEL_Y
-					|| rectangle.y + rectangle.height >= Settings.LEVEL_MAX_Y) {
-				reset();
-			}
-			
-			if (!alive) {
+		speed -= retardation * delta;
+		if (speed <= 0) {
+			particlePool.free(this);
+		}
+		
+		if (alphaStep > 0) {
+			if (getColor().a - alphaStep * delta < 0) {
 				particlePool.free(this);
+			} else {
+				getColor().a -= alphaStep * delta;
 			}
+		}
+		
+		setX(getX() + MathUtils.cos(angle) * speed * delta);
+		setY(getY() + MathUtils.sin(angle) * speed * delta);
+		
+		if (rectangle.x + rectangle.width <= Settings.LEVEL_X
+				|| rectangle.x >= Settings.LEVEL_MAX_X
+				|| rectangle.y <= Settings.LEVEL_Y
+				|| rectangle.y + rectangle.height >= Settings.LEVEL_MAX_Y) {
+			particlePool.free(this);
 		}
 	}
 	
