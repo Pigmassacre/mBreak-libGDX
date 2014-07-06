@@ -13,5 +13,6 @@ public class Groups {
 //	public static Group effectGroup = new Group();
 	public static Group powerupGroup = new Group();
 	public static Group particleGroup = new Group();
+	public static Group residueGroup = new Group();
 
 }

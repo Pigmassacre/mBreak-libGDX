@@ -81,14 +81,15 @@ public class GameScreen extends AbstractScreen {
 		float powerupX = Settings.LEVEL_X + powerupWidth / 2;
 		float powerupY = Settings.LEVEL_Y;
 		for (int i = 0; i < 10; i++) {
-			new FirePowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-			new SpeedPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-//			new ElectricityPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
+//			new FirePowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
+//			new SpeedPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
+			new ElectricityPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
 //			new FrostPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
 		}
 
 		stage.addActor(background);
 		stage.addActor(Groups.playerGroup);
+		stage.addActor(Groups.residueGroup);
 		stage.addActor(Groups.shadowGroup);
 		stage.addActor(Groups.traceGroup);
 		stage.addActor(Groups.blockGroup);

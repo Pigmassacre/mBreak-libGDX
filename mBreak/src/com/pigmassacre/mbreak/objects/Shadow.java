@@ -2,6 +2,7 @@ package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pigmassacre.mbreak.Settings;
@@ -16,23 +17,17 @@ public class Shadow extends GameActor implements Poolable {
 
 	};
 	
-	private GameActor parentActor;
-	
 	private float offsetX, offsetY;
 	
 	public boolean linger;
-	private float lingerTime;
-	
-	private float alphaStep = 0.19f * Settings.GAME_FPS;
-	
-	public boolean alive;
 	
 	public Shadow() {
-		alive = true;
+		alive = false;
 	}
 	
-	public void init(GameActor parent, boolean linger) {
-		parentActor = parent;
+	public void init(GameActor parentActor, boolean linger) {
+		this.parentActor = parentActor;
+		image = parentActor.image;
 		
 		setColor(0f, 0f, 0f, 0.5f);
 		
@@ -40,26 +35,32 @@ public class Shadow extends GameActor implements Poolable {
 		offsetY = -2 * Settings.GAME_SCALE;
 		
 		this.linger = linger;
-		lingerTime = 0.1f * Settings.GAME_FPS;
+		
+		alive = true;
 		
 		Groups.shadowGroup.addActor(this);
 	}
 	
 	@Override
 	public void reset() {
-		parentActor = null;
+		if (linger) {
+			Residue residue = Residue.residuePool.obtain();
+			residue.init(this);
+		}
 		alive = false;
+		parentActor = null;
 		remove();
+		clear();
 	}
 	
 	@Override
 	public float getX() {
-		return super.getX() /*+ parentActor.getX()*/ + offsetX;
+		return parentActor.getX() + offsetX;
 	}
 	
 	@Override
 	public float getY() {
-		return super.getY() /*+ parentActor.getY()*/ + offsetY;
+		return parentActor.getY() + offsetY;
 	}
 	
 	@Override
@@ -72,29 +73,11 @@ public class Shadow extends GameActor implements Poolable {
 		return parentActor.getHeight();
 	}
 	
-	@Override
-	public void act(float delta) {
-		if (parentActor.alive) {
-			setX(parentActor.getX());
-			setY(parentActor.getY());
-		}
-		
-		if (linger && !parentActor.alive) {
-			lingerTime -= delta;
-			if (lingerTime <= 0) {
-				getColor().a -= alphaStep * delta;
-				if (getColor().a < 0) {
-					shadowPool.free(this);
-				}
-			}
-		}
-	}
-	
 	private Color temp;
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		if (parentActor.image != null) {
+		if (parentActor.image != null){
 			temp = batch.getColor();
 			batch.setColor(getColor());
 			batch.draw(parentActor.image, getX(), getY(), getWidth(), getHeight());

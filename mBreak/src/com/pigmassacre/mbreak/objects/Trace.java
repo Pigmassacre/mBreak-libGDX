@@ -3,27 +3,24 @@ package com.pigmassacre.mbreak.objects;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
 
 public class Trace extends GameActor {
 
-	private Actor parentActor;
-	
 	private float alphaStep = 0.06f * Settings.GAME_FPS;
 	
 	private Shadow shadow;
 	private Color shadowBlendColor = new Color(0.4f, 0.4f, 0.4f, 1.0f);
 	
-	public Trace(Actor parent, TextureRegion image) {
-		parentActor = parent;
-		setColor(new Color(parent.getColor()));
+	public Trace(GameActor parentActor, TextureRegion image) {
+		this.parentActor = parentActor;
+		setColor(new Color(parentActor.getColor()));
 		this.image = image;
 		
-		setX(parent.getX());
-		setY(parent.getY());
-		setWidth(parent.getWidth());
-		setHeight(parent.getHeight());
+		setX(parentActor.getX());
+		setY(parentActor.getY());
+		setWidth(parentActor.getWidth());
+		setHeight(parentActor.getHeight());
 		
 		shadow = Shadow.shadowPool.obtain();
 		shadow.init(this, false);

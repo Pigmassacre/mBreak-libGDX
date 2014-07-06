@@ -26,8 +26,6 @@ public class Particle extends GameActor implements Poolable {
 	public float angle, speed, retardation;
 	public float alphaStep;
 	
-//	public boolean alive;
-	
 	private static TextureRegion image = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas")).findRegion("particle");
 	
 	public Particle() {
@@ -61,11 +59,15 @@ public class Particle extends GameActor implements Poolable {
 
 	@Override
 	public void reset() {
+		if (shadow.alive) {
+			Shadow.shadowPool.free(shadow);
+		}
 		speed = 0;
 		setX(0);
 		setY(0);
 		alive = false;
 		remove();
+		clear();
 	}
 	
 	@Override

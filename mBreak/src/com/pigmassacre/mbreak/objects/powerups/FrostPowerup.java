@@ -72,8 +72,7 @@ public class FrostPowerup extends Powerup {
 				float retardation = speed / 52f;
 				Color tempColor = new Color(MathUtils.random(0, 0.2f), MathUtils.random(0.5f, 1f), MathUtils.random(0.85f, 1f), 1f);
 				Particle particle = Particle.particlePool.obtain();
-				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.03f * Settings.GAME_FPS, tempColor);
-//				activeParticles.add(particle);
+				particle.init(getX() + getWidth() / 2 + offsetX, getY() + getHeight() / 2 + offsetY, width, width, angle, speed, retardation, 0.03f * Settings.GAME_FPS, tempColor);
 			}
 		}
 	}

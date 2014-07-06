@@ -12,6 +12,7 @@ import com.pigmassacre.mbreak.objects.effects.Effect;
 public class GameActor extends Actor {
 
 	public Player owner;
+	protected GameActor parentActor;
 
 	private TextureAtlas atlas;
 	protected TextureRegion image;
@@ -67,7 +68,7 @@ public class GameActor extends Actor {
 		clear();
 		alive = false;
 		if (shadow != null) {
-			shadow.reset();
+			Shadow.shadowPool.free(shadow);
 		}
 	}
 
