@@ -83,7 +83,7 @@ public class GameScreen extends AbstractScreen {
 		for (int i = 0; i < 10; i++) {
 //			new FirePowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
 //			new SpeedPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-			new ElectricityPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
+//			new ElectricityPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
 //			new FrostPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
 		}
 

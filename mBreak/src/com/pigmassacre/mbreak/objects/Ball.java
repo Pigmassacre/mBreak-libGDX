@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.effects.Effect;
@@ -135,34 +136,26 @@ public class Ball extends GameActor {
 			setY((float) (circle.y + (Math.sin(angle) * tickSpeed * delta)));
 			
 			if (circle.x - circle.radius < Settings.LEVEL_X) {
+				onHitWall(GameActor.WallSide.LEFT);
 				angle = (float) (Math.PI - angle);
 				setX(Settings.LEVEL_X + circle.radius);
-				for (Actor effect : effectGroup.getChildren()) {
-					((Effect) effect).onHitWall(GameActor.WallSide.LEFT);
-				}
 				collided = true;
 			} else if (circle.x + circle.radius > Settings.LEVEL_MAX_X) {
+				onHitWall(GameActor.WallSide.RIGHT);
 				angle = (float) (Math.PI - angle);
 				setX(Settings.LEVEL_MAX_X - circle.radius);
-				for (Actor effect : effectGroup.getChildren()) {
-					((Effect) effect).onHitWall(GameActor.WallSide.RIGHT);
-				}
 				collided = true;
 			}
 			
 			if (circle.y - circle.radius < Settings.LEVEL_Y) {
+				onHitWall(GameActor.WallSide.DOWN);
 				angle = -angle;
 				setY(Settings.LEVEL_Y + circle.radius);
-				for (Actor effect : effectGroup.getChildren()) {
-					((Effect) effect).onHitWall(GameActor.WallSide.DOWN);
-				}
 				collided = true;
 			} else if (circle.y + circle.radius > Settings.LEVEL_MAX_Y) {
+				onHitWall(GameActor.WallSide.UP);
 				angle = -angle;
 				setY(Settings.LEVEL_MAX_Y - circle.radius);
-				for (Actor effect : effectGroup.getChildren()) {
-					((Effect) effect).onHitWall(GameActor.WallSide.UP);
-				}
 				collided = true;
 			}
 
@@ -360,6 +353,32 @@ public class Ball extends GameActor {
 					powerup.hit(this);
 				}
 			}
+		}
+	}
+	
+	@Override
+	public void onHitObject(GameActor object) {
+		shootParticlesOnHit(3, 5);
+		super.onHitObject(object);
+	}
+	
+	@Override
+	public void onHitWall(WallSide side) {
+		shootParticlesOnHit(3, 5);
+		for (Actor effect : effectGroup.getChildren()) {
+			((Effect) effect).onHitWall(side);
+		}
+	}
+	
+	private void shootParticlesOnHit(int lowBound, int highBound) {
+		for (int i = 0; i < MathUtils.random(lowBound, highBound); i++) {
+			float width = MathUtils.random(2f * Settings.GAME_SCALE, 2.5f * Settings.GAME_SCALE);
+			float angle = this.angle + MathUtils.random(-MathUtils.PI / 6, MathUtils.PI / 6);
+			float speed = MathUtils.random(0.75f * Settings.GAME_FPS * Settings.GAME_SCALE, 0.9f * Settings.GAME_FPS * Settings.GAME_SCALE);
+			float retardation = speed / 12f;
+			Color tempColor = getColor().cpy();
+			Particle particle = Particle.particlePool.obtain();
+			particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
 		}
 	}
 	

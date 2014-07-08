@@ -29,10 +29,10 @@ public class Shadow extends GameActor implements Poolable {
 		this.parentActor = parentActor;
 		image = parentActor.image;
 		
-		setColor(0f, 0f, 0f, 0.5f);
+		setColor(0f, 0f, 0f, 0.75f);
 		
-		offsetX = 1 * Settings.GAME_SCALE;
-		offsetY = -2 * Settings.GAME_SCALE;
+		offsetX = 0 * Settings.GAME_SCALE;
+		offsetY = -2f * Settings.GAME_SCALE;
 		
 		this.linger = linger;
 		

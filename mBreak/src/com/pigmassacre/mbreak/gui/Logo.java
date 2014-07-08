@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.pigmassacre.mbreak.Settings;
@@ -25,7 +26,9 @@ public class Logo extends Widget {
 	TextureRegion[] logoFrames;
 	TextureRegion currentFrame;
 	
-	float stateTime, waitTime;
+	float animationStateTime, waitTime, stateTime;
+	
+	private float scaleX, scaleY, rotation;
 	
 	public Logo() {
 		super();
@@ -45,8 +48,12 @@ public class Logo extends Widget {
 		logoAnimation = new Animation(0.075f, logoFrames);
 		logoAnimation.setPlayMode(Animation.LOOP_PINGPONG);
 		
-		stateTime = 0f;
+		animationStateTime = 0f;
 		waitTime = 0f;
+		
+		scaleX = 1f;
+		scaleY = 1f;
+		rotation = 0f;
 	}
 	
 	protected TextureAtlas getAtlas() {
@@ -72,20 +79,23 @@ public class Logo extends Widget {
 	}
 	
 	public void act(float delta) {
-		if (logoAnimation.getKeyFrameIndex(stateTime) == logoFrames.length - 1 || logoAnimation.getKeyFrameIndex(stateTime) == 0) {
-			waitTime += Gdx.graphics.getDeltaTime();
+		if (logoAnimation.getKeyFrameIndex(animationStateTime) == logoFrames.length - 1 || logoAnimation.getKeyFrameIndex(animationStateTime) == 0) {
+			waitTime += delta;
 			if (waitTime > 1.55f) {
-				stateTime += Gdx.graphics.getDeltaTime();
+				animationStateTime += delta;
 			}
 		} else {
 			waitTime = 0f;
-			stateTime += Gdx.graphics.getDeltaTime();
+			animationStateTime += delta;
 		}
+		stateTime += delta;
+		rotation = 2 * MathUtils.sin(stateTime * 2);
+		scaleX = scaleY = MathUtils.clamp(2 + MathUtils.sin(stateTime * 4), 0.75f, 1.25f);
 	}
 	
 	public void draw(Batch batch, float parentAlpha) {
-		currentFrame = logoAnimation.getKeyFrame(stateTime, true);
-		batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
+		currentFrame = logoAnimation.getKeyFrame(animationStateTime, true);
+		batch.draw(currentFrame, getX(), getY(), getWidth() / 2, getHeight() / 2, getWidth(), getHeight(), scaleX, scaleY, rotation);
 	}
 		
 }
