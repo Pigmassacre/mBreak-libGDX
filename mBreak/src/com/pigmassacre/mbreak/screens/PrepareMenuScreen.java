@@ -1,34 +1,56 @@
 package com.pigmassacre.mbreak.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 import com.pigmassacre.mbreak.MBreak;
-import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GridMenu;
 import com.pigmassacre.mbreak.gui.Item;
+import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 import com.pigmassacre.mbreak.gui.ListMenu;
+import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Menu;
 import com.pigmassacre.mbreak.gui.RectItem;
+import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.gui.Traversal;
 import com.pigmassacre.mbreak.gui.TweenHelp;
 import com.pigmassacre.mbreak.gui.WidgetAccessor;
-import com.pigmassacre.mbreak.gui.Item.ItemCallback;
-import com.pigmassacre.mbreak.objects.Groups;
 
 public class PrepareMenuScreen extends AbstractScreen {
 
+	Logo logo;
+	Sunrays sunrays;
+	
 	public PrepareMenuScreen(MBreak game) {
+		this(game, null, null);
+	}
+	
+	public PrepareMenuScreen(MBreak game, Logo givenLogo, Sunrays givenSunrays) {
 		super(game);
+		
+		if (givenSunrays == null) {
+			sunrays = new Sunrays();
+		} else {
+			sunrays = givenSunrays;
+		}
+		stage.addActor(sunrays);
+		
+		if (givenLogo == null) {
+			logo = new Logo();
+			logo.setX((Gdx.graphics.getWidth() - logo.getWidth()) / 2);
+			logo.setY(Gdx.graphics.getHeight() + logo.getHeight());
+		} else {
+			logo = givenLogo;
+		}
+		stage.addActor(logo);
+		Tween.to(logo, WidgetAccessor.POSITION_XY, 0.5f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
+			.ease(TweenEquations.easeOutExpo)
+			.start(getTweenManager());
+		
+		sunrays.attachTo(logo, 0, -logo.getHeight() / 6);
 
 		TextItem textItem = new TextItem("Back");
 		textItem.setCallback(new ItemCallback() {
@@ -147,7 +169,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 	}
 	
 	public void back() {
-		game.setScreen(new MainMenuScreen(game, null));
+		game.setScreen(new MainMenuScreen(game, logo, sunrays));
 	}
 	
 	public void start() {

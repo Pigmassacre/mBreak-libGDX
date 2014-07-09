@@ -1,24 +1,23 @@
 package com.pigmassacre.mbreak.screens;
 
-import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.Logo;
+import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
 import com.pigmassacre.mbreak.gui.WidgetAccessor;
 
 public class IntroScreen extends AbstractScreen {
 
 	Logo logo;
+	Sunrays sunrays;
 	TextItem[] introMessage;
 	float stateTime;
 	
@@ -30,6 +29,9 @@ public class IntroScreen extends AbstractScreen {
 	
 	public IntroScreen(MBreak game) {
 		super(game);
+
+		sunrays = new Sunrays();
+		stage.addActor(sunrays);
 		
 		logo = new Logo();
 		logo.setX((Gdx.graphics.getWidth() - logo.getWidth()) / 2);
@@ -38,6 +40,8 @@ public class IntroScreen extends AbstractScreen {
 		Tween.from(logo, WidgetAccessor.POSITION_Y, 1.0f).target(Gdx.graphics.getHeight() + logo.getHeight())
 			.ease(TweenEquations.easeOutBack)
 			.start(getTweenManager());
+		
+		sunrays.attachTo(logo, 0, -logo.getHeight() / 6);
 		
 		createIntroMessage();
 		
@@ -154,7 +158,7 @@ public class IntroScreen extends AbstractScreen {
 	}
 	
 	private void startMainMenu() {
-		game.setScreen(new MainMenuScreen(game, logo));
+		game.setScreen(new MainMenuScreen(game, logo, sunrays));
 	}
 	
 	private class IntroInputProcessor extends InputAdapter {

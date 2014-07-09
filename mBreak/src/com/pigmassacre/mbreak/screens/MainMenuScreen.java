@@ -1,35 +1,39 @@
 package com.pigmassacre.mbreak.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
-import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.Item;
+import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 import com.pigmassacre.mbreak.gui.ListMenu;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Menu;
+import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.gui.Traversal;
 import com.pigmassacre.mbreak.gui.WidgetAccessor;
-import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 
 public class MainMenuScreen extends AbstractScreen {
 	
 	Logo logo;
+	Sunrays sunrays;
 	
-	public MainMenuScreen(MBreak game, Logo givenLogo) {
+	public MainMenuScreen(MBreak game) {
+		this(game, null, null);
+	}
+	
+	public MainMenuScreen(MBreak game, Logo givenLogo, Sunrays givenSunrays) {
 		super(game);
+		
+		if (givenSunrays == null) {
+			sunrays = new Sunrays();
+		} else {
+			sunrays = givenSunrays;
+		}
+		stage.addActor(sunrays);
 		
 		if (givenLogo == null) {
 			logo = new Logo();
@@ -42,6 +46,8 @@ public class MainMenuScreen extends AbstractScreen {
 		Tween.to(logo, WidgetAccessor.POSITION_XY, 0.5f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
+		
+		sunrays.attachTo(logo, 0, -logo.getHeight() / 6);
 		
 		Menu menu = new ListMenu();
 		menu.setX(Gdx.graphics.getWidth() / 2);
@@ -106,7 +112,7 @@ public class MainMenuScreen extends AbstractScreen {
 	}
 
 	public void startPrepareMenu() {
-		game.setScreen(new PrepareMenuScreen(game));
+		game.setScreen(new PrepareMenuScreen(game, logo, sunrays));
 	}
 	
 	public void quit() {
