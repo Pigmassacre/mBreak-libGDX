@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Shadow;
 
 /**
  * Takes care of all the background assets. The background assets will be picked

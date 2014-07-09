@@ -17,6 +17,7 @@ import com.pigmassacre.mbreak.objects.Player;
 import com.pigmassacre.mbreak.objects.powerups.ElectricityPowerup;
 import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
 import com.pigmassacre.mbreak.objects.powerups.FrostPowerup;
+import com.pigmassacre.mbreak.objects.powerups.Powerup;
 import com.pigmassacre.mbreak.objects.powerups.SpeedPowerup;
 
 public class GameScreen extends AbstractScreen {
@@ -39,6 +40,8 @@ public class GameScreen extends AbstractScreen {
 		Settings.LEVEL_MAX_Y = Settings.LEVEL_Y + Settings.LEVEL_HEIGHT;
 
 		Player leftPlayer = new Player("left");
+		leftPlayer.setX(2.5f * Settings.GAME_SCALE);
+		leftPlayer.setY(2.5f * Settings.GAME_SCALE);
 		Groups.playerGroup.addActor(leftPlayer);
 		leftPlayer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 		leftPaddle = new Paddle(leftPlayer);
@@ -58,6 +61,8 @@ public class GameScreen extends AbstractScreen {
 		}
 
 		Player rightPlayer = new Player("right");
+		rightPlayer.setX(Gdx.graphics.getWidth() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
+		rightPlayer.setY(Gdx.graphics.getHeight() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
 		Groups.playerGroup.addActor(rightPlayer);
 		rightPlayer.setColor(1.0f, 0.0f, 1.0f, 1.0f);
 		rightPaddle = new Paddle(rightPlayer);
@@ -75,18 +80,6 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 
-		Random random = new Random();
-		float powerupWidth = Settings.LEVEL_WIDTH / 2 - 8 * Settings.GAME_SCALE;
-		float powerupHeight = Settings.LEVEL_HEIGHT - 8 * Settings.GAME_SCALE;
-		float powerupX = Settings.LEVEL_X + powerupWidth / 2;
-		float powerupY = Settings.LEVEL_Y;
-		for (int i = 0; i < 10; i++) {
-//			new FirePowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-//			new SpeedPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-//			new ElectricityPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-//			new FrostPowerup(powerupX + random.nextFloat() * powerupWidth, powerupY + random.nextFloat() * powerupHeight);
-		}
-
 		stage.addActor(background);
 		stage.addActor(Groups.playerGroup);
 		stage.addActor(Groups.residueGroup);
@@ -96,7 +89,6 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(Groups.powerupGroup);
 		stage.addActor(Groups.ballGroup);
 		stage.addActor(Groups.paddleGroup);
-//		stage.addActor(Groups.effectGroup);
 		stage.addActor(Groups.particleGroup);
 		stage.addActor(foreground);
 	}
@@ -134,7 +126,7 @@ public class GameScreen extends AbstractScreen {
 		Groups.paddleGroup.clear();
 		Groups.blockGroup.clear();
 		Groups.shadowGroup.clear();
-//		Groups.effectGroup.clear();
+		Groups.residueGroup.clear();
 		Groups.powerupGroup.clear();
 		Groups.particleGroup.clear();
 	}

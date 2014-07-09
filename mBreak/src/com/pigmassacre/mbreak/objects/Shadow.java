@@ -2,10 +2,11 @@ package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
 
 public class Shadow extends GameActor implements Poolable {
 
@@ -23,6 +24,8 @@ public class Shadow extends GameActor implements Poolable {
 	
 	public Shadow() {
 		alive = false;
+		offsetX = 0 * Settings.GAME_SCALE;
+		offsetY = -2f * Settings.GAME_SCALE;
 	}
 	
 	public void init(GameActor parentActor, boolean linger) {
@@ -30,9 +33,6 @@ public class Shadow extends GameActor implements Poolable {
 		image = parentActor.image;
 		
 		setColor(0f, 0f, 0f, 0.75f);
-		
-		offsetX = 0 * Settings.GAME_SCALE;
-		offsetY = -2f * Settings.GAME_SCALE;
 		
 		this.linger = linger;
 		
@@ -42,15 +42,21 @@ public class Shadow extends GameActor implements Poolable {
 	}
 	
 	@Override
+	protected void setParent(Group parent) {
+		super.setParent(parent);
+	}
+	
+	@Override
 	public void reset() {
 		if (linger) {
 			Residue residue = Residue.residuePool.obtain();
 			residue.init(this);
 		}
 		alive = false;
-		parentActor = null;
 		remove();
 		clear();
+//		parentActor = null;
+//		image = null;
 	}
 	
 	@Override
@@ -77,12 +83,12 @@ public class Shadow extends GameActor implements Poolable {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		if (parentActor.image != null){
+//		if (parentActor.image != null) {
 			temp = batch.getColor();
 			batch.setColor(getColor());
 			batch.draw(parentActor.image, getX(), getY(), getWidth(), getHeight());
 			batch.setColor(temp);
-		}
+//		}
 	}
 
 }

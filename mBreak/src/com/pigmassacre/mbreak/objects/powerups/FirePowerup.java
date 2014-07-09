@@ -12,8 +12,8 @@ public class FirePowerup extends Powerup {
 	private static final float FIRE_EFFECT_DURATION = 10f;
 	
 	public static final float PARTICLE_SPAWN_RATE = 0.1f;
-	public static final int PARTICLE_LEAST_SPAWN_AMOUNT = 2;
-	public static final int PARTICLE_MAXIMUM_SPAWN_AMOUNT = 4;
+	public static final int PARTICLE_LEAST_SPAWN_AMOUNT = 3;
+	public static final int PARTICLE_MAXIMUM_SPAWN_AMOUNT = 6;
 	
 	private float particleSpawnTime = 0f;
 	
@@ -28,8 +28,14 @@ public class FirePowerup extends Powerup {
 
 	@Override
 	protected void onHit(GameActor actor) {
-		new FireEffect(actor, FIRE_EFFECT_DURATION);
-//		applyEffectToAllBalls(actor, new FireEffect(actor, duration));
+//		new FireEffect(actor, FIRE_EFFECT_DURATION);
+		applyEffectToAllBalls(actor, new EffectCommand() {
+			
+			@Override
+			public void execute(GameActor actor) {
+				new FireEffect(actor, FIRE_EFFECT_DURATION);
+			}
+		});
 	}
 	
 	@Override

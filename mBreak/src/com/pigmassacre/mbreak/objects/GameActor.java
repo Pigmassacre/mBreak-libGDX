@@ -64,43 +64,47 @@ public class GameActor extends Actor {
 	}
 
 	public void destroy() {
-		remove();
-		clear();
-		alive = false;
 		if (shadow != null) {
 			Shadow.shadowPool.free(shadow);
 		}
+		effectGroup.clear();
+		alive = false;
+		remove();
+		clear();
 	}
 
 	public void onHitObject(GameActor object) {
 		if (object instanceof Ball) {
 			onHitBall((Ball) object);
 			for (Actor effect : effectGroup.getChildren()) {
-				((GameActor) effect).onHitBall((Ball) object);
+				((GameActor) effect).onHitObject(object);
+//				((GameActor) effect).onHitBall((Ball) object);
 			}
 		} else if (object instanceof Paddle) {
 			onHitPaddle((Paddle) object);
 			for (Actor effect : effectGroup.getChildren()) {
-				((GameActor) effect).onHitPaddle((Paddle) object);
+				((GameActor) effect).onHitObject(object);
+//				((GameActor) effect).onHitPaddle((Paddle) object);
 			}
 		} else if (object instanceof Block) {
 			onHitBlock((Block) object);
 			for (Actor effect : effectGroup.getChildren()) {
-				((GameActor) effect).onHitBlock((Block) object);
+				((GameActor) effect).onHitObject(object);
+//				((GameActor) effect).onHitBlock((Block) object);
 			}
 		}
 	}
 
 	public void onHitBall(Ball ball) {
-		System.out.println(toString() + ": hit ball: " + ball);
+//		System.out.println(toString() + ": hit ball: " + ball);
 	}
 
 	public void onHitPaddle(Paddle paddle) {
-		System.out.println(toString() + ": hit paddle: " + paddle);
+//		System.out.println(toString() + ": hit paddle: " + paddle);
 	}
 
 	public void onHitBlock(Block block) {
-		System.out.println(toString() + ": hit block: " + block);
+//		System.out.println(toString() + ": hit block: " + block);
 	}
 
 	public enum WallSide {

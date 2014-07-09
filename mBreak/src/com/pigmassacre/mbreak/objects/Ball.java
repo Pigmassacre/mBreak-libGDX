@@ -8,11 +8,12 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.effects.Effect;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
 
-public class Ball extends GameActor {
+public class Ball extends GameActor implements Poolable {
 	
 	private Sound sound;
 	
@@ -20,7 +21,7 @@ public class Ball extends GameActor {
 	
 	private Circle circle;
 	
-	private float damage;
+	private float DAMAGE = 10;
 	
 	private float angle;
 	public float speed, baseSpeed, maxSpeed, tickSpeed, speedStep, speedHandled;
@@ -28,12 +29,15 @@ public class Ball extends GameActor {
 	
 	private float traceTime, traceRate;
 	
-	public Ball(float x, float y, float angle, Player owner, Color color) {
+	public Ball() {
 		super();
-
+		alive = false;
 		image = getAtlas().findRegion("ball");
-		
 		sound = Gdx.audio.newSound(Gdx.files.internal("sound/ball.ogg"));
+	}
+	
+	public void init(float x, float y, float angle, Player owner, Color color) {
+		alive = true;
 		
 		circle = new Circle();
 		
@@ -58,9 +62,12 @@ public class Ball extends GameActor {
 		shadow = Shadow.shadowPool.obtain();
 		shadow.init(this, false);
 		
-		damage = 10;
-		
 		Groups.ballGroup.addActor(this);
+	}
+	
+	@Override
+	public void reset() {
+		destroy();
 	}
 	
 	@Override
@@ -169,7 +176,7 @@ public class Ball extends GameActor {
 		
 		traceTime += delta;
 		if (traceTime > traceRate) {
-			new Trace(this, this.image);
+			new Trace(this);
 			traceTime = 0f;
 		}
 	}
@@ -299,7 +306,7 @@ public class Ball extends GameActor {
 			if (actor instanceof Block) {
 				block = (Block) actor;
 				if (Intersector.overlaps(this.circle, block.rectangle)) {
-					block.damage(damage);
+					block.damage(DAMAGE);
 					onHitObject(block);
 					collided = true;
 					bX = block.rectangle.getX();
@@ -363,6 +370,12 @@ public class Ball extends GameActor {
 	}
 	
 	@Override
+	public void onHitPaddle(Paddle paddle) {
+		owner = paddle.owner;
+		setColor(paddle.owner.getColor());
+	}
+	
+	@Override
 	public void onHitWall(WallSide side) {
 		shootParticlesOnHit(3, 5);
 		for (Actor effect : effectGroup.getChildren()) {
@@ -376,6 +389,15 @@ public class Ball extends GameActor {
 			float angle = this.angle + MathUtils.random(-MathUtils.PI / 6, MathUtils.PI / 6);
 			float speed = MathUtils.random(0.75f * Settings.GAME_FPS * Settings.GAME_SCALE, 0.9f * Settings.GAME_FPS * Settings.GAME_SCALE);
 			float retardation = speed / 12f;
+			Color tempColor = getColor().cpy();
+			Particle particle = Particle.particlePool.obtain();
+			particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
+		}
+		for (int i = 0; i < MathUtils.random(lowBound + 2, highBound + 2); i++) {
+			float width = MathUtils.random(1.25f * Settings.GAME_SCALE, 1.75f * Settings.GAME_SCALE);
+			float angle = MathUtils.random(-MathUtils.PI / 5, MathUtils.PI / 5);
+			float speed = MathUtils.random(0.85f * Settings.GAME_FPS * Settings.GAME_SCALE, 1.1f * Settings.GAME_FPS * Settings.GAME_SCALE);
+			float retardation = speed / 18f;
 			Color tempColor = getColor().cpy();
 			Particle particle = Particle.particlePool.obtain();
 			particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);

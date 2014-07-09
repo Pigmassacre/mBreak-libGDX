@@ -21,10 +21,14 @@ public class Powerup extends GameActor {
 	private float flashTickAmount;
 	private float flashDuration;
 	
+	public boolean isDisplay;
+	
 	public Powerup(float x, float y) {
 		setX(x);
 		setY(y);
 
+		isDisplay = false;
+		
 		startTime = TimeUtils.millis();
 		
 		offsetX = 0f;
@@ -73,12 +77,6 @@ public class Powerup extends GameActor {
 		for (Actor ballActor : Groups.ballGroup.getChildren()) {
 			if (ballActor instanceof Ball) {
 				Ball ball = (Ball) ballActor;
-//				for (Actor effectActor : ball.effectGroup.getChildren()) {
-//					if (effectActor instanceof Effect) {
-//						Effect ballEffect = (Effect) effectActor;
-//						// TODO: Stuff with timeout.						
-//					}
-//				}
 				command.execute(ball);
 			}
 		}
@@ -119,9 +117,13 @@ public class Powerup extends GameActor {
 	
 	@Override
 	public void act(float delta) {
-		stateTime += delta * 1000;
-		offsetX = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetX;
-		offsetY = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetY;
+		if (isDisplay) {
+			offsetX = offsetY = 0;
+		} else {
+			stateTime += delta * 1000;
+			offsetX = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetX;
+			offsetY = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetY;
+		}
 	}
 	
 	@Override

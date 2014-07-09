@@ -33,9 +33,7 @@ public class FrostEffect extends Effect {
 	}
 	
 	@Override
-	public void act(float delta) {
-		super.act(delta);
-		
+	protected void actParticles(float delta) {
 		particleSpawnTime += delta;
 		if (particleSpawnTime >= PARTICLE_SPAWN_RATE) {
 			particleSpawnTime = 0f;
@@ -48,13 +46,13 @@ public class FrostEffect extends Effect {
 				Color tempColor = new Color(MathUtils.random(0, 0.2f), MathUtils.random(0.5f, 1f), MathUtils.random(0.85f, 1f), 1f);
 				Particle particle = Particle.particlePool.obtain();
 				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.03f * Settings.GAME_FPS, tempColor);
-//				activeParticles.add(particle);
 			}
 		}
 	}
 	
 	@Override
-	public void onDestroy() {
+	public void destroy() {
+		super.destroy();
 		if (parentActor instanceof Paddle) {
 			((Paddle) parentActor).maxSpeed += PADDLE_FREEZE_SPEED_REDUCTION;
 		}

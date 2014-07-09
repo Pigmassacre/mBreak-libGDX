@@ -65,7 +65,7 @@ public class Block extends GameActor {
 	public void onHit(float damage) {
 		damage(damage);
 	}
-	
+
 	@Override
 	public void act(float delta) {
 		super.act(delta);

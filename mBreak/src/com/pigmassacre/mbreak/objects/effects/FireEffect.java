@@ -6,14 +6,17 @@ import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Particle;
+import com.pigmassacre.mbreak.objects.Player.PowerupCommand;
+import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
+import com.pigmassacre.mbreak.objects.powerups.Powerup;
 
 public class FireEffect extends Effect {
 
 	public static final float DAMAGE_PER_SECOND = 2f;
 	
 	public static final float PARTICLE_SPAWN_RATE = 0.1f;
-	public static final int PARTICLE_LEAST_SPAWN_AMOUNT = 2;
-	public static final int PARTICLE_MAXIMUM_SPAWN_AMOUNT = 4;
+	public static final int PARTICLE_LEAST_SPAWN_AMOUNT = 3;
+	public static final int PARTICLE_MAXIMUM_SPAWN_AMOUNT = 6;
 	
 	private float particleSpawnTime = 0f;
 	
@@ -23,6 +26,14 @@ public class FireEffect extends Effect {
 	
 	public FireEffect(GameActor parent, float duration) {
 		super(parent, duration);
+//		parent.owner.addPowerup(new PowerupCommand() {
+//			
+//			@Override
+//			public Powerup execute(float x, float y) {
+//				return new FirePowerup(x, y);
+//			}
+//			
+//		}, this);
 	}
 
 	@Override
@@ -38,7 +49,10 @@ public class FireEffect extends Effect {
 		if (parentActor instanceof Block) {
 			((Block) parentActor).damage(DAMAGE_PER_SECOND * delta);
 		}
-		
+	}
+	
+	@Override
+	protected void actParticles(float delta) {
 		particleSpawnTime += delta;
 		if (particleSpawnTime >= PARTICLE_SPAWN_RATE) {
 			particleSpawnTime = 0f;

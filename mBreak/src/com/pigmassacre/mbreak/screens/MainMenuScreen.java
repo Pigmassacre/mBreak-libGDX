@@ -63,31 +63,31 @@ public class MainMenuScreen extends AbstractScreen {
 		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
 		stage.addActor(textItem);
 		
-		textItem = new TextItem("Options");
-		textItem.setCallback(new ItemCallback() {
-
-			@Override
-			public void execute(Object data) {
-				// TODO: Start options menu.
-			}
-			
-		});
-		menu.add(textItem);
-		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(-textItem.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
-		stage.addActor(textItem);
-		
-		textItem = new TextItem("Help");
-		textItem.setCallback(new ItemCallback() {
-
-			@Override
-			public void execute(Object data) {
-				// TODO: Start help menu.
-			}
-			
-		});
-		menu.add(textItem);
-		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
-		stage.addActor(textItem);
+//		textItem = new TextItem("Options");
+//		textItem.setCallback(new ItemCallback() {
+//
+//			@Override
+//			public void execute(Object data) {
+//				// TODO: Start options menu.
+//			}
+//			
+//		});
+//		menu.add(textItem);
+//		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(-textItem.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
+//		stage.addActor(textItem);
+//		
+//		textItem = new TextItem("Help");
+//		textItem.setCallback(new ItemCallback() {
+//
+//			@Override
+//			public void execute(Object data) {
+//				// TODO: Start help menu.
+//			}
+//			
+//		});
+//		menu.add(textItem);
+//		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
+//		stage.addActor(textItem);
 		
 		textItem = new TextItem("Quit");
 		textItem.setCallback(new ItemCallback() {

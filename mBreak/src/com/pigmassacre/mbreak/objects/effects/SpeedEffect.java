@@ -12,7 +12,7 @@ public class SpeedEffect extends Effect {
 	public void act(float delta) {
 		super.act(delta);
 		
-		if (parentActor.owner == realOwner) {
+		if (parentActor.owner == owner) {
 			parentActor.move(delta);
 		}
 	}

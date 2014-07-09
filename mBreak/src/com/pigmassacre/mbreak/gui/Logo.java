@@ -90,7 +90,8 @@ public class Logo extends Widget {
 		}
 		stateTime += delta;
 		rotation = 2 * MathUtils.sin(stateTime * 2);
-		scaleX = scaleY = MathUtils.clamp(2 + MathUtils.sin(stateTime * 4), 0.75f, 1.25f);
+//		scaleX = scaleY = 0.75f + (MathUtils.sin(stateTime) + 1) / 2 * 0.5f;
+		scaleX = scaleY = MathUtils.clamp(2 + MathUtils.sin(stateTime), 0.75f, 1.25f);
 	}
 	
 	public void draw(Batch batch, float parentAlpha) {

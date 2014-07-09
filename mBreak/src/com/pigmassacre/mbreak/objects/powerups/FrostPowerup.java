@@ -7,6 +7,7 @@ import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Particle;
 import com.pigmassacre.mbreak.objects.effects.FrostEffect;
+import com.pigmassacre.mbreak.objects.powerups.Powerup.EffectCommand;
 
 public class FrostPowerup extends Powerup {
 
@@ -17,7 +18,7 @@ public class FrostPowerup extends Powerup {
 
 	private float centerYGrace = 0.25f * Settings.GAME_SCALE;
 	
-	private static final float FROST_EFFECT_DURATION = 5f;
+	private static final float FROST_EFFECT_DURATION = 10f;
 	
 	public static final float PARTICLE_SPAWN_RATE = 0.6f;
 	public static final int PARTICLE_LEAST_SPAWN_AMOUNT = 2;
@@ -46,7 +47,14 @@ public class FrostPowerup extends Powerup {
 
 	@Override
 	protected void onHit(GameActor actor) {
-		new FrostEffect(actor, FROST_EFFECT_DURATION);
+		applyEffectToAllBalls(actor, new EffectCommand() {
+			
+			@Override
+			public void execute(GameActor actor) {
+				new FrostEffect(actor, FROST_EFFECT_DURATION);
+			}
+			
+		});
 	}
 	
 	@Override

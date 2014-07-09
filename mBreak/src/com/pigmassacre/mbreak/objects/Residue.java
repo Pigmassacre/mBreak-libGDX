@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class Residue extends GameActor implements Poolable {
 
-	public static final Pool<Residue> residuePool = new Pool<Residue>() {
+	public static final Pool<Residue> residuePool = new Pool<Residue>(250) {
 
 		protected Residue newObject() {
 			return new Residue();
@@ -26,7 +26,7 @@ public class Residue extends GameActor implements Poolable {
 	
 	public void init(GameActor parentActor) {
 		if (parentActor.image != null) {
-			image = new TextureRegion(parentActor.image);
+			image = parentActor.image;
 			setX(parentActor.getX());
 			setY(parentActor.getY());
 			setWidth(parentActor.getWidth());
@@ -42,6 +42,7 @@ public class Residue extends GameActor implements Poolable {
 	@Override
 	public void reset() {
 		alive = false;
+		image = null;
 		remove();
 		clear();
 	}
@@ -54,6 +55,7 @@ public class Residue extends GameActor implements Poolable {
 			if (getColor().a < 0) {
 				getColor().clamp();
 				residuePool.free(this);
+				return;
 			}
 			getColor().clamp();
 		}

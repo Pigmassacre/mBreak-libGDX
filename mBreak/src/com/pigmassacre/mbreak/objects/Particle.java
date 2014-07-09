@@ -13,7 +13,7 @@ import com.pigmassacre.mbreak.Settings;
 
 public class Particle extends GameActor implements Poolable {
 	
-	public static final Pool<Particle> particlePool = new Pool<Particle>() {
+	public static final Pool<Particle> particlePool = new Pool<Particle>(250) {
 
 		protected Particle newObject() {
 			return new Particle();
@@ -21,7 +21,7 @@ public class Particle extends GameActor implements Poolable {
 
 	};
 	
-	private final Color SHADOW_BLEND_COLOR = new Color(0.4f, 0.4f, 0.4f, 1.0f);
+	private final Color shadowBlendColor = new Color(0.4f, 0.4f, 0.4f, 1.0f);
 	
 	public float angle, speed, retardation;
 	public float alphaStep;
@@ -30,11 +30,11 @@ public class Particle extends GameActor implements Poolable {
 	
 	public Particle() {
 		alive = false;
+		super.image = image;
 	}
 	
 	public void init(float x, float y, float width, float height, float angle, float speed, float retardation, float alphaStep, Color color) {
 		rectangle = new Rectangle(x, y, width, height);
-		super.image = image;
 		setX(x);
 		setY(y);
 		setWidth(width);
@@ -49,8 +49,7 @@ public class Particle extends GameActor implements Poolable {
 		setColor(color);
 		shadow = Shadow.shadowPool.obtain();
 		shadow.init(this, true);
-		shadow.setColor(color.cpy().mul(SHADOW_BLEND_COLOR));
-		shadow.getColor().a = 0.5f;
+		shadow.setColor(color.cpy().mul(shadowBlendColor));
 		
 		Groups.particleGroup.addActor(this);
 		
@@ -59,12 +58,9 @@ public class Particle extends GameActor implements Poolable {
 
 	@Override
 	public void reset() {
-		if (shadow.alive) {
+		if (shadow != null) {
 			Shadow.shadowPool.free(shadow);
 		}
-		speed = 0;
-		setX(0);
-		setY(0);
 		alive = false;
 		remove();
 		clear();
@@ -75,11 +71,13 @@ public class Particle extends GameActor implements Poolable {
 		speed -= retardation * delta;
 		if (speed <= 0) {
 			particlePool.free(this);
+			return;
 		}
 		
 		if (alphaStep > 0) {
 			if (getColor().a - alphaStep * delta < 0) {
 				particlePool.free(this);
+				return;
 			} else {
 				getColor().a -= alphaStep * delta;
 			}
@@ -93,6 +91,7 @@ public class Particle extends GameActor implements Poolable {
 				|| rectangle.y <= Settings.LEVEL_Y
 				|| rectangle.y + rectangle.height >= Settings.LEVEL_MAX_Y) {
 			particlePool.free(this);
+			return;
 		}
 	}
 	

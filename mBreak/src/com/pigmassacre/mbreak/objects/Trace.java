@@ -9,13 +9,12 @@ public class Trace extends GameActor {
 
 	private float alphaStep = 0.06f * Settings.GAME_FPS;
 	
-	private Shadow shadow;
 	private Color shadowBlendColor = new Color(0.4f, 0.4f, 0.4f, 1.0f);
 	
-	public Trace(GameActor parentActor, TextureRegion image) {
+	public Trace(GameActor parentActor) {
 		this.parentActor = parentActor;
-		setColor(new Color(parentActor.getColor()));
-		this.image = image;
+		setColor(parentActor.getColor().cpy());
+		this.image = parentActor.image;
 		
 		setX(parentActor.getX());
 		setY(parentActor.getY());
@@ -27,13 +26,6 @@ public class Trace extends GameActor {
 		shadow.getColor().mul(shadowBlendColor);
 		
 		Groups.traceGroup.addActor(this);
-	}
-
-	public void destroy() {
-		remove();
-		clear();
-		shadow.remove();
-		shadow.clear();
 	}
 	
 	@Override

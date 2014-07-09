@@ -1,5 +1,8 @@
 package com.pigmassacre.mbreak.objects.effects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -8,32 +11,30 @@ import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Paddle;
 import com.pigmassacre.mbreak.objects.Particle;
 import com.pigmassacre.mbreak.objects.Player;
+import com.pigmassacre.mbreak.objects.powerups.Powerup;
 
 public class Effect extends GameActor {
 
 	protected GameActor parentActor;
-	protected Player realOwner;
 
 	protected float duration;
 
-	// private List<Powerup> connectedPowerups;
+	public List<Powerup> connectedPowerups;
 
 	public Effect(Effect effect) {
 		this(effect.parentActor, effect.duration);
 	}
 
-	public Effect(GameActor parent, float duration) {
-		this.parentActor = parent;
+	public Effect(GameActor parentActor, float duration) {
+		this.parentActor = parentActor;
 		this.owner = this.parentActor.owner;
-		this.realOwner = this.parentActor.owner;
 		this.duration = duration;
 
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
-		// connectedPowerups = new ArrayList<Powerup>();
+		connectedPowerups = new ArrayList<Powerup>();
 
 		this.parentActor.effectGroup.addActor(this);
-		// Groups.effectGroup.addActor(this);
 	}
 
 	@Override
@@ -45,8 +46,14 @@ public class Effect extends GameActor {
 		if (stateTime >= duration) {
 			destroy();
 		}
-
-		// System.out.println(particlePool.getFree());
+		
+		if (parentActor.owner == owner) {
+			actParticles(delta);
+		}
+	}
+	
+	protected void actParticles(float delta) {
+		
 	}
 
 	@Override
@@ -59,20 +66,10 @@ public class Effect extends GameActor {
 	@Override
 	public void destroy() {
 		super.destroy();
-		// for (Powerup powerup : connectedPowerups)
-		// powerup.destroy(false);
+		for (Powerup powerup : connectedPowerups) {
+			powerup.destroy();
+		}
 		this.parentActor.effectGroup.removeActor(this);
-//		Groups.effectGroup.removeActor(this);
-		onDestroy();
-	}
-
-	public void onDestroy() {
-
-	}
-
-	@Override
-	public void onHitPaddle(Paddle paddle) {
-		owner = paddle.owner;
 	}
 
 }
