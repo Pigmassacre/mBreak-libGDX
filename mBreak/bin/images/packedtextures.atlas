@@ -19,77 +19,77 @@ ai_hard
   index: -1
 ball
   rotate: false
-  xy: 41, 131
-  size: 6, 6
-  orig: 6, 6
+  xy: 2, 2
+  size: 6, 7
+  orig: 6, 7
   offset: 0, 0
   index: -1
 block
-  rotate: false
-  xy: 2, 16
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
-  index: -1
-block2
   rotate: false
   xy: 12, 42
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: -1
+block2
+  rotate: false
+  xy: 41, 137
+  size: 6, 12
+  orig: 6, 12
+  offset: 0, 0
+  index: -1
 block3
   rotate: false
-  xy: 41, 139
+  xy: 49, 163
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
   index: -1
 block_normal
   rotate: false
-  xy: 49, 163
-  size: 6, 12
-  orig: 6, 12
+  xy: 2, 11
+  size: 6, 14
+  orig: 6, 14
   offset: 0, 0
   index: 1
 block_normal
+  rotate: false
+  xy: 2, 11
+  size: 6, 14
+  orig: 6, 14
+  offset: 0, 0
+  index: 3
+block_normal
+  rotate: false
+  xy: 2, 11
+  size: 6, 14
+  orig: 6, 14
+  offset: 0, 0
+  index: 2
+block_strong
   rotate: false
   xy: 644, 725
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
-  index: 2
-block_normal
+  index: 1
+block_strong
   rotate: false
   xy: 658, 739
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
-  index: 3
+  index: 2
 block_strong
   rotate: false
   xy: 710, 791
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
-  index: 1
-block_strong
-  rotate: false
-  xy: 724, 805
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
-  index: 2
-block_strong
-  rotate: false
-  xy: 2, 2
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
   index: 3
 block_weak
   rotate: false
-  xy: 20, 42
+  xy: 724, 805
   size: 6, 12
   orig: 6, 12
   offset: 0, 0
@@ -103,37 +103,37 @@ cheatysunrays
   index: -1
 doublespeed
   rotate: false
-  xy: 12, 32
-  size: 8, 8
-  orig: 8, 8
+  xy: 20, 45
+  size: 8, 9
+  orig: 8, 9
   offset: 0, 0
   index: -1
 electricity
   rotate: false
-  xy: 57, 167
-  size: 8, 8
-  orig: 8, 8
+  xy: 57, 166
+  size: 8, 9
+  orig: 8, 9
   offset: 0, 0
   index: -1
 enlarger
-  rotate: false
-  xy: 652, 729
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-fire
   rotate: false
   xy: 666, 743
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
+fire
+  rotate: false
+  xy: 652, 728
+  size: 8, 9
+  orig: 8, 9
+  offset: 0, 0
+  index: -1
 frost
   rotate: false
-  xy: 2, 30
-  size: 8, 24
-  orig: 8, 24
+  xy: 2, 27
+  size: 8, 27
+  orig: 8, 27
   offset: 0, 0
   index: -1
 mBreak_title
@@ -152,14 +152,14 @@ multiball
   index: -1
 paddle
   rotate: false
-  xy: 41, 153
-  size: 6, 22
-  orig: 6, 22
+  xy: 41, 151
+  size: 6, 24
+  orig: 6, 24
   offset: 0, 0
   index: -1
 particle
   rotate: false
-  xy: 49, 160
+  xy: 12, 39
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
@@ -173,7 +173,7 @@ reducer
   index: -1
 rocket
   rotate: false
-  xy: 28, 46
+  xy: 30, 46
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -187,6 +187,74 @@ sunray
   index: -1
 
 packedtextures-2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+glass/corner_bottom_left
+  rotate: false
+  xy: 180, 97
+  size: 2, 7
+  orig: 2, 7
+  offset: 0, 0
+  index: -1
+glass/corner_bottom_right
+  rotate: false
+  xy: 366, 115
+  size: 2, 7
+  orig: 2, 7
+  offset: 0, 0
+  index: -1
+glass/corner_top_left
+  rotate: false
+  xy: 180, 88
+  size: 2, 7
+  orig: 2, 7
+  offset: 0, 0
+  index: -1
+glass/corner_top_right
+  rotate: false
+  xy: 184, 97
+  size: 2, 7
+  orig: 2, 7
+  offset: 0, 0
+  index: -1
+glass/floor
+  rotate: false
+  xy: 2, 2
+  size: 176, 120
+  orig: 176, 120
+  offset: 0, 0
+  index: -1
+glass/wall_horizontal_bottom
+  rotate: false
+  xy: 180, 115
+  size: 176, 7
+  orig: 176, 7
+  offset: 0, 0
+  index: -1
+glass/wall_horizontal_top
+  rotate: false
+  xy: 180, 106
+  size: 176, 7
+  orig: 176, 7
+  offset: 0, 0
+  index: -1
+glass/wall_vertical_left
+  rotate: false
+  xy: 358, 2
+  size: 2, 120
+  orig: 2, 120
+  offset: 0, 0
+  index: -1
+glass/wall_vertical_right
+  rotate: false
+  xy: 362, 2
+  size: 2, 120
+  orig: 2, 120
+  offset: 0, 0
+  index: -1
+
+packedtextures-3.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none

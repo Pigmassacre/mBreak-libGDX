@@ -2,11 +2,11 @@ package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
 
 public class Shadow extends GameActor implements Poolable {
 
@@ -24,15 +24,15 @@ public class Shadow extends GameActor implements Poolable {
 	
 	public Shadow() {
 		alive = false;
-		offsetX = 0 * Settings.GAME_SCALE;
-		offsetY = -2f * Settings.GAME_SCALE;
+		offsetX = 0f * Settings.GAME_SCALE;
+		offsetY = -0.5f * Settings.GAME_SCALE;
 	}
 	
 	public void init(GameActor parentActor, boolean linger) {
 		this.parentActor = parentActor;
 		image = parentActor.image;
 		
-		setColor(0f, 0f, 0f, 0.75f);
+		setColor(0f, 0f, 0f, 0.5f);
 		
 		this.linger = linger;
 		
@@ -55,18 +55,16 @@ public class Shadow extends GameActor implements Poolable {
 		alive = false;
 		remove();
 		clear();
-//		parentActor = null;
-//		image = null;
 	}
 	
 	@Override
 	public float getX() {
-		return parentActor.getX() + offsetX;
+		return parentActor.getX() + offsetX * parentActor.getZ();
 	}
 	
 	@Override
 	public float getY() {
-		return parentActor.getY() + offsetY;
+		return parentActor.getY() + offsetY * parentActor.getZ() - parentActor.getDepth();
 	}
 	
 	@Override
@@ -79,16 +77,22 @@ public class Shadow extends GameActor implements Poolable {
 		return parentActor.getHeight();
 	}
 	
+//	@Override
+//	public void act(float delta) {
+//		super.act(delta);
+////		stateTime += delta;
+////		offsetX = MathUtils.sin(stateTime) * 0.5f * Settings.GAME_SCALE;
+////		offsetY = MathUtils.sin(stateTime * 2) * -0.5f * Settings.GAME_SCALE;
+//	}
+	
 	private Color temp;
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-//		if (parentActor.image != null) {
-			temp = batch.getColor();
-			batch.setColor(getColor());
-			batch.draw(parentActor.image, getX(), getY(), getWidth(), getHeight());
-			batch.setColor(temp);
-//		}
+		temp = batch.getColor();
+		batch.setColor(getColor());
+		batch.draw(parentActor.image, getX(), getY(), getWidth(), getHeight());
+		batch.setColor(temp);
 	}
 
 }

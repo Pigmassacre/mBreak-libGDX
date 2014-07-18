@@ -13,8 +13,9 @@ public class SpeedPowerup extends Powerup {
 
 		image = getAtlas().findRegion("doublespeed");
 		
+		setDepth(1 * Settings.GAME_SCALE);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
+		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
 	}
 
 	@Override

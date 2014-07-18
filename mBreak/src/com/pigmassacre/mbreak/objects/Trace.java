@@ -16,8 +16,10 @@ public class Trace extends GameActor {
 		setColor(parentActor.getColor().cpy());
 		this.image = parentActor.image;
 		
+		setDepth(parentActor.getDepth());
 		setX(parentActor.getX());
 		setY(parentActor.getY());
+		setZ(parentActor.getZ());
 		setWidth(parentActor.getWidth());
 		setHeight(parentActor.getHeight());
 		
@@ -47,7 +49,7 @@ public class Trace extends GameActor {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY(), getWidth(), getHeight());
+		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 	}
 	

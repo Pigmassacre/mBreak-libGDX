@@ -16,7 +16,7 @@ public class Sunrays extends Widget {
 	private float rotation;
 	
 	private Widget target;
-	private float offsetX, offsetY;
+	public float offsetX, offsetY;
 	
 	public Sunrays() {
 		image = getAtlas().findRegion("cheatysunrays");
@@ -47,8 +47,10 @@ public class Sunrays extends Widget {
 	}
 	
 	public void act(float delta) {
-		setX(target.getX() + target.getWidth() / 2 - getWidth() / 2 + offsetX);
-		setY(target.getY() + target.getHeight() / 2 - getHeight() / 2 + offsetY);
+		if (target != null) {
+			setX(target.getX() + target.getWidth() / 2 - getWidth() / 2);
+			setY(target.getY() + target.getHeight() / 2 - getHeight() / 2);
+		}
 		
 		rotation += delta * 6;
 	}
@@ -59,7 +61,7 @@ public class Sunrays extends Widget {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY(), getWidth() / 2, getHeight() / 2, getWidth(), getHeight(), 1f, 1f, rotation);
+		batch.draw(image, getX() + offsetX, getY() + offsetY, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(), 1f, 1f, rotation);
 		batch.setColor(temp);
 	}
 	

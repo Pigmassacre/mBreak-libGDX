@@ -40,11 +40,13 @@ public class Ball extends GameActor implements Poolable {
 		alive = true;
 		
 		circle = new Circle();
-		
+	
+		setDepth(1 * Settings.GAME_SCALE);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
+		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
 		setX(x);
 		setY(y);
+		setZ(3);
 		
 		this.angle = angle;
 		
@@ -101,6 +103,9 @@ public class Ball extends GameActor implements Poolable {
 	
 	@Override
 	public void move(float delta) {
+		stateTime += delta;
+		setZ(((MathUtils.sin(stateTime * 10) + 1) / 2) * 5); 
+		
 		speedHandled = 0f;
 		while (speedHandled < speed) {
 			if (speed - speedHandled >= speedStep) {
@@ -391,7 +396,7 @@ public class Ball extends GameActor implements Poolable {
 			float retardation = speed / 12f;
 			Color tempColor = getColor().cpy();
 			Particle particle = Particle.particlePool.obtain();
-			particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
+			particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 - getDepth() + getZ(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
 		}
 		for (int i = 0; i < MathUtils.random(lowBound + 2, highBound + 2); i++) {
 			float width = MathUtils.random(1.25f * Settings.GAME_SCALE, 1.75f * Settings.GAME_SCALE);
@@ -400,7 +405,7 @@ public class Ball extends GameActor implements Poolable {
 			float retardation = speed / 18f;
 			Color tempColor = getColor().cpy();
 			Particle particle = Particle.particlePool.obtain();
-			particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
+			particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 - getDepth() + getZ(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
 		}
 	}
 	
@@ -410,7 +415,7 @@ public class Ball extends GameActor implements Poolable {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY(), getWidth(), getHeight());
+		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 	}
 	

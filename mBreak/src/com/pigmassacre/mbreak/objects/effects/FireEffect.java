@@ -70,7 +70,7 @@ public class FireEffect extends Effect {
 					tempColor = new Color(temp, temp, temp, 1f);
 				}
 				Particle particle = Particle.particlePool.obtain();
-				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2, width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
+				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 - getDepth() + getZ(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
 			}
 		}
 	}

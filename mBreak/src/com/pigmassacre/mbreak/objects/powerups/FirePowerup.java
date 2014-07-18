@@ -22,13 +22,13 @@ public class FirePowerup extends Powerup {
 
 		image = getAtlas().findRegion("fire");
 		
+		setDepth(1 * Settings.GAME_SCALE);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
+		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
 	}
 
 	@Override
 	protected void onHit(GameActor actor) {
-//		new FireEffect(actor, FIRE_EFFECT_DURATION);
 		applyEffectToAllBalls(actor, new EffectCommand() {
 			
 			@Override
@@ -59,7 +59,7 @@ public class FirePowerup extends Powerup {
 					tempColor = new Color(temp, temp, temp, 1f);
 				}
 				Particle particle = Particle.particlePool.obtain();
-				particle.init(getX() + getWidth() / 2 + offsetX, getY() + getHeight() / 2 + offsetY, width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
+				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 - getDepth() + getZ(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
 			}
 		}
 	}

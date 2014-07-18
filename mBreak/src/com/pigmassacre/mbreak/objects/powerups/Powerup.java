@@ -1,6 +1,7 @@
 package com.pigmassacre.mbreak.objects.powerups;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.pigmassacre.mbreak.Settings;
@@ -10,13 +11,13 @@ import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Shadow;
 import com.pigmassacre.mbreak.objects.effects.Effect;
-import com.pigmassacre.mbreak.objects.effects.FireEffect;
 
 public class Powerup extends GameActor {
 
 	private float startTime;
-	protected float offsetX, offsetY;
-	protected float maxOffsetX, maxOffsetY;
+//	protected float offsetX, offsetY;
+//	protected float maxOffsetX, maxOffsetY;
+	private float maxZ;
 	
 	private float flashTickAmount;
 	private float flashDuration;
@@ -24,17 +25,20 @@ public class Powerup extends GameActor {
 	public boolean isDisplay;
 	
 	public Powerup(float x, float y) {
+		setDepth(2);
 		setX(x);
 		setY(y);
+		setZ(3);
 
 		isDisplay = false;
 		
-		startTime = TimeUtils.millis();
+		startTime = TimeUtils.millis() * 0.00001f;
 		
-		offsetX = 0f;
-		offsetY = 0f;
-		maxOffsetX = 0f;
-		maxOffsetY = 0.5f * Settings.GAME_SCALE;
+		maxZ = 5;
+//		offsetX = 0f;
+//		offsetY = 0f;
+//		maxOffsetX = 0f * Settings.GAME_SCALE;
+//		maxOffsetY = 0f * Settings.GAME_SCALE;
 		
 		flashTickAmount = 18f * Settings.GAME_FPS;
 		flashDuration = 1f;
@@ -118,17 +122,19 @@ public class Powerup extends GameActor {
 	@Override
 	public void act(float delta) {
 		if (isDisplay) {
-			offsetX = offsetY = 0;
+//			offsetX = offsetY = 0;
 		} else {
-			stateTime += delta * 1000;
-			offsetX = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetX;
-			offsetY = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetY;
+			stateTime += delta;
+			setZ(((MathUtils.sinDeg(startTime + stateTime * 250f) + 1) / 2) * maxZ);
+//			offsetX = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetX;
+//			offsetY = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetY;
 		}
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(image, getX() + offsetX, getY() + offsetY, getWidth(), getHeight());
+//		System.out.println(getZ());
+		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
 	}
 	
 }

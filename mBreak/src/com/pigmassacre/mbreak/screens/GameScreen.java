@@ -1,24 +1,19 @@
 package com.pigmassacre.mbreak.screens;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.DebugInput;
+import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Paddle;
 import com.pigmassacre.mbreak.objects.Player;
-import com.pigmassacre.mbreak.objects.powerups.ElectricityPowerup;
-import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
-import com.pigmassacre.mbreak.objects.powerups.FrostPowerup;
-import com.pigmassacre.mbreak.objects.powerups.Powerup;
-import com.pigmassacre.mbreak.objects.powerups.SpeedPowerup;
 
 public class GameScreen extends AbstractScreen {
 
@@ -28,9 +23,15 @@ public class GameScreen extends AbstractScreen {
 
 	public GameScreen(MBreak game) {
 		super(game);
+		
+		Sunrays sunrays = new Sunrays();
+		sunrays.setX(Gdx.graphics.getWidth() / 2 - sunrays.getWidth() / 2);
+		sunrays.setY(Gdx.graphics.getHeight() / 2 - sunrays.getHeight() / 2);
+		sunrays.offsetY = - 3 * Settings.GAME_SCALE;
+		stage.addActor(sunrays);
 
-		background = new Background("planks");
-		foreground = new Foreground("planks");
+		background = new Background("glass");
+		foreground = new Foreground("glass");
 
 		Settings.LEVEL_WIDTH = background.getWidth();
 		Settings.LEVEL_HEIGHT = background.getHeight();
@@ -55,7 +56,7 @@ public class GameScreen extends AbstractScreen {
 		Block tempBlock = new Block(0, 0, new Player("temp"), new Color(Color.BLACK));
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
-				new Block(Settings.LEVEL_X + x * tempBlock.getWidth(), Settings.LEVEL_Y + (y * tempBlock.getHeight()), leftPlayer,
+				new Block(Settings.LEVEL_X + x * tempBlock.getWidth(), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()), leftPlayer,
 						leftPlayer.getColor());
 			}
 		}
@@ -75,11 +76,13 @@ public class GameScreen extends AbstractScreen {
 
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
-				new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_Y + (y * tempBlock.getHeight()),
+				new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()),
 						rightPlayer, rightPlayer.getColor());
 			}
 		}
 
+		tempBlock.destroy();
+		
 		stage.addActor(background);
 		stage.addActor(Groups.playerGroup);
 		stage.addActor(Groups.residueGroup);
@@ -92,7 +95,13 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(Groups.particleGroup);
 		stage.addActor(foreground);
 	}
-
+	
+	@Override
+	public void renderClearScreen(float delta) {
+		Gdx.gl.glClearColor(1f, 0.25f, 0.25f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
+	
 	@Override
 	public void show() {
 		getInputMultiplexer().addProcessor(new InputAdapter() {

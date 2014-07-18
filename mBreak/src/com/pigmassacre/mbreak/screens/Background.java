@@ -17,13 +17,14 @@ import com.pigmassacre.mbreak.Settings;
 public class Background extends Actor {
 
 	private TextureAtlas atlas;
-	private TextureRegion background;
+	private TextureRegion background, horizontalWallTop;
 	
 	public Background(String id) {
+		horizontalWallTop = getAtlas().findRegion(id + "/wall_horizontal_top");
 		background = getAtlas().findRegion(id + "/floor");
 		
 		setX((Gdx.graphics.getWidth() - background.getRegionWidth() * Settings.GAME_SCALE) / 2);
-		setY((Gdx.graphics.getHeight() - background.getRegionHeight() * Settings.GAME_SCALE) / 2);
+		setY((Gdx.graphics.getHeight() - background.getRegionHeight() * Settings.GAME_SCALE) / 2 - 3 * Settings.GAME_SCALE);
 		setWidth(background.getRegionWidth() * Settings.GAME_SCALE);
 		setHeight(background.getRegionHeight() * Settings.GAME_SCALE);
 	}
@@ -36,6 +37,7 @@ public class Background extends Actor {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		batch.draw(horizontalWallTop, getX(), getY() + getHeight(), horizontalWallTop.getRegionWidth() * Settings.GAME_SCALE, horizontalWallTop.getRegionHeight() * Settings.GAME_SCALE);
 		batch.draw(background, getX(), getY(), getWidth(), getHeight());
 	}
 	

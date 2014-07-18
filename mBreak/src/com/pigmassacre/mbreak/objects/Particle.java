@@ -37,6 +37,7 @@ public class Particle extends GameActor implements Poolable {
 		rectangle = new Rectangle(x, y, width, height);
 		setX(x);
 		setY(y);
+		setZ(3);
 		setWidth(width);
 		setHeight(height);
 		
@@ -102,7 +103,7 @@ public class Particle extends GameActor implements Poolable {
 		if (alive) {
 			temp = batch.getColor();
 			batch.setColor(getColor());
-			batch.draw(image, getX(), getY(), getWidth(), getHeight());
+			batch.draw(image, getX(), getY() + getZ(), getWidth(), getHeight());
 			batch.setColor(temp);
 		}
 	}

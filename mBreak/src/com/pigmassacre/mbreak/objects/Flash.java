@@ -23,8 +23,10 @@ public class Flash extends Effect {
 		
 		image = parent.image;
 		
+		setDepth(parent.getDepth());
 		setX(parent.getX());
 		setY(parent.getY());
+		setZ(parent.getZ());
 		setWidth(parent.getWidth());
 		setHeight(parent.getHeight());
 		
@@ -78,7 +80,7 @@ public class Flash extends Effect {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = new Color(batch.getColor());
 		batch.setColor(currentColor);
-		batch.draw(image, getX(), getY(), getWidth(), getHeight());
+		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 	}
 	

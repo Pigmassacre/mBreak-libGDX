@@ -18,14 +18,13 @@ import com.pigmassacre.mbreak.objects.Shadow;
 public class Foreground extends Actor {
 
 	private TextureAtlas atlas;
-	private TextureRegion verticalWallLeft, verticalWallRight, horizontalWallTop, horizontalWallBottom;
+	private TextureRegion verticalWallLeft, verticalWallRight, horizontalWallBottom;
 	private TextureRegion topLeftCorner, bottomLeftCorner, topRightCorner, bottomRightCorner;
 	
 	public Foreground(String id) {
 		TextureRegion background = getAtlas().findRegion(id + "/floor");
 		verticalWallLeft = getAtlas().findRegion(id + "/wall_vertical_left");
 		verticalWallRight = getAtlas().findRegion(id + "/wall_vertical_right");
-		horizontalWallTop = getAtlas().findRegion(id + "/wall_horizontal_top");
 		horizontalWallBottom = getAtlas().findRegion(id + "/wall_horizontal_bottom");
 		topLeftCorner = getAtlas().findRegion(id + "/corner_top_left");
 		bottomLeftCorner = getAtlas().findRegion(id + "/corner_bottom_left");
@@ -46,14 +45,13 @@ public class Foreground extends Actor {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(horizontalWallBottom, getX(), getY() - horizontalWallBottom.getRegionHeight() * Settings.GAME_SCALE, horizontalWallBottom.getRegionWidth() * Settings.GAME_SCALE, horizontalWallBottom.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(horizontalWallTop, getX(), getY() + getHeight(), horizontalWallTop.getRegionWidth() * Settings.GAME_SCALE, horizontalWallTop.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(verticalWallLeft, getX() - verticalWallLeft.getRegionWidth() * Settings.GAME_SCALE, getY(), verticalWallLeft.getRegionWidth() * Settings.GAME_SCALE, verticalWallLeft.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(verticalWallRight, getX() + getWidth(), getY(), verticalWallRight.getRegionWidth() * Settings.GAME_SCALE, verticalWallRight.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(topLeftCorner, getX() - topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, getY() + getHeight(), topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, topLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(bottomLeftCorner, getX() - bottomLeftCorner.getRegionWidth() * Settings.GAME_SCALE, getY() - bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE, bottomLeftCorner.getRegionWidth() * Settings.GAME_SCALE, bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(topRightCorner, getX() + getWidth(), getY() + getHeight(), topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, topLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
-		batch.draw(bottomRightCorner, getX() + getWidth(), getY() - bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE, bottomLeftCorner.getRegionWidth() * Settings.GAME_SCALE, bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(horizontalWallBottom, getX(), getY() - 4 * Settings.GAME_SCALE, horizontalWallBottom.getRegionWidth() * Settings.GAME_SCALE, horizontalWallBottom.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(verticalWallLeft, getX() - verticalWallLeft.getRegionWidth() * Settings.GAME_SCALE, getY() + 3 * Settings.GAME_SCALE, verticalWallLeft.getRegionWidth() * Settings.GAME_SCALE, verticalWallLeft.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(verticalWallRight, getX() + getWidth(), getY() + 3 * Settings.GAME_SCALE, verticalWallRight.getRegionWidth() * Settings.GAME_SCALE, verticalWallRight.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(topLeftCorner, getX() - topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, getY() + getHeight() - 3 * Settings.GAME_SCALE, topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, topLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(bottomLeftCorner, getX() - bottomLeftCorner.getRegionWidth() * Settings.GAME_SCALE, getY() - bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE + 3 * Settings.GAME_SCALE, bottomLeftCorner.getRegionWidth() * Settings.GAME_SCALE, bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(topRightCorner, getX() + getWidth(), getY() + getHeight() - 3 * Settings.GAME_SCALE, topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, topLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
+		batch.draw(bottomRightCorner, getX() + getWidth(), getY() - bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE + 3 * Settings.GAME_SCALE, bottomLeftCorner.getRegionWidth() * Settings.GAME_SCALE, bottomLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
 	}
 	
 }

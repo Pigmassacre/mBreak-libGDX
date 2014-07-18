@@ -7,7 +7,6 @@ import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Particle;
 import com.pigmassacre.mbreak.objects.effects.FrostEffect;
-import com.pigmassacre.mbreak.objects.powerups.Powerup.EffectCommand;
 
 public class FrostPowerup extends Powerup {
 
@@ -16,7 +15,8 @@ public class FrostPowerup extends Powerup {
 
 	private TextureRegion[] frames;
 
-	private float centerYGrace = 0.25f * Settings.GAME_SCALE;
+	private float maxZGrace = 4;
+	private float minZGrace = 1;
 	
 	private static final float FROST_EFFECT_DURATION = 10f;
 	
@@ -40,9 +40,10 @@ public class FrostPowerup extends Powerup {
 			}
 		}
 		image = frames[0];
-
+		
+		setDepth(1 * Settings.GAME_SCALE);
 		setWidth((sheet.getRegionWidth() / FRAME_COLS) * Settings.GAME_SCALE);
-		setHeight((sheet.getRegionHeight() / FRAME_ROWS) * Settings.GAME_SCALE);
+		setHeight((sheet.getRegionHeight() / FRAME_ROWS) * Settings.GAME_SCALE - getDepth());
 	}
 
 	@Override
@@ -61,9 +62,9 @@ public class FrostPowerup extends Powerup {
 	public void act(float delta) {
 		super.act(delta);
 
-		if (offsetY < -centerYGrace) {
+		if (getZ() < minZGrace) {
 			image = frames[0];
-		} else if (offsetY > centerYGrace) {
+		} else if (getZ() > maxZGrace) {
 			image = frames[2];
 		} else {
 			image = frames[1];
@@ -80,7 +81,7 @@ public class FrostPowerup extends Powerup {
 				float retardation = speed / 52f;
 				Color tempColor = new Color(MathUtils.random(0, 0.2f), MathUtils.random(0.5f, 1f), MathUtils.random(0.85f, 1f), 1f);
 				Particle particle = Particle.particlePool.obtain();
-				particle.init(getX() + getWidth() / 2 + offsetX, getY() + getHeight() / 2 + offsetY, width, width, angle, speed, retardation, 0.03f * Settings.GAME_FPS, tempColor);
+				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 - getDepth() + getZ(), width, width, angle, speed, retardation, 0.03f * Settings.GAME_FPS, tempColor);
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.pigmassacre.mbreak.Settings;
 
 public class Block extends GameActor {	
@@ -22,10 +23,12 @@ public class Block extends GameActor {
 		else
 			image = getAtlas().findRegion("block_normal", 3);
 		
+		setDepth(2 * Settings.GAME_SCALE);
+		
 		setX(x);
 		setY(y);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
+		setHeight(image.getRegionHeight()* Settings.GAME_SCALE - getDepth());
 		
 		rectangle.set(getX(), getY(), getWidth(), getHeight());
 				
@@ -66,9 +69,15 @@ public class Block extends GameActor {
 		damage(damage);
 	}
 
+	public float startTime = MathUtils.random() * 100000f;
+	
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		
+		stateTime += delta;
+		setZ(((MathUtils.sin(startTime + stateTime * 10) + 1) / 2) * 5); 
+		
 		if (health <= 0) {
 			destroy();
 		}
@@ -80,7 +89,7 @@ public class Block extends GameActor {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = new Color(batch.getColor());
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY(), getWidth(), getHeight());
+		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 	}
 	

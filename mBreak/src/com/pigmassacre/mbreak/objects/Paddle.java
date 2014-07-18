@@ -1,15 +1,10 @@
 package com.pigmassacre.mbreak.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.pigmassacre.mbreak.Settings;
 
 public class Paddle extends GameActor {
@@ -39,8 +34,9 @@ public class Paddle extends GameActor {
 		
 		image = getAtlas().findRegion("paddle");
 		
+		setDepth(2 * Settings.GAME_SCALE);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE);
+		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
 		
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		
@@ -148,7 +144,7 @@ public class Paddle extends GameActor {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = new Color(batch.getColor());
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY(), getWidth(), getHeight());
+		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 	}
 }

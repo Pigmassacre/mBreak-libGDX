@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.pigmassacre.mbreak.objects.effects.Effect;
 
 public class GameActor extends Actor {
 
@@ -17,6 +15,9 @@ public class GameActor extends Actor {
 	private TextureAtlas atlas;
 	protected TextureRegion image;
 
+	private float z;
+	private float depth;
+	
 	public Rectangle rectangle;
 	protected Shadow shadow;
 
@@ -31,6 +32,7 @@ public class GameActor extends Actor {
 		stateTime = 0f;
 		effectGroup = new Group();
 		alive = true;
+		setZ(3);
 	}
 
 	@Override
@@ -44,6 +46,14 @@ public class GameActor extends Actor {
 		super.setY(y);
 		rectangle.y = y;
 	}
+	
+	public float getZ() {
+		return z;
+	}
+	
+	public void setZ(float z) {
+		this.z = z;
+	}
 
 	@Override
 	public void setWidth(float width) {
@@ -55,6 +65,14 @@ public class GameActor extends Actor {
 	public void setHeight(float height) {
 		super.setHeight(height);
 		rectangle.height = height;
+	}
+	
+	public float getDepth() {
+		return depth;
+	}
+	
+	public void setDepth(float depth) {
+		this.depth = depth;
 	}
 
 	protected TextureAtlas getAtlas() {
