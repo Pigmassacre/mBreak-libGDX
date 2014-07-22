@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.Assets;
+import com.pigmassacre.mbreak.objects.Flash;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Particle;
 import com.pigmassacre.mbreak.objects.effects.FireEffect;
@@ -60,7 +61,7 @@ public class FirePowerup extends Powerup {
 					tempColor = new Color(temp, temp, temp, 1f);
 				}
 				Particle particle = Particle.particlePool.obtain();
-				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 - getDepth() + getZ(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
+				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 + Settings.getLevelYOffset() + getZ(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
 			}
 		}
 	}

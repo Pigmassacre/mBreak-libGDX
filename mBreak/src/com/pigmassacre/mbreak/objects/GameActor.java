@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.pigmassacre.mbreak.Settings;
 
 public class GameActor extends Actor {
 
@@ -30,7 +31,7 @@ public class GameActor extends Actor {
 		stateTime = 0f;
 		effectGroup = new Group();
 		alive = true;
-		setZ(3);
+		setZ(2 * Settings.GAME_SCALE);
 	}
 
 	@Override

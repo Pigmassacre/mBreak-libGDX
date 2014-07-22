@@ -8,7 +8,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.pigmassacre.mbreak.MBreak;
@@ -21,11 +20,12 @@ public class AbstractScreen implements Screen {
 	
 	protected Stage stage;
 	private SpriteBatch batch;
-	private TextureAtlas atlas;
 	private TweenManager tweenManager;
 	
 	private InputMultiplexer inputMultiplexer;
 	protected Traversal traversal;
+	
+	protected float timeScale = 1f;
 	
 	protected String getName() {
 		return getClass().getSimpleName();
@@ -48,12 +48,6 @@ public class AbstractScreen implements Screen {
 		return batch;
 	}
 	
-	public TextureAtlas getAtlas() {
-		if (atlas == null)
-			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
-		return atlas;
-	}
-	
 	public TweenManager getTweenManager() {
 		if (tweenManager == null)
 			tweenManager = new TweenManager();
@@ -62,6 +56,8 @@ public class AbstractScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
+		delta *= timeScale;
+		
 		stage.act(delta);
 		
 		getTweenManager().update(delta);
@@ -121,8 +117,6 @@ public class AbstractScreen implements Screen {
 		stage.dispose();
 		if (batch != null)
 			batch.dispose();
-		if (atlas != null)
-			atlas.dispose();
 	}
 
 }

@@ -6,12 +6,14 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GameActorAccessor;
@@ -28,14 +30,14 @@ public class GameScreen extends AbstractScreen {
 	Paddle leftPaddle, rightPaddle;
 	Background background;
 	Foreground foreground;
-
+	
 	public GameScreen(MBreak game) {
 		super(game);
-		
+//		timeScale = 0.5f;
 		Sunrays sunrays = new Sunrays();
 		sunrays.setX(Gdx.graphics.getWidth() / 2 - sunrays.getWidth() / 2);
 		sunrays.setY(Gdx.graphics.getHeight() / 2 - sunrays.getHeight() / 2);
-		sunrays.offsetY = - 3 * Settings.GAME_SCALE;
+		sunrays.offsetY = Settings.getLevelYOffset();
 		stage.addActor(sunrays);
 
 		background = new Background("glass");
@@ -43,8 +45,8 @@ public class GameScreen extends AbstractScreen {
 
 		Settings.LEVEL_WIDTH = background.getWidth();
 		Settings.LEVEL_HEIGHT = background.getHeight();
-		Settings.LEVEL_X = (Gdx.graphics.getWidth() - Settings.LEVEL_WIDTH) / 2;
-		Settings.LEVEL_Y = (Gdx.graphics.getHeight() - Settings.LEVEL_HEIGHT) / 2;
+		Settings.LEVEL_X = (Gdx.graphics.getWidth() - Settings.LEVEL_WIDTH) / 2f;
+		Settings.LEVEL_Y = (Gdx.graphics.getHeight() - Settings.LEVEL_HEIGHT) / 2f;
 		Settings.LEVEL_MAX_X = Settings.LEVEL_X + Settings.LEVEL_WIDTH;
 		Settings.LEVEL_MAX_Y = Settings.LEVEL_Y + Settings.LEVEL_HEIGHT;
 
@@ -55,14 +57,16 @@ public class GameScreen extends AbstractScreen {
 		Groups.playerGroup.addActor(leftPlayer);
 		
 		float delay = 0.25f;
+		float z;
 		Block tempBlock = new Block(0, 0, new Player("temp"), new Color(Color.BLACK));
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
 				Block block = new Block(Settings.LEVEL_X + x * tempBlock.getWidth(), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()), leftPlayer,
 						leftPlayer.getColor());
-				block.setZ(1000);
+				z = block.getZ();
+				block.setZ(350 * Settings.GAME_SCALE);
 				Tween.to(block, GameActorAccessor.Z, 2f)
-					.target(3)
+					.target(z)
 					.ease(TweenEquations.easeOutExpo)
 					.delay(delay)
 					.start(getTweenManager());
@@ -77,9 +81,10 @@ public class GameScreen extends AbstractScreen {
 		leftPaddle.keyUp = Keys.W;
 		leftPaddle.keyDown = Keys.S;
 
+		z = leftPaddle.getZ();
 		leftPaddle.setZ(1000);
 		Tween.to(leftPaddle, GameActorAccessor.Z, 2f)
-			.target(3)
+			.target(z)
 			.ease(TweenEquations.easeOutExpo)
 			.delay(delay + 0.025f)
 			.start(getTweenManager());
@@ -95,9 +100,10 @@ public class GameScreen extends AbstractScreen {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
 				Block block = new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()),
 						rightPlayer, rightPlayer.getColor());
-				block.setZ(1000);
+				z = block.getZ();
+				block.setZ(350 * Settings.GAME_SCALE);
 				Tween.to(block, GameActorAccessor.Z, 2f)
-					.target(3)
+					.target(z)
 					.ease(TweenEquations.easeOutExpo)
 					.delay(delay)
 					.start(getTweenManager());
@@ -113,16 +119,19 @@ public class GameScreen extends AbstractScreen {
 		rightPaddle.keyUp = Keys.UP;
 		rightPaddle.keyDown = Keys.DOWN;
 		
+		z = rightPaddle.getZ();
 		rightPaddle.setZ(1000);
 		Tween.to(rightPaddle, GameActorAccessor.Z, 2f)
-			.target(3)
+			.target(z)
 			.ease(TweenEquations.easeOutExpo)
 			.delay(delay + 0.025f)
 			.start(getTweenManager());
 
-		
-
 		tempBlock.destroy();
+		
+		MusicHandler.setSong("music/game/choke.ogg");
+		MusicHandler.setLooping(true);
+		MusicHandler.play();
 		
 		stage.addActor(background);
 		stage.addActor(Groups.playerGroup);
@@ -214,8 +223,22 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	private void back() {
-		game.setScreen(new PrepareMenuScreen(game));
+		MusicHandler.stop();
 		Assets.unloadGameAssets();
+		game.setScreen(new PrepareMenuScreen(game));
+		
+	}
+	
+	@Override
+	public void pause() {
+		super.pause();
+		MusicHandler.pause();
+	}
+
+	@Override
+	public void resume() {
+		super.resume();
+		MusicHandler.play();
 	}
 
 	@Override

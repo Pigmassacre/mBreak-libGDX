@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.gui.GridMenu;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
@@ -166,6 +167,12 @@ public class PrepareMenuScreen extends AbstractScreen {
 		
 		traversal.menus.add(colorMenu);
 		stage.addActor(colorMenu);
+		
+		if (!MusicHandler.isPlaying()) {
+			MusicHandler.setSong("music/title/goluigi-nonuniform.ogg");
+			MusicHandler.setLooping(true);
+			MusicHandler.play();
+		}
 	}
 	
 	public void back() {

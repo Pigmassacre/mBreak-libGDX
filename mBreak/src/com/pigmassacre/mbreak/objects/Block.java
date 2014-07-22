@@ -15,11 +15,12 @@ public class Block extends GameActor {
 		image = Assets.getTextureRegion("block");
 		
 		setDepth(2 * Settings.GAME_SCALE);
+		setZ(2 * Settings.GAME_SCALE);
 		
 		setX(x);
 		setY(y);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight()* Settings.GAME_SCALE - getDepth());
+		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
 		
 		rectangle.set(getX(), getY(), getWidth(), getHeight());
 				
@@ -69,6 +70,12 @@ public class Block extends GameActor {
 //		stateTime += delta;
 //		setZ(((MathUtils.sin(startTime + stateTime * 10) + 1) / 2) * 5); 
 		
+//		if (offsetZ > 0) {
+//			offsetZ -= 0.02 * Settings.GAME_SCALE; 
+//		} else if (offsetZ < 0) {
+//			offsetZ += 0.02 * Settings.GAME_SCALE;
+//		}
+		
 		if (health <= 0) {
 			destroy();
 		}
@@ -80,7 +87,7 @@ public class Block extends GameActor {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = new Color(batch.getColor());
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
+		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 		super.draw(batch, parentAlpha);
 	}

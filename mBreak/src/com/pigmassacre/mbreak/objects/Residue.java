@@ -2,9 +2,9 @@ package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.pigmassacre.mbreak.Settings;
 
 public class Residue extends GameActor implements Poolable {
 
@@ -29,8 +29,10 @@ public class Residue extends GameActor implements Poolable {
 			image = parentActor.image;
 			setX(parentActor.getX());
 			setY(parentActor.getY());
+			setZ(parentActor.getZ());
 			setWidth(parentActor.getWidth());
 			setHeight(parentActor.getHeight());
+			setDepth(parentActor.getDepth());
 			setColor(parentActor.getColor());
 			lingerTime = 1f;
 			Groups.residueGroup.addActor(this);
@@ -67,7 +69,7 @@ public class Residue extends GameActor implements Poolable {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY(), getWidth(), getHeight());
+		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() - getZ() * 0.5f, getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 	}
 	

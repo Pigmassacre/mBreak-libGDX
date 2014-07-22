@@ -23,8 +23,8 @@ public class Background extends Actor {
 		horizontalWallTop = Assets.getTextureRegion(id + "/wall_horizontal_top");
 		background = Assets.getTextureRegion(id + "/floor");
 		
-		setX((Gdx.graphics.getWidth() - background.getRegionWidth() * Settings.GAME_SCALE) / 2);
-		setY((Gdx.graphics.getHeight() - background.getRegionHeight() * Settings.GAME_SCALE) / 2 - 3 * Settings.GAME_SCALE);
+		setX((Gdx.graphics.getWidth() - background.getRegionWidth() * Settings.GAME_SCALE) / 2f);
+		setY((Gdx.graphics.getHeight() - background.getRegionHeight() * Settings.GAME_SCALE) / 2f + Settings.getLevelYOffset());
 		setWidth(background.getRegionWidth() * Settings.GAME_SCALE);
 		setHeight(background.getRegionHeight() * Settings.GAME_SCALE);
 	}

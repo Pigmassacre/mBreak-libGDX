@@ -32,7 +32,7 @@ public class Particle extends GameActor implements Poolable {
 		rectangle = new Rectangle(x, y, width, height);
 		setX(x);
 		setY(y);
-		setZ(3);
+		setZ(3 * Settings.GAME_SCALE);
 		setWidth(width);
 		setHeight(height);
 		
@@ -45,7 +45,9 @@ public class Particle extends GameActor implements Poolable {
 		setColor(color);
 		shadow = Shadow.shadowPool.obtain();
 		shadow.init(this, true);
-		shadow.setColor(color.cpy().mul(shadowBlendColor));
+		Color shadowColor = color.cpy().mul(shadowBlendColor);
+//		shadowColor.a = 0.5f;
+		shadow.setColor(shadowColor);
 		
 		Groups.particleGroup.addActor(this);
 		
@@ -78,6 +80,8 @@ public class Particle extends GameActor implements Poolable {
 				getColor().a -= alphaStep * delta;
 			}
 		}
+
+//		setZ(getZ() - retardation * 10 * delta);
 		
 		setX(getX() + MathUtils.cos(angle) * speed * delta);
 		setY(getY() + MathUtils.sin(angle) * speed * delta);
@@ -98,9 +102,8 @@ public class Particle extends GameActor implements Poolable {
 		if (alive) {
 			temp = batch.getColor();
 			batch.setColor(getColor());
-			batch.draw(image, getX(), getY() + getZ(), getWidth(), getHeight());
+			batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight());
 			batch.setColor(temp);
-			super.draw(batch, parentAlpha);
 		}
 	}
 

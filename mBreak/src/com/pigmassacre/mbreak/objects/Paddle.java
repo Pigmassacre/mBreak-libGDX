@@ -35,6 +35,7 @@ public class Paddle extends GameActor {
 		image = Assets.getTextureRegion("paddle");
 		
 		setDepth(2 * Settings.GAME_SCALE);
+		setZ(2 * Settings.GAME_SCALE);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
 		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
 		
@@ -144,7 +145,7 @@ public class Paddle extends GameActor {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = new Color(batch.getColor());
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
+		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 		super.draw(batch, parentAlpha);
 	}

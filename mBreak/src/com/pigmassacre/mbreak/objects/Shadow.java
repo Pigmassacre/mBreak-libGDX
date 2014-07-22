@@ -2,7 +2,6 @@ package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
@@ -24,8 +23,9 @@ public class Shadow extends GameActor implements Poolable {
 	
 	public Shadow() {
 		alive = false;
+		setZ(0);
 		offsetX = 0f * Settings.GAME_SCALE;
-		offsetY = -0.5f * Settings.GAME_SCALE;
+		offsetY = -0f * Settings.GAME_SCALE;
 	}
 	
 	public void init(GameActor parentActor, boolean linger) {
@@ -33,6 +33,8 @@ public class Shadow extends GameActor implements Poolable {
 		image = parentActor.image;
 		
 		setColor(0f, 0f, 0f, 0.5f);
+		setZ(parentActor.getZ());
+		setDepth(0);
 		
 		this.linger = linger;
 		
@@ -64,7 +66,7 @@ public class Shadow extends GameActor implements Poolable {
 	
 	@Override
 	public float getY() {
-		return parentActor.getY() + offsetY * parentActor.getZ() - parentActor.getDepth();
+		return parentActor.getY();
 	}
 	
 	@Override
@@ -74,15 +76,15 @@ public class Shadow extends GameActor implements Poolable {
 	
 	@Override
 	public float getHeight() {
-		return parentActor.getHeight();
+		return parentActor.getHeight() - parentActor.getDepth();
 	}
 	
 //	@Override
 //	public void act(float delta) {
 //		super.act(delta);
-////		stateTime += delta;
-////		offsetX = MathUtils.sin(stateTime) * 0.5f * Settings.GAME_SCALE;
-////		offsetY = MathUtils.sin(stateTime * 2) * -0.5f * Settings.GAME_SCALE;
+//		stateTime += delta;
+//		offsetX = MathUtils.sin(stateTime) * 0.5f * Settings.GAME_SCALE;
+//		offsetY = MathUtils.sin(stateTime * 2) * -0.5f * Settings.GAME_SCALE;
 //	}
 	
 	private Color temp;
@@ -91,7 +93,9 @@ public class Shadow extends GameActor implements Poolable {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(parentActor.image, getX(), getY(), getWidth(), getHeight());
+//		float zDropOff = 0f;
+		//  + (parentActor.getZ() / zDropOff) / 2
+		batch.draw(parentActor.image, getX(), getY() + Settings.getLevelYOffset() - parentActor.getZ() * 0.5f, getWidth(), getHeight() + parentActor.getDepth());
 		batch.setColor(temp);
 	}
 

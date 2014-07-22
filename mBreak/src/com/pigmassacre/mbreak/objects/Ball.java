@@ -1,6 +1,5 @@
 package com.pigmassacre.mbreak.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -46,7 +45,7 @@ public class Ball extends GameActor implements Poolable {
 		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
 		setX(x);
 		setY(y);
-		setZ(3);
+		setZ(3 * Settings.GAME_SCALE);
 		
 		this.angle = angle;
 		
@@ -94,11 +93,6 @@ public class Ball extends GameActor implements Poolable {
 	public void setHeight(float height) {
 		super.setHeight(height);
 		circle.setRadius(height / 2);
-	}
-	
-	@Override
-	public void act(float delta) {
-		super.act(delta);
 	}
 	
 	@Override
@@ -173,7 +167,7 @@ public class Ball extends GameActor implements Poolable {
 
 			if (collided) {
 				sound.play();
-				effectGroup.addActor(new Flash(this, 3f, 0.04f * Settings.GAME_FPS));
+				new Flash(this, 0.33f);
 			}
 			
 			speedHandled += tickSpeed;
@@ -204,7 +198,7 @@ public class Ball extends GameActor implements Poolable {
 			if (actor instanceof Paddle) {
 				paddle = (Paddle) actor;
 				if (Intersector.overlaps(this.circle, paddle.rectangle)) {
-					effectGroup.addActor(new Flash(paddle, 3f, 0.04f * Settings.GAME_FPS, true));
+					new Flash(paddle, 0.33f, true);
 					onHitObject(paddle);
 					collided = true;
 					speed += maxSpeed / 10;
@@ -311,6 +305,8 @@ public class Ball extends GameActor implements Poolable {
 			if (actor instanceof Block) {
 				block = (Block) actor;
 				if (Intersector.overlaps(this.circle, block.rectangle)) {
+					new Flash(block, 0.2f, true);
+//					block.offsetZ = -1f * Settings.GAME_SCALE;
 					block.damage(DAMAGE);
 					onHitObject(block);
 					collided = true;
@@ -415,7 +411,7 @@ public class Ball extends GameActor implements Poolable {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
+		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 		super.draw(batch, parentAlpha);
 	}

@@ -6,67 +6,61 @@ import com.pigmassacre.mbreak.objects.effects.Effect;
 
 public class Flash extends Effect {
 
-	private Color startColor, currentColor, finalColor;
+	private Color currentColor, finalColor;
 	
-	private boolean add, followParent = false;
+	private boolean add;
+	private boolean followParent = false;
 	
-	private float tickAmount;
-	
-	public Flash(GameActor parent, float duration, float tickAmount) {
-		super(parent, duration);
+	public Flash(GameActor parentActor, float duration) {
+		super(parentActor, duration);
 		
-		this.startColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-		this.currentColor = this.startColor;
+		this.currentColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		this.finalColor = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 		
 		add = finalColor.a > currentColor.a;
 		
-		image = parent.image;
+		setDepth(parentActor.getDepth());
+		setX(parentActor.getX());
+		setY(parentActor.getY());
+		setZ(parentActor.getZ());
+		setWidth(parentActor.getWidth());
+		setHeight(parentActor.getHeight());
 		
-		setDepth(parent.getDepth());
-		setX(parent.getX());
-		setY(parent.getY());
-		setZ(parent.getZ());
-		setWidth(parent.getWidth());
-		setHeight(parent.getHeight());
-		
-		this.tickAmount = tickAmount;
+//		image = Assets.getTextureRegion("ball");
+//		image = parentActor.image;
 	}
 	
-	public Flash(GameActor parent, float duration, float tickAmount, boolean followParent) {
-		this(parent, duration, tickAmount);
+	public Flash(GameActor parentActor, float duration, boolean followParent) {
+		this(parentActor, duration);
 		this.followParent = followParent;
 	}
 	
-	public Flash(GameActor parent, float duration, Color startColor, Color finalColor, float tickAmount) {
-		super(parent, duration);
+	public Flash(GameActor parentActor, float duration, Color startColor, Color finalColor) {
+		super(parentActor, duration);
 		
-		this.startColor = startColor;
-		this.currentColor = this.startColor;
+		this.currentColor = startColor;
 		this.finalColor = finalColor;
 		
 		add = finalColor.a > currentColor.a;
-		
-		image = parent.image;
-		
-		this.tickAmount = tickAmount;
 	}
 	
 	@Override
 	public void act(float delta) {
 		if (followParent) {
 			super.act(delta);
+			setWidth(parentActor.getWidth());
+			setHeight(parentActor.getHeight());
 		}
 		
 		if (add) {
-			if (currentColor.a + tickAmount * delta < finalColor.a) {
-				currentColor.a += tickAmount * delta;
+			if (currentColor.a + (delta / duration) < finalColor.a) {
+				currentColor.a += delta / duration;
 			} else {
 				destroy();
 			}
 		} else {
-			if (currentColor.a - tickAmount * delta > finalColor.a) {
-				currentColor.a -= tickAmount * delta;
+			if (currentColor.a - (delta / duration) > finalColor.a) {
+				currentColor.a -= delta / duration;
 			} else {
 				destroy();
 			}
@@ -77,10 +71,12 @@ public class Flash extends Effect {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		temp = new Color(batch.getColor());
+		temp = batch.getColor();
+//		batch.setShader(GrayscaleShader.grayscaleShader);
 		batch.setColor(currentColor);
-		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
+		batch.draw(parentActor.image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
+//		batch.setShader(null);
 	}
 	
 }

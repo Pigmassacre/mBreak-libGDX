@@ -146,7 +146,6 @@ public class Traversal implements InputProcessor {
 			}
 		}
 		possibleItems = temp;
-		System.out.println("first check: " + possibleItems);
 
 		if (!possibleItems.isEmpty()) {
 			float difference = 0f;
@@ -164,7 +163,6 @@ public class Traversal implements InputProcessor {
 					temp.add(item);
 			}
 			possibleItems = temp;
-			System.out.println("second check: " + possibleItems);
 			
 			float leastDifferenceX = Float.MAX_VALUE;
 			difference = 0f;
@@ -180,7 +178,6 @@ public class Traversal implements InputProcessor {
 					temp.add(item);
 			}
 			possibleItems = temp;
-			System.out.println("last check: " + possibleItems);
 			
 			selectedItem.selected = false;
 			possibleItems.get(0).selected = true;
@@ -209,7 +206,6 @@ public class Traversal implements InputProcessor {
 			}
 		}
 		possibleItems = temp;
-		System.out.println("first check: " + possibleItems);
 		
 		if (!possibleItems.isEmpty()) {
 			float difference = 0f;
@@ -227,13 +223,11 @@ public class Traversal implements InputProcessor {
 					temp.add(item);
 			}
 			possibleItems = temp;
-			System.out.println("second check: " + possibleItems);
 			
 			float leastDifferenceY = Float.MAX_VALUE;
 			difference = 0f;
 			for (Item item : possibleItems) {
 				difference = Math.abs(item.getY() - (item.getHeight() / 2) - (selectedItem.getY() - (selectedItem.getHeight() / 2)));
-				System.out.println(difference);
 				if (difference < leastDifferenceY)
 					leastDifferenceY = difference;
 			}
@@ -244,7 +238,6 @@ public class Traversal implements InputProcessor {
 					temp.add(item);
 			}
 			possibleItems = temp;
-			System.out.println("last check: " + possibleItems);
 			
 			selectedItem.selected = false;
 			possibleItems.get(0).selected = true;

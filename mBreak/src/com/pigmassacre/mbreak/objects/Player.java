@@ -34,33 +34,32 @@ public class Player extends Actor {
 	}
 	
 	public void addPowerup(PowerupCommand powerupCommand, Effect effect) {
-		float x, y;
-		if (getX() < Gdx.graphics.getWidth() / 2) {
-			float maxX = getX();
-			for (Actor actor : currentPowerups.getChildren()) {
-				Powerup powerup = (Powerup) actor;
-				if (powerup.getX() + powerup.getWidth() > maxX) {
-					maxX = powerup.getX() + powerup.getWidth() + powerupOffset;
-				}
-			}
-			x = maxX;
-			y = getY();
-		} else {
-			float minX = getX();
-			for (Actor actor : currentPowerups.getChildren()) {
-				Powerup powerup = (Powerup) actor;
-				if (powerup.getX() - powerup.getWidth() - powerupOffset < minX) {
-					minX = powerup.getX() - powerup.getWidth() - powerupOffset;
-				}
-			}
-			x = minX;
-			y = getY();
-		}
-		
-		Powerup powerup = powerupCommand.execute(x, y);
-		powerup.isDisplay = true;
-		effect.connectedPowerups.add(powerup);
-		currentPowerups.addActor(powerup);
+//		float x, y;
+//		if (getX() < Gdx.graphics.getWidth() / 2) {
+//			float maxX = getX();
+//			for (Actor actor : currentPowerups.getChildren()) {
+//				Powerup powerup = (Powerup) actor;
+//				if (powerup.getX() + powerup.getWidth() > maxX) {
+//					maxX = powerup.getX() + powerup.getWidth() + powerupOffset;
+//				}
+//			}
+//			x = maxX;
+//			y = getY();
+//		} else {
+//			float minX = getX();
+//			for (Actor actor : currentPowerups.getChildren()) {
+//				Powerup powerup = (Powerup) actor;
+//				if (powerup.getX() - powerup.getWidth() - powerupOffset < minX) {
+//					minX = powerup.getX() - powerup.getWidth() - powerupOffset;
+//				}
+//			}
+//			x = minX;
+//			y = getY();
+//		}
+//		
+//		Powerup powerup = powerupCommand.execute(x, y);
+//		effect.connectedPowerups.add(powerup);
+//		currentPowerups.addActor(powerup);
 	}
 
 	@Override

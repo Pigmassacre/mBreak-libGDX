@@ -6,14 +6,13 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.audio.Music;
 import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.objects.Assets;
 
 public class IntroScreen extends AbstractScreen {
 
@@ -23,8 +22,6 @@ public class IntroScreen extends AbstractScreen {
 	float stateTime;
 	
 	TextItem versionMessage;
-	
-	Music music;
 	
 	float introTime, endTime;
 	
@@ -55,10 +52,9 @@ public class IntroScreen extends AbstractScreen {
 			.ease(TweenEquations.easeOutBack)
 			.start(getTweenManager());
 
-		
-		music = Assets.getMusic("music/title/goluigi-nonuniform.ogg");
-		music.setLooping(true);
-		music.play();
+		MusicHandler.setSong("music/title/goluigi-nonuniform.ogg");
+		MusicHandler.setLooping(true);
+		MusicHandler.play();
 		
 		introTime = 0;
 		endTime = 1.0f;
@@ -149,13 +145,13 @@ public class IntroScreen extends AbstractScreen {
 	@Override
 	public void pause() {
 		super.pause();
-		music.pause();
+		MusicHandler.pause();
 	}
 
 	@Override
 	public void resume() {
 		super.resume();
-		music.play();
+		MusicHandler.play();
 	}
 	
 	private void startMainMenu() {

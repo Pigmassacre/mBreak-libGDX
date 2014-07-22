@@ -10,45 +10,29 @@ import com.pigmassacre.mbreak.objects.Flash;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Shadow;
-import com.pigmassacre.mbreak.objects.effects.Effect;
 
 public class Powerup extends GameActor {
 
 	private float startTime;
-//	protected float offsetX, offsetY;
-//	protected float maxOffsetX, maxOffsetY;
-	private float maxZ;
-	
-	private float flashTickAmount;
-	private float flashDuration;
-	
-	public boolean isDisplay;
+	private float maxZ, minZ;
 	
 	public Powerup(float x, float y) {
-		setDepth(2);
+		super();
+		setDepth(1 * Settings.GAME_SCALE);
+		setZ(4 * Settings.GAME_SCALE);
 		setX(x);
 		setY(y);
-		setZ(3);
+		maxZ = 2 * Settings.GAME_SCALE;
+		minZ = 1;
 
-		isDisplay = false;
-		
 		startTime = TimeUtils.millis() * 0.00001f;
-		
-		maxZ = 5;
-//		offsetX = 0f;
-//		offsetY = 0f;
-//		maxOffsetX = 0f * Settings.GAME_SCALE;
-//		maxOffsetY = 0f * Settings.GAME_SCALE;
-		
-		flashTickAmount = 18f * Settings.GAME_FPS;
-		flashDuration = 1f;
 		
 		Groups.powerupGroup.addActor(this);
 		
 		shadow = Shadow.shadowPool.obtain();
 		shadow.init(this, false);
-		
-		new Flash(this, flashDuration, flashTickAmount, true);
+
+		new Flash(this, 0.33f, true);
 	}
 	
 	public Powerup(float x, float y, float width, float height) {
@@ -66,15 +50,18 @@ public class Powerup extends GameActor {
 	protected void onHit(GameActor actor) {
 		
 	}
-	
-	protected void applyEffect(GameActor touchingActor, Effect effect) {
-		
-	}
-	
+
 	public interface EffectCommand {
 
 		public void execute(GameActor actor);
 		
+	}
+	
+	protected void applyEffect(GameActor touchingActor, EffectCommand command) {
+		if (touchingActor instanceof Ball) {
+			Ball ball = (Ball) touchingActor;
+			command.execute(ball);
+		}
 	}
 	
 	protected void applyEffectToAllBalls(GameActor touchingActor, EffectCommand command) {
@@ -121,17 +108,17 @@ public class Powerup extends GameActor {
 	
 	@Override
 	public void act(float delta) {
-		if (isDisplay) {
-//			offsetX = offsetY = 0;
-		} else {
-			stateTime += delta;
-			setZ(((MathUtils.sinDeg(startTime + stateTime * 250f) + 1) / 2) * maxZ);
-		}
+		super.act(delta);
+		stateTime += delta;
+		float newZ = ((MathUtils.sinDeg(startTime + stateTime * 250f) + 1) / 2) * maxZ + minZ;
+		if (newZ < minZ) newZ = minZ;
+		setZ(newZ);
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
+		System.out.println(getZ());
+		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		super.draw(batch, parentAlpha);
 	}
 	

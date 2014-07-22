@@ -3,7 +3,7 @@ package com.pigmassacre.mbreak;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.pigmassacre.mbreak.screens.StartLoadingScreen;
+import com.pigmassacre.mbreak.screens.IntroLoadingScreen;
 
 public class MBreak extends Game {
 
@@ -30,7 +30,7 @@ public class MBreak extends Game {
 		
 		Gdx.input.setCatchBackKey(true);
 		if (getScreen() == null)
-			setScreen(new StartLoadingScreen(this));
+			setScreen(new IntroLoadingScreen(this));
 	}
 
 	@Override

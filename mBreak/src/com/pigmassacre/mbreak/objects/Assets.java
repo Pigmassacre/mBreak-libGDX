@@ -3,6 +3,7 @@ package com.pigmassacre.mbreak.objects;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -10,24 +11,34 @@ public class Assets {
 
 	private static AssetManager assetManager;
 	
-	public static void loadMenuAssets() {
+	public static AssetManager getAssetManager() {
 		if (assetManager == null) {
 			assetManager = new AssetManager();
 		}
+		return assetManager;
+	}
+	
+	public static void loadFonts() {
+		getAssetManager();
+		
+		if (!assetManager.isLoaded("fonts/ADDLG__.fnt")) {
+			assetManager.load("fonts/ADDLG__.fnt", BitmapFont.class);
+		}
+	}
+	
+	public static void loadMenuAssets() {
+		getAssetManager();
 		
 		if (!assetManager.isLoaded("images/menutextures.atlas")) {
 			assetManager.load("images/menutextures.atlas", TextureAtlas.class);
 		}
-		
 		if (!assetManager.isLoaded("music/title/goluigi-nonuniform.ogg")) {
 			assetManager.load("music/title/goluigi-nonuniform.ogg", Music.class);
 		}
 	}
 	
 	public static void loadGameAssets() {
-		if (assetManager == null) {
-			assetManager = new AssetManager();
-		}
+		getAssetManager();
 		
 		if (!assetManager.isLoaded("images/gametextures.atlas")) {
 			assetManager.load("images/gametextures.atlas", TextureAtlas.class);
@@ -35,12 +46,22 @@ public class Assets {
 		if (!assetManager.isLoaded("sound/ball.ogg")) {
 			assetManager.load("sound/ball.ogg", Sound.class);
 		}
+		if (!assetManager.isLoaded("music/game/choke.ogg")) {
+			assetManager.load("music/game/choke.ogg", Music.class);
+		}
+		if (!assetManager.isLoaded("music/game/divine_intervention.ogg")) {
+			assetManager.load("music/game/divine_intervention.ogg", Music.class);
+		}
+		if (!assetManager.isLoaded("music/game/socialmoron.ogg")) {
+			assetManager.load("music/game/socialmoron.ogg", Music.class);
+		}
+		if (!assetManager.isLoaded("music/game/stardstm.ogg")) {
+			assetManager.load("music/game/stardstm.ogg", Music.class);
+		}
 	}
 	
 	public static void unloadGameAssets() {
-		if (assetManager == null) {
-			assetManager = new AssetManager();
-		}
+		getAssetManager();
 		
 		if (assetManager.isLoaded("images/gametextures.atlas")) {
 			assetManager.unload("images/gametextures.atlas");
@@ -48,10 +69,6 @@ public class Assets {
 		if (assetManager.isLoaded("sound/ball.ogg")) {
 			assetManager.unload("sound/ball.ogg");
 		}
-	}
-	
-	public static AssetManager getAssetManager() {
-		return assetManager;
 	}
 	
 	private static TextureAtlas getMenuTextureAtlas() {
@@ -81,6 +98,10 @@ public class Assets {
 	
 	public static Music getMusic(String name) {
 		return assetManager.get(name, Music.class);
+	}
+
+	public static BitmapFont getBitmapFont(String name) {
+		return assetManager.get(name, BitmapFont.class);
 	}
 	
 }
