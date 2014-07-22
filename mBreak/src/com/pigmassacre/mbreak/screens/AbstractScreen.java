@@ -6,16 +6,14 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.Traversal;
-import com.pigmassacre.mbreak.gui.WidgetAccessor;
 
 public class AbstractScreen implements Screen {
 
@@ -36,8 +34,12 @@ public class AbstractScreen implements Screen {
 	public AbstractScreen(MBreak game) {
 		this.game = game;
 		this.stage = new Stage();
-		Tween.registerAccessor(Widget.class, new WidgetAccessor());
+		registerTweenAccessor();
 		this.traversal = new Traversal(stage.getCamera());
+	}
+	
+	protected void registerTweenAccessor() {
+		Tween.registerAccessor(Actor.class, new ActorAccessor());
 	}
 
 	public SpriteBatch getBatch() {

@@ -1,17 +1,17 @@
 package com.pigmassacre.mbreak.gui;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
-
 import aurelienribon.tweenengine.TweenAccessor;
 
-public class WidgetAccessor implements TweenAccessor<Widget> {
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
+public class ActorAccessor implements TweenAccessor<Actor> {
 
 	public static final int POSITION_X = 1;
     public static final int POSITION_Y = 2;
     public static final int POSITION_XY = 3;
 	
 	@Override
-	public int getValues(Widget target, int tweenType, float[] returnValues) {
+	public int getValues(Actor target, int tweenType, float[] returnValues) {
 		switch (tweenType) {
 	        case POSITION_X: 
 	        	returnValues[0] = target.getX(); 
@@ -30,7 +30,7 @@ public class WidgetAccessor implements TweenAccessor<Widget> {
 	}
 
 	@Override
-	public void setValues(Widget target, int tweenType, float[] newValues) {
+	public void setValues(Actor target, int tweenType, float[] newValues) {
 		switch (tweenType) {
 	        case POSITION_X: 
 	        	target.setX(newValues[0]); 

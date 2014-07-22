@@ -69,14 +69,14 @@ public class Block extends GameActor {
 		damage(damage);
 	}
 
-	public float startTime = MathUtils.random() * 100000f;
+//	public float startTime = MathUtils.random() * 100000f;
 	
 	@Override
 	public void act(float delta) {
 		super.act(delta);
 		
-		stateTime += delta;
-		setZ(((MathUtils.sin(startTime + stateTime * 10) + 1) / 2) * 5); 
+//		stateTime += delta;
+//		setZ(((MathUtils.sin(startTime + stateTime * 10) + 1) / 2) * 5); 
 		
 		if (health <= 0) {
 			destroy();

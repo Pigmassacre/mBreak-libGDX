@@ -103,8 +103,8 @@ public class Ball extends GameActor implements Poolable {
 	
 	@Override
 	public void move(float delta) {
-		stateTime += delta;
-		setZ(((MathUtils.sin(stateTime * 10) + 1) / 2) * 5); 
+//		stateTime += delta;
+//		setZ(((MathUtils.sin(stateTime * 10) + 1) / 2) * 5); 
 		
 		speedHandled = 0f;
 		while (speedHandled < speed) {

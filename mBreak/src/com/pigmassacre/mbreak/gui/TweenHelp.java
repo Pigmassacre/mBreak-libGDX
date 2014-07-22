@@ -33,19 +33,19 @@ public class TweenHelp {
 		
 		String choice = choices.get(random.nextInt(choices.size()));
 		if (choice == "left") {
-			Tween.from(item, WidgetAccessor.POSITION_X, duration).target(-item.getWidth())
+			Tween.from(item, ActorAccessor.POSITION_X, duration).target(-item.getWidth())
 				.ease(ease)
 				.start(tweenManager);
 		} else if (choice == "right") {
-			Tween.from(item, WidgetAccessor.POSITION_X, duration).target(Gdx.graphics.getWidth() + item.getWidth())
+			Tween.from(item, ActorAccessor.POSITION_X, duration).target(Gdx.graphics.getWidth() + item.getWidth())
 				.ease(ease)
 				.start(tweenManager);
 		} else if (choice == "up") {
-			Tween.from(item, WidgetAccessor.POSITION_Y, duration).target(-item.getHeight())
+			Tween.from(item, ActorAccessor.POSITION_Y, duration).target(-item.getHeight())
 				.ease(ease)
 				.start(tweenManager);
 		} else if (choice == "down") {
-			Tween.from(item, WidgetAccessor.POSITION_Y, duration).target(Gdx.graphics.getHeight() + item.getHeight())
+			Tween.from(item, ActorAccessor.POSITION_Y, duration).target(Gdx.graphics.getHeight() + item.getHeight())
 				.ease(ease)
 				.start(tweenManager);
 		}

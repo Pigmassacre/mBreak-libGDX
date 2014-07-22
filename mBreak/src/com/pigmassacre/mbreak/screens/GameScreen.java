@@ -1,14 +1,20 @@
 package com.pigmassacre.mbreak.screens;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.DebugInput;
+import com.pigmassacre.mbreak.gui.GameActorAccessor;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
@@ -17,6 +23,7 @@ import com.pigmassacre.mbreak.objects.Player;
 
 public class GameScreen extends AbstractScreen {
 
+	Player leftPlayer, rightPlayer;
 	Paddle leftPaddle, rightPaddle;
 	Background background;
 	Foreground foreground;
@@ -40,7 +47,7 @@ public class GameScreen extends AbstractScreen {
 		Settings.LEVEL_MAX_X = Settings.LEVEL_X + Settings.LEVEL_WIDTH;
 		Settings.LEVEL_MAX_Y = Settings.LEVEL_Y + Settings.LEVEL_HEIGHT;
 
-		Player leftPlayer = new Player("left");
+		leftPlayer = new Player("left");
 		leftPlayer.setX(2.5f * Settings.GAME_SCALE);
 		leftPlayer.setY(2.5f * Settings.GAME_SCALE);
 		Groups.playerGroup.addActor(leftPlayer);
@@ -53,15 +60,23 @@ public class GameScreen extends AbstractScreen {
 		leftPaddle.keyUp = Keys.W;
 		leftPaddle.keyDown = Keys.S;
 
+		float delay = 2f;
 		Block tempBlock = new Block(0, 0, new Player("temp"), new Color(Color.BLACK));
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
-				new Block(Settings.LEVEL_X + x * tempBlock.getWidth(), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()), leftPlayer,
+				Block block = new Block(Settings.LEVEL_X + x * tempBlock.getWidth(), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()), leftPlayer,
 						leftPlayer.getColor());
+				block.setZ(600);
+				Tween.to(block, GameActorAccessor.Z, 2f)
+					.target(3)
+					.ease(TweenEquations.easeOutExpo)
+					.delay(delay)
+					.start(getTweenManager());
+				delay += 0.025f;
 			}
 		}
 
-		Player rightPlayer = new Player("right");
+		rightPlayer = new Player("right");
 		rightPlayer.setX(Gdx.graphics.getWidth() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
 		rightPlayer.setY(Gdx.graphics.getHeight() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
 		Groups.playerGroup.addActor(rightPlayer);
@@ -74,10 +89,18 @@ public class GameScreen extends AbstractScreen {
 		rightPaddle.keyUp = Keys.UP;
 		rightPaddle.keyDown = Keys.DOWN;
 
+		delay = 2f;
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
-				new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()),
+				Block block = new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()),
 						rightPlayer, rightPlayer.getColor());
+				block.setZ(600);
+				Tween.to(block, GameActorAccessor.Z, 2f)
+					.target(3)
+					.ease(TweenEquations.easeOutExpo)
+					.delay(delay)
+					.start(getTweenManager());
+				delay += 0.025f;
 			}
 		}
 
@@ -96,9 +119,43 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(foreground);
 	}
 	
+	protected void registerTweenAccessor() {
+		Tween.registerAccessor(Actor.class, new GameActorAccessor());
+	}
+	
+	Color backgroundColor = new Color();;
+	
 	@Override
 	public void renderClearScreen(float delta) {
-		Gdx.gl.glClearColor(1f, 0.25f, 0.25f, 1f);
+		float leftPlayerBlockCount = 0, rightPlayerBlockCount = 0;
+		SnapshotArray<Actor> array = Groups.blockGroup.getChildren();
+		Object[] items = array.begin();
+		for (int i = 0, n = array.size; i < n; i++) {
+			Object item = items[i];
+			Block block = (Block) item;
+			if (block.owner == leftPlayer) {
+				leftPlayerBlockCount++;
+			} else {
+				rightPlayerBlockCount++;
+			}
+		}
+		array.end();
+		
+		float strength = 0;
+		Player winningPlayer;
+		if (leftPlayerBlockCount > rightPlayerBlockCount) {
+			strength = (leftPlayerBlockCount - rightPlayerBlockCount) / (leftPlayerBlockCount + rightPlayerBlockCount);
+			winningPlayer = leftPlayer;
+			backgroundColor.lerp(winningPlayer.getColor().cpy().mul(strength, strength, strength, 1f).add(0.1f, 0.1f, 0.1f, 1f), 0.05f);
+		} else if (leftPlayerBlockCount < rightPlayerBlockCount) {
+			strength = (rightPlayerBlockCount - leftPlayerBlockCount) / (leftPlayerBlockCount + rightPlayerBlockCount);
+			winningPlayer = rightPlayer;
+			backgroundColor.lerp(winningPlayer.getColor().cpy().mul(strength, strength, strength, 1f).add(0.1f, 0.1f, 0.1f, 1f), 0.05f);
+		} else {
+			backgroundColor.lerp(new Color(1f, 1f, 1f, 1f).sub(leftPlayer.getColor().cpy().add(rightPlayer.getColor().cpy())).mul(0.33f), 0.05f);
+		}
+		
+		Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 	

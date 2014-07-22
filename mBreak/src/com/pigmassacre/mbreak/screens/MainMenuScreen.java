@@ -14,7 +14,7 @@ import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Menu;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.gui.WidgetAccessor;
+import com.pigmassacre.mbreak.gui.ActorAccessor;
 
 public class MainMenuScreen extends AbstractScreen {
 	
@@ -43,7 +43,7 @@ public class MainMenuScreen extends AbstractScreen {
 			logo = givenLogo;
 		}
 		stage.addActor(logo);
-		Tween.to(logo, WidgetAccessor.POSITION_XY, 0.5f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
+		Tween.to(logo, ActorAccessor.POSITION_XY, 0.5f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
 		
@@ -66,7 +66,7 @@ public class MainMenuScreen extends AbstractScreen {
 			
 		});
 		menu.add(textItem);
-		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
+		Tween.from(textItem, ActorAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
 		stage.addActor(textItem);
 		
 //		textItem = new TextItem("Options");
@@ -105,7 +105,7 @@ public class MainMenuScreen extends AbstractScreen {
 			
 		});
 		menu.add(textItem);
-		Tween.from(textItem, WidgetAccessor.POSITION_X, 0.75f).target(-textItem.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
+		Tween.from(textItem, ActorAccessor.POSITION_X, 0.75f).target(-textItem.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
 		stage.addActor(textItem);
 		
 		stage.addActor(menu);

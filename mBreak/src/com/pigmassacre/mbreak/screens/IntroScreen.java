@@ -12,7 +12,7 @@ import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.gui.WidgetAccessor;
+import com.pigmassacre.mbreak.gui.ActorAccessor;
 
 public class IntroScreen extends AbstractScreen {
 
@@ -37,7 +37,7 @@ public class IntroScreen extends AbstractScreen {
 		logo.setX((Gdx.graphics.getWidth() - logo.getWidth()) / 2);
 		logo.setY((Gdx.graphics.getHeight() / 2));
 		stage.addActor(logo);
-		Tween.from(logo, WidgetAccessor.POSITION_Y, 1.0f).target(Gdx.graphics.getHeight() + logo.getHeight())
+		Tween.from(logo, ActorAccessor.POSITION_Y, 1.0f).target(Gdx.graphics.getHeight() + logo.getHeight())
 			.ease(TweenEquations.easeOutBack)
 			.start(getTweenManager());
 		
@@ -50,7 +50,7 @@ public class IntroScreen extends AbstractScreen {
 		versionMessage.setY(versionMessage.getHeight() + versionMessage.getHeight());
 		versionMessage.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		stage.addActor(versionMessage);
-		Tween.from(versionMessage, WidgetAccessor.POSITION_XY, 1.0f).target(Gdx.graphics.getWidth(), -versionMessage.getHeight())
+		Tween.from(versionMessage, ActorAccessor.POSITION_XY, 1.0f).target(Gdx.graphics.getWidth(), -versionMessage.getHeight())
 			.ease(TweenEquations.easeOutBack)
 			.start(getTweenManager());
 
@@ -105,7 +105,7 @@ public class IntroScreen extends AbstractScreen {
 				introMessage[i].blink = true;
 			}
 			
-			Tween.from(introMessage[i], WidgetAccessor.POSITION_Y, 1.0f).target(-introMessage[i].getHeight())
+			Tween.from(introMessage[i], ActorAccessor.POSITION_Y, 1.0f).target(-introMessage[i].getHeight())
 				.ease(TweenEquations.easeOutBounce)
 				.start(getTweenManager());
 		}

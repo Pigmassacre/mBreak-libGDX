@@ -17,7 +17,7 @@ import com.pigmassacre.mbreak.gui.RectItem;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
 import com.pigmassacre.mbreak.gui.TweenHelp;
-import com.pigmassacre.mbreak.gui.WidgetAccessor;
+import com.pigmassacre.mbreak.gui.ActorAccessor;
 
 public class PrepareMenuScreen extends AbstractScreen {
 
@@ -46,7 +46,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 			logo = givenLogo;
 		}
 		stage.addActor(logo);
-		Tween.to(logo, WidgetAccessor.POSITION_XY, 0.5f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
+		Tween.to(logo, ActorAccessor.POSITION_XY, 0.5f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
 		
@@ -69,7 +69,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		menu.add(textItem);
 		traversal.menus.add(menu);
 		stage.addActor(menu);
-		Tween.from(textItem, WidgetAccessor.POSITION_XY, 0.5f).target(-textItem.getWidth(), -textItem.getHeight())
+		Tween.from(textItem, ActorAccessor.POSITION_XY, 0.5f).target(-textItem.getWidth(), -textItem.getHeight())
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
 		
@@ -89,7 +89,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		menu.add(textItem);
 		traversal.menus.add(menu);
 		stage.addActor(menu);
-		Tween.from(textItem, WidgetAccessor.POSITION_XY, 0.5f).target(Gdx.graphics.getWidth() + textItem.getWidth(), -textItem.getHeight())
+		Tween.from(textItem, ActorAccessor.POSITION_XY, 0.5f).target(Gdx.graphics.getWidth() + textItem.getWidth(), -textItem.getHeight())
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
 		
