@@ -3,6 +3,7 @@ package com.pigmassacre.mbreak.objects.powerups;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.Particle;
 
 public class ElectricityPowerup extends Powerup {
@@ -16,7 +17,7 @@ public class ElectricityPowerup extends Powerup {
 	public ElectricityPowerup(float x, float y) {
 		super(x, y);
 
-		image = getAtlas().findRegion("electricity");
+		image = Assets.getTextureRegion("electricity");
 		
 		setDepth(1 * Settings.GAME_SCALE);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);

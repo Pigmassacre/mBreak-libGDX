@@ -32,8 +32,8 @@ public class Ball extends GameActor implements Poolable {
 	public Ball() {
 		super();
 		alive = false;
-		image = getAtlas().findRegion("ball");
-		sound = Gdx.audio.newSound(Gdx.files.internal("sound/ball.ogg"));
+		image = Assets.getTextureRegion("ball");
+		sound = Assets.getSound("sound/ball.ogg");
 	}
 	
 	public void init(float x, float y, float angle, Player owner, Color color) {

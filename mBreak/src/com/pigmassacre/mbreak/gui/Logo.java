@@ -1,30 +1,22 @@
 package com.pigmassacre.mbreak.gui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Assets;
 
 public class Logo extends Widget {
 	
 	private static final int FRAME_COLS = 1;
 	private static final int FRAME_ROWS = 7;
 	
-	private TextureAtlas atlas;
-	
-	Animation logoAnimation;
-	TextureRegion logoSheet;
-	TextureRegion[] logoFrames;
-	TextureRegion currentFrame;
+	private Animation logoAnimation;
+	private TextureRegion logoSheet;
+	private TextureRegion[] logoFrames;
+	private TextureRegion currentFrame;
 	
 	float animationStateTime, waitTime, stateTime;
 	
@@ -33,7 +25,7 @@ public class Logo extends Widget {
 	public Logo() {
 		super();
 		
-		logoSheet = getAtlas().findRegion("mBreak_title");
+		logoSheet = Assets.getTextureRegion("mBreak_title");
 		TextureRegion[][] temp = logoSheet.split(logoSheet.getRegionWidth() / FRAME_COLS, logoSheet.getRegionHeight() / FRAME_ROWS);
 		logoFrames = new TextureRegion[(FRAME_COLS * FRAME_ROWS) + 1];
 		
@@ -54,12 +46,6 @@ public class Logo extends Widget {
 		scaleX = 1f;
 		scaleY = 1f;
 		rotation = 0f;
-	}
-	
-	protected TextureAtlas getAtlas() {
-		if (atlas == null)
-			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
-		return atlas;
 	}
 	
 	@Override

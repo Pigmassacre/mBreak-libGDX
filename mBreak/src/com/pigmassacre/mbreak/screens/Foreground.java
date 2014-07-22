@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.Shadow;
 
 /**
@@ -17,30 +18,23 @@ import com.pigmassacre.mbreak.objects.Shadow;
  */
 public class Foreground extends Actor {
 
-	private TextureAtlas atlas;
 	private TextureRegion verticalWallLeft, verticalWallRight, horizontalWallBottom;
 	private TextureRegion topLeftCorner, bottomLeftCorner, topRightCorner, bottomRightCorner;
 	
 	public Foreground(String id) {
-		TextureRegion background = getAtlas().findRegion(id + "/floor");
-		verticalWallLeft = getAtlas().findRegion(id + "/wall_vertical_left");
-		verticalWallRight = getAtlas().findRegion(id + "/wall_vertical_right");
-		horizontalWallBottom = getAtlas().findRegion(id + "/wall_horizontal_bottom");
-		topLeftCorner = getAtlas().findRegion(id + "/corner_top_left");
-		bottomLeftCorner = getAtlas().findRegion(id + "/corner_bottom_left");
-		topRightCorner = getAtlas().findRegion(id + "/corner_top_right");
-		bottomRightCorner = getAtlas().findRegion(id + "/corner_bottom_right");
+		TextureRegion background = Assets.getTextureRegion(id + "/floor");
+		verticalWallLeft = Assets.getTextureRegion(id + "/wall_vertical_left");
+		verticalWallRight = Assets.getTextureRegion(id + "/wall_vertical_right");
+		horizontalWallBottom = Assets.getTextureRegion(id + "/wall_horizontal_bottom");
+		topLeftCorner = Assets.getTextureRegion(id + "/corner_top_left");
+		bottomLeftCorner = Assets.getTextureRegion(id + "/corner_bottom_left");
+		topRightCorner = Assets.getTextureRegion(id + "/corner_top_right");
+		bottomRightCorner = Assets.getTextureRegion(id + "/corner_bottom_right");
 		
 		setX((Gdx.graphics.getWidth() - background.getRegionWidth() * Settings.GAME_SCALE) / 2);
 		setY((Gdx.graphics.getHeight() - background.getRegionHeight() * Settings.GAME_SCALE) / 2);
 		setWidth(background.getRegionWidth() * Settings.GAME_SCALE);
 		setHeight(background.getRegionHeight() * Settings.GAME_SCALE);
-	}
-	
-	protected TextureAtlas getAtlas() {
-		if (atlas == null)
-			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
-		return atlas;
 	}
 	
 	@Override

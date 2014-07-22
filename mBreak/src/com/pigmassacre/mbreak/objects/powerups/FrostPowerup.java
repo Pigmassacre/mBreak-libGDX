@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Particle;
 import com.pigmassacre.mbreak.objects.effects.FrostEffect;
@@ -29,7 +30,7 @@ public class FrostPowerup extends Powerup {
 	public FrostPowerup(float x, float y) {
 		super(x, y);
 
-		TextureRegion sheet = getAtlas().findRegion("frost");
+		TextureRegion sheet = Assets.getTextureRegion("frost");
 		TextureRegion[][] temp = sheet.split(sheet.getRegionWidth() / FRAME_COLS, sheet.getRegionHeight() / FRAME_ROWS);
 		frames = new TextureRegion[(FRAME_COLS * FRAME_ROWS) + 1];
 

@@ -32,7 +32,7 @@ public class Paddle extends GameActor {
 		
 		setColor(new Color(owner.getColor()));
 		
-		image = getAtlas().findRegion("paddle");
+		image = Assets.getTextureRegion("paddle");
 		
 		setDepth(2 * Settings.GAME_SCALE);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);

@@ -173,7 +173,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 	}
 	
 	public void start() {
-		game.setScreen(new GameScreen(game));
+		game.setScreen(new GameLoadingScreen(game));
 	}
 	
 	@Override

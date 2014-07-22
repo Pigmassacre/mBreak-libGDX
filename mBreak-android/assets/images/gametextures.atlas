@@ -1,192 +1,101 @@
 
-packedtextures-1.png
+gametextures-1.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ai_easy
+background_tile
   rotate: false
-  xy: 644, 739
-  size: 12, 12
-  orig: 12, 12
-  offset: 0, 0
-  index: -1
-ai_hard
-  rotate: false
-  xy: 710, 805
-  size: 12, 12
-  orig: 12, 12
+  xy: 20, 19
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
 ball
   rotate: false
-  xy: 2, 2
+  xy: 102, 22
   size: 6, 7
   orig: 6, 7
   offset: 0, 0
   index: -1
 block
   rotate: false
-  xy: 12, 42
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
-  index: -1
-block2
-  rotate: false
-  xy: 41, 137
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
-  index: -1
-block3
-  rotate: false
-  xy: 49, 163
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
-  index: -1
-block_normal
-  rotate: false
-  xy: 2, 11
+  xy: 20, 3
   size: 6, 14
   orig: 6, 14
-  offset: 0, 0
-  index: 1
-block_normal
-  rotate: false
-  xy: 2, 11
-  size: 6, 14
-  orig: 6, 14
-  offset: 0, 0
-  index: 3
-block_normal
-  rotate: false
-  xy: 2, 11
-  size: 6, 14
-  orig: 6, 14
-  offset: 0, 0
-  index: 2
-block_strong
-  rotate: false
-  xy: 644, 725
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
-  index: 1
-block_strong
-  rotate: false
-  xy: 658, 739
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
-  index: 2
-block_strong
-  rotate: false
-  xy: 710, 791
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
-  index: 3
-block_weak
-  rotate: false
-  xy: 724, 805
-  size: 6, 12
-  orig: 6, 12
-  offset: 0, 0
-  index: -1
-cheatysunrays
-  rotate: false
-  xy: 2, 177
-  size: 640, 640
-  orig: 640, 640
   offset: 0, 0
   index: -1
 doublespeed
   rotate: false
-  xy: 20, 45
+  xy: 32, 20
   size: 8, 9
   orig: 8, 9
   offset: 0, 0
   index: -1
 electricity
   rotate: false
-  xy: 57, 166
+  xy: 42, 20
   size: 8, 9
   orig: 8, 9
   offset: 0, 0
   index: -1
 enlarger
   rotate: false
-  xy: 666, 743
+  xy: 62, 21
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 fire
   rotate: false
-  xy: 652, 728
+  xy: 52, 20
   size: 8, 9
   orig: 8, 9
   offset: 0, 0
   index: -1
 frost
   rotate: false
-  xy: 2, 27
+  xy: 2, 2
   size: 8, 27
   orig: 8, 27
   offset: 0, 0
   index: -1
-mBreak_title
-  rotate: false
-  xy: 2, 56
-  size: 37, 119
-  orig: 37, 119
-  offset: 0, 0
-  index: -1
 multiball
   rotate: false
-  xy: 718, 795
+  xy: 72, 21
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 paddle
   rotate: false
-  xy: 41, 151
+  xy: 12, 5
   size: 6, 24
   orig: 6, 24
   offset: 0, 0
   index: -1
 particle
   rotate: false
-  xy: 12, 39
+  xy: 12, 2
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 reducer
   rotate: false
-  xy: 732, 809
+  xy: 82, 21
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 rocket
   rotate: false
-  xy: 30, 46
+  xy: 92, 21
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-sunray
-  rotate: false
-  xy: 644, 753
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
 
-packedtextures-2.png
+gametextures-2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -254,7 +163,7 @@ glass/wall_vertical_right
   offset: 0, 0
   index: -1
 
-packedtextures-3.png
+gametextures-3.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none

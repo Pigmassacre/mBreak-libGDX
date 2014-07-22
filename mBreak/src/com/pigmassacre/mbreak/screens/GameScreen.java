@@ -16,6 +16,7 @@ import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GameActorAccessor;
 import com.pigmassacre.mbreak.gui.Sunrays;
+import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Paddle;
@@ -66,7 +67,7 @@ public class GameScreen extends AbstractScreen {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
 				Block block = new Block(Settings.LEVEL_X + x * tempBlock.getWidth(), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()), leftPlayer,
 						leftPlayer.getColor());
-				block.setZ(600);
+				block.setZ(1000);
 				Tween.to(block, GameActorAccessor.Z, 2f)
 					.target(3)
 					.ease(TweenEquations.easeOutExpo)
@@ -94,7 +95,7 @@ public class GameScreen extends AbstractScreen {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
 				Block block = new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()),
 						rightPlayer, rightPlayer.getColor());
-				block.setZ(600);
+				block.setZ(1000);
 				Tween.to(block, GameActorAccessor.Z, 2f)
 					.target(3)
 					.ease(TweenEquations.easeOutExpo)
@@ -142,17 +143,33 @@ public class GameScreen extends AbstractScreen {
 		array.end();
 		
 		float strength = 0;
-		Player winningPlayer;
+		Player winningPlayer = null;
 		if (leftPlayerBlockCount > rightPlayerBlockCount) {
 			strength = (leftPlayerBlockCount - rightPlayerBlockCount) / (leftPlayerBlockCount + rightPlayerBlockCount);
 			winningPlayer = leftPlayer;
-			backgroundColor.lerp(winningPlayer.getColor().cpy().mul(strength, strength, strength, 1f).add(0.1f, 0.1f, 0.1f, 1f), 0.05f);
 		} else if (leftPlayerBlockCount < rightPlayerBlockCount) {
 			strength = (rightPlayerBlockCount - leftPlayerBlockCount) / (leftPlayerBlockCount + rightPlayerBlockCount);
 			winningPlayer = rightPlayer;
-			backgroundColor.lerp(winningPlayer.getColor().cpy().mul(strength, strength, strength, 1f).add(0.1f, 0.1f, 0.1f, 1f), 0.05f);
 		} else {
 			backgroundColor.lerp(new Color(1f, 1f, 1f, 1f).sub(leftPlayer.getColor().cpy().add(rightPlayer.getColor().cpy())).mul(0.33f), 0.05f);
+		}
+		
+		if (winningPlayer != null) {
+			float lowerColorBound = 0.0f;
+			Color color = winningPlayer.getColor().cpy().mul(strength, strength, strength, 1f).add(winningPlayer.getColor().cpy().mul(0.25f));
+			if (color.r < lowerColorBound) {
+				color.r = lowerColorBound;
+			}
+			if (color.g < lowerColorBound) {
+				color.g = lowerColorBound;
+			}
+			if (color.b < lowerColorBound) {
+				color.b = lowerColorBound;
+			}
+			if (color.a < lowerColorBound) {
+				color.a = lowerColorBound;
+			}
+			backgroundColor.lerp(color, 0.05f);
 		}
 		
 		Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1f);
@@ -181,6 +198,7 @@ public class GameScreen extends AbstractScreen {
 
 	private void back() {
 		game.setScreen(new PrepareMenuScreen(game));
+		Assets.unloadGameAssets();
 	}
 
 	@Override

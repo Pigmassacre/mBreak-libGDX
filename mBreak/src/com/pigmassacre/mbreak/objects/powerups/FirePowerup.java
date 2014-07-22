@@ -3,6 +3,7 @@ package com.pigmassacre.mbreak.objects.powerups;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Particle;
 import com.pigmassacre.mbreak.objects.effects.FireEffect;
@@ -20,7 +21,7 @@ public class FirePowerup extends Powerup {
 	public FirePowerup(float x, float y) {
 		super(x, y);
 
-		image = getAtlas().findRegion("fire");
+		image = Assets.getTextureRegion("fire");
 		
 		setDepth(1 * Settings.GAME_SCALE);
 		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);

@@ -1,27 +1,18 @@
 package com.pigmassacre.mbreak.gui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Assets;
 
 public class ImageItem extends RectItem {
 
-	private static TextureAtlas atlas;
-	
-	TextureRegion image;
+	private TextureRegion image;
 	
 	public ImageItem(String atlasRegion) {
 		super();
 		
-		image = getAtlas().findRegion(atlasRegion);
-	}
-	
-	protected TextureAtlas getAtlas() {
-		if (atlas == null)
-			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
-		return atlas;
+		image = Assets.getTextureRegion(atlasRegion);
 	}
 	
 	protected float getImageWidth() {

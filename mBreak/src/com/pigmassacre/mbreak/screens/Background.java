@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Assets;
 
 /**
  * Takes care of all the background assets. The background assets will be picked
@@ -16,23 +17,16 @@ import com.pigmassacre.mbreak.Settings;
  */
 public class Background extends Actor {
 
-	private TextureAtlas atlas;
 	private TextureRegion background, horizontalWallTop;
 	
 	public Background(String id) {
-		horizontalWallTop = getAtlas().findRegion(id + "/wall_horizontal_top");
-		background = getAtlas().findRegion(id + "/floor");
+		horizontalWallTop = Assets.getTextureRegion(id + "/wall_horizontal_top");
+		background = Assets.getTextureRegion(id + "/floor");
 		
 		setX((Gdx.graphics.getWidth() - background.getRegionWidth() * Settings.GAME_SCALE) / 2);
 		setY((Gdx.graphics.getHeight() - background.getRegionHeight() * Settings.GAME_SCALE) / 2 - 3 * Settings.GAME_SCALE);
 		setWidth(background.getRegionWidth() * Settings.GAME_SCALE);
 		setHeight(background.getRegionHeight() * Settings.GAME_SCALE);
-	}
-	
-	protected TextureAtlas getAtlas() {
-		if (atlas == null)
-			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
-		return atlas;
 	}
 	
 	@Override

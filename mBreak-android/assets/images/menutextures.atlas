@@ -1,0 +1,40 @@
+
+menutextures-1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ai_easy
+  rotate: false
+  xy: 2, 2
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+ai_hard
+  rotate: false
+  xy: 41, 123
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+cheatysunrays
+  rotate: false
+  xy: 2, 137
+  size: 640, 640
+  orig: 640, 640
+  offset: 0, 0
+  index: -1
+mBreak_title
+  rotate: false
+  xy: 2, 16
+  size: 37, 119
+  orig: 37, 119
+  offset: 0, 0
+  index: -1
+sunray
+  rotate: false
+  xy: 644, 713
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1

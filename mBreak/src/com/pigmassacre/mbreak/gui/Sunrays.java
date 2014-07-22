@@ -1,16 +1,14 @@
 package com.pigmassacre.mbreak.gui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Assets;
 
 public class Sunrays extends Widget {
 	
-	private TextureAtlas atlas;
 	private TextureRegion image;
 	
 	private float rotation;
@@ -19,15 +17,8 @@ public class Sunrays extends Widget {
 	public float offsetX, offsetY;
 	
 	public Sunrays() {
-		image = getAtlas().findRegion("cheatysunrays");
+		image = Assets.getTextureRegion("cheatysunrays");
 		setColor(1f, 1f, 1f, 0.25f);
-//		setColor(0f, 0f, 0f, 1f);
-	}
-	
-	protected TextureAtlas getAtlas() {
-		if (atlas == null)
-			atlas = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas"));
-		return atlas;
 	}
 	
 	public void attachTo(Widget widget, float offsetX, float offsetY) {

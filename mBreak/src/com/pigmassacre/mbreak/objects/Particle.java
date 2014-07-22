@@ -1,10 +1,7 @@
 package com.pigmassacre.mbreak.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Pool;
@@ -26,11 +23,9 @@ public class Particle extends GameActor implements Poolable {
 	public float angle, speed, retardation;
 	public float alphaStep;
 	
-	private static TextureRegion image = new TextureAtlas(Gdx.files.internal("images/packedtextures.atlas")).findRegion("particle");
-	
 	public Particle() {
 		alive = false;
-		super.image = image;
+		image = Assets.getTextureRegion("particle");
 	}
 	
 	public void init(float x, float y, float width, float height, float angle, float speed, float retardation, float alphaStep, Color color) {

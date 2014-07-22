@@ -1,9 +1,5 @@
 package com.pigmassacre.mbreak.screens;
 
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquations;
-
-import com.badlogic.gdx.Gdx;
 import com.pigmassacre.mbreak.MBreak;
 
 public class SplashScreen extends AbstractScreen {
