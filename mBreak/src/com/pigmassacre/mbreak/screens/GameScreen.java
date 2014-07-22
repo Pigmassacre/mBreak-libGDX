@@ -51,17 +51,10 @@ public class GameScreen extends AbstractScreen {
 		leftPlayer = new Player("left");
 		leftPlayer.setX(2.5f * Settings.GAME_SCALE);
 		leftPlayer.setY(2.5f * Settings.GAME_SCALE);
-		Groups.playerGroup.addActor(leftPlayer);
 		leftPlayer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-		leftPaddle = new Paddle(leftPlayer);
-		leftPaddle.setX(Settings.LEVEL_X + leftPaddle.getWidth() * 4);
-		leftPaddle.setY((Gdx.graphics.getHeight() - leftPaddle.getHeight()) / 2);
-
-		leftPaddle.touchRectangle = new Rectangle(0, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
-		leftPaddle.keyUp = Keys.W;
-		leftPaddle.keyDown = Keys.S;
-
-		float delay = 2f;
+		Groups.playerGroup.addActor(leftPlayer);
+		
+		float delay = 0.25f;
 		Block tempBlock = new Block(0, 0, new Player("temp"), new Color(Color.BLACK));
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
@@ -76,21 +69,28 @@ public class GameScreen extends AbstractScreen {
 				delay += 0.025f;
 			}
 		}
+		
+		leftPaddle = new Paddle(leftPlayer);
+		leftPaddle.setX(Settings.LEVEL_X + leftPaddle.getWidth() * 4);
+		leftPaddle.setY((Gdx.graphics.getHeight() - leftPaddle.getHeight()) / 2);
+		leftPaddle.touchRectangle = new Rectangle(0, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
+		leftPaddle.keyUp = Keys.W;
+		leftPaddle.keyDown = Keys.S;
+
+		leftPaddle.setZ(1000);
+		Tween.to(leftPaddle, GameActorAccessor.Z, 2f)
+			.target(3)
+			.ease(TweenEquations.easeOutExpo)
+			.delay(delay + 0.025f)
+			.start(getTweenManager());
 
 		rightPlayer = new Player("right");
 		rightPlayer.setX(Gdx.graphics.getWidth() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
 		rightPlayer.setY(Gdx.graphics.getHeight() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
-		Groups.playerGroup.addActor(rightPlayer);
 		rightPlayer.setColor(1.0f, 0.0f, 1.0f, 1.0f);
-		rightPaddle = new Paddle(rightPlayer);
-		rightPaddle.setX(Settings.LEVEL_MAX_X - rightPaddle.getWidth() * 5);
-		rightPaddle.setY((Gdx.graphics.getHeight() - rightPaddle.getHeight()) / 2);
-
-		rightPaddle.touchRectangle = new Rectangle(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
-		rightPaddle.keyUp = Keys.UP;
-		rightPaddle.keyDown = Keys.DOWN;
-
-		delay = 2f;
+		Groups.playerGroup.addActor(rightPlayer);
+		
+		delay = 0.25f;
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < (int) Settings.LEVEL_HEIGHT / tempBlock.getHeight(); y++) {
 				Block block = new Block(Settings.LEVEL_MAX_X - ((x + 1) * tempBlock.getWidth()), Settings.LEVEL_MAX_Y - tempBlock.getHeight() - (y * tempBlock.getHeight()),
@@ -104,6 +104,23 @@ public class GameScreen extends AbstractScreen {
 				delay += 0.025f;
 			}
 		}
+		
+		rightPaddle = new Paddle(rightPlayer);
+		rightPaddle.setX(Settings.LEVEL_MAX_X - rightPaddle.getWidth() * 5);
+		rightPaddle.setY((Gdx.graphics.getHeight() - rightPaddle.getHeight()) / 2);
+
+		rightPaddle.touchRectangle = new Rectangle(Gdx.graphics.getWidth() / 2, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
+		rightPaddle.keyUp = Keys.UP;
+		rightPaddle.keyDown = Keys.DOWN;
+		
+		rightPaddle.setZ(1000);
+		Tween.to(rightPaddle, GameActorAccessor.Z, 2f)
+			.target(3)
+			.ease(TweenEquations.easeOutExpo)
+			.delay(delay + 0.025f)
+			.start(getTweenManager());
+
+		
 
 		tempBlock.destroy();
 		

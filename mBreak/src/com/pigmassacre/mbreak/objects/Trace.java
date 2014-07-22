@@ -51,6 +51,7 @@ public class Trace extends GameActor {
 		batch.setColor(getColor());
 		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
+		super.draw(batch, parentAlpha);
 	}
 	
 }

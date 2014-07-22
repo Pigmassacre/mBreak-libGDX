@@ -1,6 +1,7 @@
 package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,6 +17,10 @@ public class Assets {
 		
 		if (!assetManager.isLoaded("images/menutextures.atlas")) {
 			assetManager.load("images/menutextures.atlas", TextureAtlas.class);
+		}
+		
+		if (!assetManager.isLoaded("music/title/goluigi-nonuniform.ogg")) {
+			assetManager.load("music/title/goluigi-nonuniform.ogg", Music.class);
 		}
 	}
 	
@@ -37,10 +42,10 @@ public class Assets {
 			assetManager = new AssetManager();
 		}
 		
-		if (!assetManager.isLoaded("images/gametextures.atlas")) {
+		if (assetManager.isLoaded("images/gametextures.atlas")) {
 			assetManager.unload("images/gametextures.atlas");
 		}
-		if (!assetManager.isLoaded("sound/ball.ogg")) {
+		if (assetManager.isLoaded("sound/ball.ogg")) {
 			assetManager.unload("sound/ball.ogg");
 		}
 	}
@@ -72,6 +77,10 @@ public class Assets {
 
 	public static Sound getSound(String name) {
 		return assetManager.get(name, Sound.class);
+	}
+	
+	public static Music getMusic(String name) {
+		return assetManager.get(name, Music.class);
 	}
 	
 }

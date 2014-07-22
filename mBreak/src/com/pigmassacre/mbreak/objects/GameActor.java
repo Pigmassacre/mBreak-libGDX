@@ -1,5 +1,6 @@
 package com.pigmassacre.mbreak.objects;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -132,6 +133,11 @@ public class GameActor extends Actor {
 	
 	public void move(float delta) {
 		
+	}
+	
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		effectGroup.draw(batch, parentAlpha);
 	}
 
 }

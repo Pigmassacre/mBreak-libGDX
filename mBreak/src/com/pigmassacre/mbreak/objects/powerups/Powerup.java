@@ -126,15 +126,13 @@ public class Powerup extends GameActor {
 		} else {
 			stateTime += delta;
 			setZ(((MathUtils.sinDeg(startTime + stateTime * 250f) + 1) / 2) * maxZ);
-//			offsetX = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetX;
-//			offsetY = (float) Math.sin(startTime + stateTime * 0.0075) * maxOffsetY;
 		}
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-//		System.out.println(getZ());
 		batch.draw(image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
+		super.draw(batch, parentAlpha);
 	}
 	
 }

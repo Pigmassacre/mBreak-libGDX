@@ -9,10 +9,11 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.gui.ActorAccessor;
+import com.pigmassacre.mbreak.objects.Assets;
 
 public class IntroScreen extends AbstractScreen {
 
@@ -55,7 +56,7 @@ public class IntroScreen extends AbstractScreen {
 			.start(getTweenManager());
 
 		
-		music = Gdx.audio.newMusic(Gdx.files.internal("music/title/goluigi-nonuniform.ogg"));
+		music = Assets.getMusic("music/title/goluigi-nonuniform.ogg");
 		music.setLooping(true);
 		music.play();
 		

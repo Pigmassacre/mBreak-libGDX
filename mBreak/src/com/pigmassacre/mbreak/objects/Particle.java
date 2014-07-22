@@ -100,6 +100,7 @@ public class Particle extends GameActor implements Poolable {
 			batch.setColor(getColor());
 			batch.draw(image, getX(), getY() + getZ(), getWidth(), getHeight());
 			batch.setColor(temp);
+			super.draw(batch, parentAlpha);
 		}
 	}
 
