@@ -31,7 +31,7 @@ public class GameScreen extends AbstractScreen {
 	Background background;
 	Foreground foreground;
 	
-	public GameScreen(MBreak game) {
+	public GameScreen(MBreak game, Color leftColor, Color rightColor) {
 		super(game);
 		Sunrays sunrays = new Sunrays();
 		sunrays.setX(Gdx.graphics.getWidth() / 2 - sunrays.getWidth() / 2);
@@ -52,7 +52,7 @@ public class GameScreen extends AbstractScreen {
 		leftPlayer = new Player("left");
 		leftPlayer.setX(2.5f * Settings.GAME_SCALE);
 		leftPlayer.setY(2.5f * Settings.GAME_SCALE);
-		leftPlayer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		leftPlayer.setColor(leftColor);
 		Groups.playerGroup.addActor(leftPlayer);
 		
 		float delay = 0.25f;
@@ -91,7 +91,7 @@ public class GameScreen extends AbstractScreen {
 		rightPlayer = new Player("right");
 		rightPlayer.setX(Gdx.graphics.getWidth() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
 		rightPlayer.setY(Gdx.graphics.getHeight() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
-		rightPlayer.setColor(1.0f, 0.0f, 1.0f, 1.0f);
+		rightPlayer.setColor(rightColor);
 		Groups.playerGroup.addActor(rightPlayer);
 		
 		delay = 0.25f;

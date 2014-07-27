@@ -60,7 +60,7 @@ public class MainMenuScreen extends AbstractScreen {
 		textItem.setCallback(new ItemCallback() {
 
 			@Override
-			public void execute(Object data) {
+			public void execute(Item data) {
 				startPrepareMenu(); 
 			}
 			
@@ -99,7 +99,7 @@ public class MainMenuScreen extends AbstractScreen {
 		textItem.setCallback(new ItemCallback() {
 
 			@Override
-			public void execute(Object data) {
+			public void execute(Item data) {
 				quit();
 			}
 			

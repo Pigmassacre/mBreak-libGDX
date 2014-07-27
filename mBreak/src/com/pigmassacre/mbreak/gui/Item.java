@@ -9,12 +9,12 @@ import com.pigmassacre.mbreak.Settings;
 public class Item extends Widget {
 	
 	public interface ItemCallback {
-		public void execute(Object data);
+		public void execute(Item data);
 	}
 	
-	ItemCallback callback;
+	protected ItemCallback callback;
 	
-	ShapeRenderer shapeRenderer;
+	protected ShapeRenderer shapeRenderer;
 
 	Color shadowColor = new Color(0.196f, 0.196f, 0.196f, 1.0f);
 	Color selectedColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);

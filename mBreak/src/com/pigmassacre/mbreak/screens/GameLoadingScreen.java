@@ -1,6 +1,7 @@
 package com.pigmassacre.mbreak.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.TextItem;
 import com.pigmassacre.mbreak.objects.Assets;
@@ -8,9 +9,12 @@ import com.pigmassacre.mbreak.objects.Assets;
 public class GameLoadingScreen extends AbstractScreen {
 
 	TextItem loadingTextItem;
+	Color leftColor, rightColor;
 	
-	public GameLoadingScreen(MBreak game) {
+	public GameLoadingScreen(MBreak game, Color leftColor, Color rightColor) {
 		super(game);
+		this.leftColor = leftColor;
+		this.rightColor = rightColor;
 		Assets.loadGameAssets();
 		loadingTextItem = new TextItem("Now Loading");
 		loadingTextItem.setColor(1f, 1f, 1f, 1f);
@@ -24,7 +28,7 @@ public class GameLoadingScreen extends AbstractScreen {
 		super.render(delta);
 		
 		if (Assets.getAssetManager().update()) {
-			game.setScreen(new GameScreen(game));
+			game.setScreen(new GameScreen(game, leftColor, rightColor));
 		}
 		
 		loadingTextItem.setString("Now Loading " + (int) (Assets.getAssetManager().getProgress() * 100) + "%");
