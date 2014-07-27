@@ -2,6 +2,7 @@ package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.effects.Effect;
 
 public class Flash extends Effect {
@@ -25,9 +26,6 @@ public class Flash extends Effect {
 		setZ(parentActor.getZ());
 		setWidth(parentActor.getWidth());
 		setHeight(parentActor.getHeight());
-		
-//		image = Assets.getTextureRegion("ball");
-//		image = parentActor.image;
 	}
 	
 	public Flash(GameActor parentActor, float duration, boolean followParent) {
@@ -72,11 +70,15 @@ public class Flash extends Effect {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
-//		batch.setShader(GrayscaleShader.grayscaleShader);
+		batch.setShader(GrayscaleShader.grayscaleShader);
 		batch.setColor(currentColor);
-		batch.draw(parentActor.image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
+		if (followParent) {
+			batch.draw(parentActor.image, parentActor.getX(), parentActor.getY() + Settings.getLevelYOffset() + parentActor.getZ(), parentActor.getWidth(), parentActor.getHeight() + parentActor.getDepth());
+		} else {
+			batch.draw(parentActor.image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
+		}
 		batch.setColor(temp);
-//		batch.setShader(null);
+		batch.setShader(null);
 	}
 	
 }

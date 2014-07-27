@@ -218,7 +218,7 @@ public class GameScreen extends AbstractScreen {
 			}
 
 		});
-		getInputMultiplexer().addProcessor(new DebugInput(stage));
+		getInputMultiplexer().addProcessor(new DebugInput(this, stage));
 		super.show();
 	}
 

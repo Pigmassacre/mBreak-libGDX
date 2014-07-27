@@ -25,7 +25,7 @@ public class AbstractScreen implements Screen {
 	private InputMultiplexer inputMultiplexer;
 	protected Traversal traversal;
 	
-	protected float timeScale = 1f;
+	public float timeScale = 1f;
 	
 	protected String getName() {
 		return getClass().getSimpleName();

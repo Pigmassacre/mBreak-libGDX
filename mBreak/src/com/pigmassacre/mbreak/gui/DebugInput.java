@@ -3,7 +3,6 @@ package com.pigmassacre.mbreak.gui;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -19,15 +18,17 @@ import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
 import com.pigmassacre.mbreak.objects.powerups.FrostPowerup;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
 import com.pigmassacre.mbreak.objects.powerups.SpeedPowerup;
+import com.pigmassacre.mbreak.screens.AbstractScreen;
 
 public class DebugInput extends InputAdapter {
 
-	
+	private AbstractScreen screen;
 	private Stage stage;
 	
 	private Rectangle rectangle;
 	
-	public DebugInput(Stage stage) {
+	public DebugInput(AbstractScreen screen, Stage stage) {
+		this.screen = screen;
 		this.stage = stage;
 		rectangle = new Rectangle(Settings.LEVEL_X, Settings.LEVEL_Y, Settings.LEVEL_WIDTH, Settings.LEVEL_HEIGHT);
 	}
@@ -85,6 +86,16 @@ public class DebugInput extends InputAdapter {
 				powerup = new FrostPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
 				break;
 			}
+			break;
+		case Keys.M:
+			screen.timeScale += 0.1f;
+			break;
+		case Keys.N:
+			screen.timeScale -= 0.1f;
+			break;
+		case Keys.B:
+			screen.timeScale = 1f;
+			break;
 		}
 		return true;
 	}

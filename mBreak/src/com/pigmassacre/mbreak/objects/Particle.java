@@ -25,7 +25,7 @@ public class Particle extends GameActor implements Poolable {
 	
 	public Particle() {
 		alive = false;
-		image = Assets.getTextureRegion("particle");
+//		image = Assets.getTextureRegion("particle");
 	}
 	
 	public void init(float x, float y, float width, float height, float angle, float speed, float retardation, float alphaStep, Color color) {
@@ -35,6 +35,7 @@ public class Particle extends GameActor implements Poolable {
 		setZ(3 * Settings.GAME_SCALE);
 		setWidth(width);
 		setHeight(height);
+		image = Assets.getTextureRegion("particle");
 		
 		this.angle = angle;
 		this.speed = speed;
@@ -46,7 +47,7 @@ public class Particle extends GameActor implements Poolable {
 		shadow = Shadow.shadowPool.obtain();
 		shadow.init(this, true);
 		Color shadowColor = color.cpy().mul(shadowBlendColor);
-//		shadowColor.a = 0.5f;
+		shadowColor.a = 0.5f;
 		shadow.setColor(shadowColor);
 		
 		Groups.particleGroup.addActor(this);
