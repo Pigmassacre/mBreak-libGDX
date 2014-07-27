@@ -12,7 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
+import com.pigmassacre.mbreak.gui.GameActorAccessor;
 import com.pigmassacre.mbreak.gui.Traversal;
+import com.pigmassacre.mbreak.objects.GameActor;
 
 public class AbstractScreen implements Screen {
 
@@ -39,6 +41,7 @@ public class AbstractScreen implements Screen {
 	}
 	
 	protected void registerTweenAccessor() {
+		Tween.registerAccessor(GameActor.class, new GameActorAccessor());
 		Tween.registerAccessor(Actor.class, new ActorAccessor());
 	}
 

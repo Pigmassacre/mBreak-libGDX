@@ -1,5 +1,12 @@
 package com.pigmassacre.mbreak.gui;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquations;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -56,35 +63,49 @@ public class DebugInput extends InputAdapter {
 	@Override
 	public boolean keyDown(int keycode) {
 		switch(keycode) {
-		case Keys.R:
-			// Reset all active balls.
-			SnapshotArray<Actor> array = Groups.ballGroup.getChildren();
-			Actor[] items = array.begin();
-			for (int i = 0, n = array.size; i < n; i++) {
-				Actor item = items[i];
-				((Ball) item).reset();
+		case Keys.F3:
+			Settings.setDebugMode(!Settings.getDebugMode());
+			
+			if (Settings.getDebugMode()) {
+				createDebugMessage("Debug Mode ON");
+			} else {
+				createDebugMessage("Debug Mode OFF");
 			}
-			array.end();
+			
+			break;
+		case Keys.R:
+			if (Settings.getDebugMode()) {
+				createDebugMessage("Removed all balls");
+				SnapshotArray<Actor> array = Groups.ballGroup.getChildren();
+				Actor[] items = array.begin();
+				for (int i = 0, n = array.size; i < n; i++) {
+					Actor item = items[i];
+					((Ball) item).reset();
+				}
+				array.end();
+			}
 			break;
 		case Keys.P:
-			float powerupWidth = Settings.LEVEL_WIDTH / 2 - 8 * Settings.GAME_SCALE;
-			float powerupHeight = Settings.LEVEL_HEIGHT - 8 * Settings.GAME_SCALE;
-			float powerupX = Settings.LEVEL_X + powerupWidth / 2;
-			float powerupY = Settings.LEVEL_Y;
-			Powerup powerup;
-			switch(MathUtils.random(3)) {
-			case 0:
-				powerup = new FirePowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-				break;
-			case 1:
-				powerup = new SpeedPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-				break;
-			case 2:
-				powerup = new ElectricityPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-				break;
-			case 3:
-				powerup = new FrostPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-				break;
+			if (Settings.getDebugMode()) {
+				float powerupWidth = Settings.LEVEL_WIDTH / 2 - 8 * Settings.GAME_SCALE;
+				float powerupHeight = Settings.LEVEL_HEIGHT - 8 * Settings.GAME_SCALE;
+				float powerupX = Settings.LEVEL_X + powerupWidth / 2;
+				float powerupY = Settings.LEVEL_Y;
+				Powerup powerup;
+				switch(MathUtils.random(3)) {
+				case 0:
+					powerup = new FirePowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+					break;
+				case 1:
+					powerup = new SpeedPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+					break;
+				case 2:
+					powerup = new ElectricityPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+					break;
+				case 3:
+					powerup = new FrostPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+					break;
+				}
 			}
 			break;
 		case Keys.M:
@@ -98,6 +119,43 @@ public class DebugInput extends InputAdapter {
 			break;
 		}
 		return true;
+	}
+	
+	private TextItem debugTextItem;
+	private Timeline debugTextSequence;
+	
+	private void createDebugMessage(CharSequence string) {
+		if (debugTextItem != null) {
+			debugTextItem.remove();
+		}
+		if (debugTextSequence != null) {
+			debugTextSequence.free();
+		}
+		
+		debugTextItem = new TextItem(string);
+		debugTextItem.setScale(debugTextItem.getScaleX() * 0.75f, debugTextItem.getScaleY() * 0.75f);
+		debugTextItem.setColor(1f, 1f, 1f, 0.75f);
+		debugTextItem.setX((Gdx.graphics.getWidth() - debugTextItem.getWidth()) / 2);
+		debugTextItem.setY(Gdx.graphics.getHeight() + debugTextItem.getHeight());
+		stage.addActor(debugTextItem);
+
+		debugTextSequence = Timeline.createSequence()
+			.push(Tween.to(debugTextItem, ActorAccessor.POSITION_Y, 2f)
+					.target(Gdx.graphics.getHeight() - 2f * debugTextItem.getScaleY())
+					.ease(TweenEquations.easeOutExpo))
+			.pushPause(0.25f)
+			.push(Tween.to(debugTextItem, ActorAccessor.POSITION_Y, 2f)
+					.target(Gdx.graphics.getHeight() + debugTextItem.getHeight())
+					.ease(TweenEquations.easeInExpo))
+					.setCallback(new TweenCallback() {
+						
+						@Override
+						public void onEvent(int type, BaseTween<?> source) {
+							debugTextItem.remove();
+						}
+						
+					})
+			.start(screen.getTweenManager());
 	}
 	
 }

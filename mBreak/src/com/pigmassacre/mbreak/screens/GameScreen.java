@@ -33,7 +33,6 @@ public class GameScreen extends AbstractScreen {
 	
 	public GameScreen(MBreak game) {
 		super(game);
-//		timeScale = 0.5f;
 		Sunrays sunrays = new Sunrays();
 		sunrays.setX(Gdx.graphics.getWidth() / 2 - sunrays.getWidth() / 2);
 		sunrays.setY(Gdx.graphics.getHeight() / 2 - sunrays.getHeight() / 2);
@@ -144,10 +143,6 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(Groups.paddleGroup);
 		stage.addActor(Groups.particleGroup);
 		stage.addActor(foreground);
-	}
-	
-	protected void registerTweenAccessor() {
-		Tween.registerAccessor(Actor.class, new GameActorAccessor());
 	}
 	
 	Color backgroundColor = new Color();;

@@ -17,19 +17,15 @@ public class Settings {
 	
 	public static float LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_X, LEVEL_MAX_X, LEVEL_Y, LEVEL_MAX_Y;
 	
-	public Settings() {
-
-	}
-	
-	protected Preferences getPreferences() {
+	protected static Preferences getPreferences() {
 		return Gdx.app.getPreferences(PREFS_NAME);
 	}
 	
-	public boolean getDebugMode() {
+	public static boolean getDebugMode() {
 		return getPreferences().getBoolean(DEBUG_MODE, true);
 	}
 	
-	public void setDebugMode(boolean mode) {
+	public static void setDebugMode(boolean mode) {
 		getPreferences().putBoolean(DEBUG_MODE, mode);
 	}
 	

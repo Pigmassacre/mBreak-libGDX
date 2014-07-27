@@ -40,6 +40,22 @@ public class TextItem extends Item {
 								  getHeight() * selectionHeightIncrease);
 	}
 	
+	public float getScaleX() {
+		return font.getScaleX();
+	}
+	
+	public float getScaleY() {
+		return font.getScaleY();
+	}
+	
+	public void setScale(float scaleXY) {
+		font.setScale(scaleXY);
+	}
+	
+	public void setScale(float scaleX, float scaleY) {
+		font.setScale(scaleX, scaleY);
+	}
+
 	public void setString(CharSequence string) {
 		this.string = string;
 	}

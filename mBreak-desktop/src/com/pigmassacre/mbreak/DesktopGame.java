@@ -9,7 +9,7 @@ public class DesktopGame {
 	public static void main (String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.fullscreen = false;
+		config.fullscreen = true;
 		
 		if (config.fullscreen) {
 			DisplayMode[] displayModes = LwjglApplicationConfiguration.getDisplayModes(); 
