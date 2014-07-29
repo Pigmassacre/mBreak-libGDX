@@ -17,15 +17,11 @@ public class Shadow extends GameActor implements Poolable {
 
 	};
 	
-	private float offsetX, offsetY;
-	
 	public boolean linger;
 	
 	public Shadow() {
 		alive = false;
 		setZ(0);
-		offsetX = 0f * Settings.GAME_SCALE;
-		offsetY = -0f * Settings.GAME_SCALE;
 	}
 	
 	public void init(GameActor parentActor, boolean linger) {
@@ -61,7 +57,7 @@ public class Shadow extends GameActor implements Poolable {
 	
 	@Override
 	public float getX() {
-		return parentActor.getX() + offsetX * parentActor.getZ();
+		return parentActor.getX();
 	}
 	
 	@Override
@@ -76,7 +72,7 @@ public class Shadow extends GameActor implements Poolable {
 	
 	@Override
 	public float getHeight() {
-		return parentActor.getHeight() - parentActor.getDepth();
+		return parentActor.getHeight();
 	}
 	
 //	@Override
@@ -93,9 +89,12 @@ public class Shadow extends GameActor implements Poolable {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-//		float zDropOff = 0f;
-		//  + (parentActor.getZ() / zDropOff) / 2
-		batch.draw(parentActor.image, getX(), getY() + Settings.getLevelYOffset(), getWidth(), getHeight() + parentActor.getDepth());
+		if (parentActor instanceof Paddle) {
+			Paddle paddle = (Paddle) parentActor;
+			paddle.drawImages(batch, parentAlpha, 0, -paddle.getZ(), -paddle.getDepth());
+		} else {
+			batch.draw(parentActor.image, getX(), getY() + Settings.getLevelYOffset(), getWidth(), getHeight());
+		}
 		batch.setColor(temp);
 	}
 

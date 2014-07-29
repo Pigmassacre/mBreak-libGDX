@@ -4,80 +4,95 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.pigmassacre.mbreak.Settings;
 
 public class Paddle extends GameActor {
-	
+
 	private float maxHeight, minHeight, maxWidth, minWidth;
-	
+
 	private float acceleration, retardation, velocityX, velocityY;
 	public float maxSpeed;
 	public final float defaultMaxSpeed;
 	private float centerX;
-	
+
 	private float stabilizeSpeed, maxNudgeDistance;
-	
+
 	private Color hitEffectStartColor, hitEffectFinalColor;
 	private float hitEffectTickAmount;
-	
+
 	public boolean moveUp, moveDown;
 	public Rectangle touchRectangle;
 	private float touchGraceSize;
 	public int keyUp, keyDown;
 	private float touchY;
-	
+
+	private TextureRegion topImage, middleImage, bottomImage;
+	private float topHeight, middleHeight, bottomHeight;
+	private float smallestHeight, largestHeight;
+
 	public Paddle(Player owner) {
+		super();
 		this.owner = owner;
-		
+
 		setColor(new Color(owner.getColor()));
-		
-		image = Assets.getTextureRegion("paddle");
-		
+
+		topImage = Assets.getTextureRegion("paddle_top");
+		middleImage = Assets.getTextureRegion("paddle_middle");
+		bottomImage = Assets.getTextureRegion("paddle_bottom");
+		smallestHeight = 12f * Settings.GAME_SCALE;
+		largestHeight = smallestHeight * 4f;
+
 		setDepth(2 * Settings.GAME_SCALE);
 		setZ(2 * Settings.GAME_SCALE);
-		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
-		
+		setWidth(middleImage.getRegionWidth() * Settings.GAME_SCALE);
+		topHeight = topImage.getRegionHeight() * Settings.GAME_SCALE;
+		bottomHeight = bottomImage.getRegionHeight() * Settings.GAME_SCALE;
+		middleHeight = 26 * Settings.GAME_SCALE - topHeight - bottomHeight + getDepth();
+		setHeight(topHeight + middleHeight + bottomHeight - getDepth());
+		setHeight(smallestHeight);
+
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		
+
 		acceleration = 1.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		retardation = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		defaultMaxSpeed = maxSpeed = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
-		
+
 		velocityY = 0f;
-		
+
 		centerX = getX();
-		
+
 		stabilizeSpeed = 0.1f * Settings.GAME_FPS * Settings.GAME_SCALE;
 		maxNudgeDistance = 2.5f * Settings.GAME_SCALE;
-		
+
 		touchGraceSize = getHeight() / 8;
 		moveUp = false;
 		moveDown = false;
-		
+
 		shadow = Shadow.shadowPool.obtain();
 		shadow.init(this, false);
-		
+
 		Groups.paddleGroup.addActor(this);
 	}
-	
+
 	@Override
-	public void setX(float x) {
-		super.setX(x);
-		rectangle.setX(getX());
+	public void setHeight(float height) {
+		if (height < smallestHeight) {
+			height = smallestHeight;
+		} else if (height > largestHeight) {
+			height = largestHeight;
+		}
+		middleHeight = height - topHeight - bottomHeight + getDepth();
+		super.setHeight(height);
+		
 	}
-	
-	@Override
-	public void setY(float y) {
-		super.setY(y);
-		rectangle.setY(getY());
-	}
-	
+
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		moveUp = false; 
+		moveUp = false;
 		moveDown = false;
 		if (Gdx.app.getType() == ApplicationType.Android) {
 			for (int i = 0; i < 10; i++) {
@@ -93,7 +108,7 @@ public class Paddle extends GameActor {
 			moveUp = Gdx.input.isKeyPressed(keyUp);
 			moveDown = Gdx.input.isKeyPressed(keyDown);
 		}
-		
+
 		if (maxSpeed > 0) {
 			if (moveDown) {
 				velocityY -= acceleration;
@@ -117,7 +132,7 @@ public class Paddle extends GameActor {
 				}
 			}
 		} else {
-			 if (velocityY > 0) {
+			if (velocityY > 0) {
 				velocityY -= retardation;
 				if (velocityY < 0)
 					velocityY = 0;
@@ -127,26 +142,40 @@ public class Paddle extends GameActor {
 					velocityY = 0;
 			}
 		}
-			 
+
 		setY(getY() + velocityY * delta);
-		
+
 		if (getY() + getHeight() > Settings.LEVEL_MAX_Y) {
 			setY(Settings.LEVEL_MAX_Y - getHeight());
 		} else if (getY() < Settings.LEVEL_Y) {
 			setY(Settings.LEVEL_Y);
 		}
-		
-		
+
 	}
-	
+
 	private Color temp;
+
+	ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		temp = new Color(batch.getColor());
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
+		drawImages(batch, parentAlpha, 0, 0, 0);
 		batch.setColor(temp);
+		batch.end();
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//		shapeRenderer.rect(getX(), getY(), getWidth(), getHeight());
+//		shapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+		shapeRenderer.end();
+		batch.begin();
 		super.draw(batch, parentAlpha);
 	}
+	
+	public void drawImages(Batch batch, float parentAlpha, float offsetX, float offsetY, float offsetHeight) {
+		batch.draw(topImage, getX() + offsetX, getY() + Settings.getLevelYOffset() + getZ() + bottomHeight + middleHeight + offsetY + offsetHeight, getWidth(), topHeight);
+		batch.draw(middleImage, getX() + offsetX, getY() + Settings.getLevelYOffset() + getZ() + bottomHeight + offsetY, getWidth(), middleHeight + offsetHeight);
+		batch.draw(bottomImage, getX() + offsetX, getY() + Settings.getLevelYOffset() + getZ() + offsetY, getWidth(), bottomHeight);
+	}
+	
 }
