@@ -208,6 +208,7 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	public void show() {
 		Gdx.input.setCursorCatched(!Settings.getDebugMode());
+		getInputMultiplexer().clear();
 		getInputMultiplexer().addProcessor(new InputAdapter() {
 
 			@Override
@@ -227,11 +228,6 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	private void back() {
-//		MusicHandler.stop();
-//		Assets.unloadGameAssets();
-//		Gdx.input.setCursorCatched(false);
-//		game.setScreen(new PrepareMenuScreen(game, null, sunrays));
-//		dispose();
 		game.setScreen(new PauseScreen(game, this));
 	}
 	
@@ -259,6 +255,9 @@ public class GameScreen extends AbstractScreen {
 		Groups.residueGroup.clear();
 		Groups.powerupGroup.clear();
 		Groups.particleGroup.clear();
+		MusicHandler.stop();
+		Assets.unloadGameAssets();
+		Gdx.input.setCursorCatched(false);
 	}
 
 }

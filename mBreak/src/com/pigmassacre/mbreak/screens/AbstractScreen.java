@@ -56,16 +56,20 @@ public class AbstractScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		delta *= timeScale;
-		
+		act(delta);
+		draw(delta);
+	}
+	
+	public void act(float delta) {
 		stage.act(delta);
 		getTweenManager().update(delta);
-		
+	}
+	
+	public void draw(float delta) {
 		renderClearScreen(delta);
-        renderBackground(delta);
-        
-        stage.draw();
-        
-        postRender(delta);
+		renderBackground(delta);
+		stage.draw();
+		postRender(delta);
 	}
 	
 	protected Color backgroundColor = new Color(0.25f, 0.5f, 0.25f, 1f);

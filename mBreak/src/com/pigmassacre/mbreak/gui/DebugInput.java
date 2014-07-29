@@ -162,8 +162,8 @@ public class DebugInput extends InputAdapter {
 		}
 	}
 	
-	private TextItem debugTextItem;
-	private Timeline debugTextSequence;
+	private static TextItem debugTextItem;
+	private static Timeline debugTextSequence;
 	
 	private void createDebugMessage(CharSequence string) {
 		if (debugTextItem != null) {
@@ -174,7 +174,7 @@ public class DebugInput extends InputAdapter {
 		}
 		
 		debugTextItem = new TextItem(string);
-		debugTextItem.setScale(debugTextItem.getScaleX() * 0.75f, debugTextItem.getScaleY() * 0.75f);
+//		debugTextItem.setScale(debugTextItem.getScaleX() * 0.75f, debugTextItem.getScaleY() * 0.75f);
 		debugTextItem.setColor(1f, 1f, 1f, 0.75f);
 		debugTextItem.setX((Gdx.graphics.getWidth() - debugTextItem.getWidth()) / 2);
 		debugTextItem.setY(Gdx.graphics.getHeight() + debugTextItem.getHeight());

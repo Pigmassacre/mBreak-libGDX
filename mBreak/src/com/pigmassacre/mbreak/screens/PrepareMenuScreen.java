@@ -294,7 +294,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 	}
 	
 	// For the ugly hack below.
-	private boolean finished = false;
+	private boolean finished = false, startingGame = false;;
 	
 	public void start() {
 		getTweenManager().killAll();
@@ -337,7 +337,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 			
 		});
 		
-//		game.setScreen(new GameLoadingScreen(game, logo, sunrays, leftColor, rightColor));
+		startingGame = true;
 		timeline.start(getTweenManager());
 	}
 	
@@ -358,7 +358,9 @@ public class PrepareMenuScreen extends AbstractScreen {
 				switch(keycode) {
 				case Keys.ESCAPE:
 				case Keys.BACK:
-					back();
+					if (!startingGame) {
+						back();
+					}
 					break;
 				}
 				return false;
