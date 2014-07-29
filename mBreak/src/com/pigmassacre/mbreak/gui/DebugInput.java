@@ -90,34 +90,14 @@ public class DebugInput extends InputAdapter {
 			break;
 		case Keys.P:
 			if (Settings.getDebugMode()) {
-				float powerupWidth = Settings.LEVEL_WIDTH / 2 - 8 * Settings.GAME_SCALE;
-				float powerupHeight = Settings.LEVEL_HEIGHT - 8 * Settings.GAME_SCALE;
-				float powerupX = Settings.LEVEL_X + powerupWidth / 2;
-				float powerupY = Settings.LEVEL_Y;
-				Powerup powerup;
-				switch(MathUtils.random(6)) {
-				case 0:
-					powerup = new FirePowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-					break;
-				case 1:
-					powerup = new SpeedPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-					break;
-				case 2:
-					powerup = new ElectricityPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-					break;
-				case 3:
-					powerup = new FrostPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-					break;
-				case 4:
-					powerup = new EnlargerPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-					break;
-				case 5:
-					powerup = new ReducerPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-					break;
-				case 6:
-					powerup = new MultiballPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-					break;
+				if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
+					for (int i = 0; i < 10; i++) {
+						spawnRandomPowerup();
+					}
+				} else {
+					spawnRandomPowerup();
 				}
+				
 			}
 			break;
 		case Keys.M:
@@ -145,6 +125,37 @@ public class DebugInput extends InputAdapter {
 			break;
 		}
 		return true;
+	}
+	
+	private void spawnRandomPowerup() {
+		float powerupWidth = Settings.LEVEL_WIDTH / 2 - 4f * Settings.GAME_SCALE;
+		float powerupHeight = Settings.LEVEL_HEIGHT - 8f * Settings.GAME_SCALE;
+		float powerupX = Settings.LEVEL_X + powerupWidth / 2f;
+		float powerupY = Settings.LEVEL_Y;
+		Powerup powerup;
+		switch(MathUtils.random(6)) {
+		case 0:
+			powerup = new FirePowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+			break;
+		case 1:
+			powerup = new SpeedPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+			break;
+		case 2:
+			powerup = new ElectricityPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+			break;
+		case 3:
+			powerup = new FrostPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+			break;
+		case 4:
+			powerup = new EnlargerPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+			break;
+		case 5:
+			powerup = new ReducerPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+			break;
+		case 6:
+			powerup = new MultiballPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+			break;
+		}
 	}
 	
 	private TextItem debugTextItem;

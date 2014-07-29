@@ -34,6 +34,7 @@ public class ElectricityPowerup extends Powerup {
 			
 			for (int i = 0; i < MathUtils.random(PARTICLE_LEAST_SPAWN_AMOUNT, PARTICLE_MAXIMUM_SPAWN_AMOUNT); i++) {
 				float width = MathUtils.random(1.25f * Settings.GAME_SCALE, 2f * Settings.GAME_SCALE);
+				float height = width;
 				float angle = MathUtils.random(0, 2 * MathUtils.PI);
 				float speed = MathUtils.random(0.9f * Settings.GAME_FPS * Settings.GAME_SCALE, 1.4f * Settings.GAME_FPS * Settings.GAME_SCALE);
 				float retardation = speed / 32f;
@@ -41,7 +42,7 @@ public class ElectricityPowerup extends Powerup {
 				float temp = MathUtils.random(0.88f, 1f);
 				tempColor = new Color(temp, temp, MathUtils.random(0.4f, 1f), 1f);
 				Particle particle = Particle.particlePool.obtain();
-				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 + Settings.getLevelYOffset() + getZ(), width, width, angle, speed, retardation, 0.07f * Settings.GAME_FPS, tempColor);
+				particle.init(getX() + getWidth() / 2 - width / 2, getY() + getHeight() / 2 - height / 2 + Settings.getLevelYOffset() + getZ(), width, width, angle, speed, retardation, 0.07f * Settings.GAME_FPS, tempColor);
 			}
 		}
 	}

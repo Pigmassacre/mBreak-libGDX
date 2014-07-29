@@ -50,6 +50,7 @@ public class FirePowerup extends Powerup {
 			
 			for (int i = 0; i < MathUtils.random(PARTICLE_LEAST_SPAWN_AMOUNT, PARTICLE_MAXIMUM_SPAWN_AMOUNT); i++) {
 				float width = MathUtils.random(1.25f * Settings.GAME_SCALE, 2f * Settings.GAME_SCALE);
+				float height = width;
 				float angle = MathUtils.random(0, 2 * MathUtils.PI);
 				float speed = MathUtils.random(0.75f * Settings.GAME_FPS * Settings.GAME_SCALE, 0.9f * Settings.GAME_FPS * Settings.GAME_SCALE);
 				float retardation = speed / 12f;
@@ -61,7 +62,7 @@ public class FirePowerup extends Powerup {
 					tempColor = new Color(temp, temp, temp, 1f);
 				}
 				Particle particle = Particle.particlePool.obtain();
-				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 + Settings.getLevelYOffset() + getZ(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
+				particle.init(getX() + getWidth() / 2 - width / 2, getY() + getHeight() / 2 - height / 2 + Settings.getLevelYOffset() + getZ(), width, width, angle, speed, retardation, 0.05f * Settings.GAME_FPS, tempColor);
 			}
 		}
 	}

@@ -36,6 +36,7 @@ public class Paddle extends GameActor {
 	public Paddle(Player owner) {
 		super();
 		this.owner = owner;
+		owner.paddle = this;
 
 		setColor(new Color(owner.getColor()));
 
@@ -52,7 +53,6 @@ public class Paddle extends GameActor {
 		bottomHeight = bottomImage.getRegionHeight() * Settings.GAME_SCALE;
 		middleHeight = 26 * Settings.GAME_SCALE - topHeight - bottomHeight + getDepth();
 		setHeight(topHeight + middleHeight + bottomHeight - getDepth());
-		setHeight(smallestHeight);
 
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
@@ -85,7 +85,9 @@ public class Paddle extends GameActor {
 			height = largestHeight;
 		}
 		middleHeight = height - topHeight - bottomHeight + getDepth();
+		float oldHeight = getHeight();
 		super.setHeight(height);
+		setY(getY() + ((oldHeight - getHeight()) / 2));
 		
 	}
 
@@ -155,8 +157,6 @@ public class Paddle extends GameActor {
 
 	private Color temp;
 
-	ShapeRenderer shapeRenderer = new ShapeRenderer();
-	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		temp = new Color(batch.getColor());
@@ -164,10 +164,6 @@ public class Paddle extends GameActor {
 		drawImages(batch, parentAlpha, 0, 0, 0);
 		batch.setColor(temp);
 		batch.end();
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//		shapeRenderer.rect(getX(), getY(), getWidth(), getHeight());
-//		shapeRenderer.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-		shapeRenderer.end();
 		batch.begin();
 		super.draw(batch, parentAlpha);
 	}

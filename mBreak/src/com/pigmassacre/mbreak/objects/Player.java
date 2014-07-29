@@ -16,6 +16,8 @@ public class Player extends Actor {
 	
 	private float powerupOffset = 2f * Settings.GAME_SCALE;
 	
+	public Paddle paddle;
+	
 	public Player(String name) {
 		super();
 		this.name = name;

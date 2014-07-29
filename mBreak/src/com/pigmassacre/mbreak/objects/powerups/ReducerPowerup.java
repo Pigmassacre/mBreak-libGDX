@@ -3,6 +3,7 @@ package com.pigmassacre.mbreak.objects.powerups;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.GameActor;
+import com.pigmassacre.mbreak.objects.Paddle;
 import com.pigmassacre.mbreak.objects.effects.SpeedEffect;
 
 public class ReducerPowerup extends Powerup {
@@ -21,14 +22,7 @@ public class ReducerPowerup extends Powerup {
 
 	@Override
 	protected void onHit(GameActor actor) {
-//		applyEffectToAllBalls(actor, new Powerup.EffectCommand() {
-//
-//			@Override
-//			public void execute(GameActor actor) {
-//				new SpeedEffect(actor, duration);				
-//			}
-//			
-//		});
+		actor.owner.paddle.setHeight(actor.owner.paddle.getHeight() - 6 * Settings.GAME_SCALE);
 	}
 	
 }

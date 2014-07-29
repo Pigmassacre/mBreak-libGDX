@@ -21,14 +21,7 @@ public class EnlargerPowerup extends Powerup {
 
 	@Override
 	protected void onHit(GameActor actor) {
-//		applyEffectToAllBalls(actor, new Powerup.EffectCommand() {
-//
-//			@Override
-//			public void execute(GameActor actor) {
-//				new SpeedEffect(actor, duration);				
-//			}
-//			
-//		});
+		actor.owner.paddle.setHeight(actor.owner.paddle.getHeight() + 6 * Settings.GAME_SCALE);
 	}
 	
 }

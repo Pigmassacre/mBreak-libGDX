@@ -40,12 +40,13 @@ public class FrostEffect extends Effect {
 			
 			for (int i = 0; i < MathUtils.random(PARTICLE_LEAST_SPAWN_AMOUNT, PARTICLE_MAXIMUM_SPAWN_AMOUNT); i++) {
 				float width = MathUtils.random(2.25f * Settings.GAME_SCALE, 3f * Settings.GAME_SCALE);
+				float height = width;
 				float angle = MathUtils.random(0, 2 * MathUtils.PI);
 				float speed = MathUtils.random(0.2f * Settings.GAME_FPS * Settings.GAME_SCALE, 0.35f * Settings.GAME_FPS * Settings.GAME_SCALE);
 				float retardation = speed / 52f;
 				Color tempColor = new Color(MathUtils.random(0, 0.2f), MathUtils.random(0.5f, 1f), MathUtils.random(0.85f, 1f), 1f);
 				Particle particle = Particle.particlePool.obtain();
-				particle.init(getX() + getWidth() / 2, getY() + getHeight() / 2 - getDepth() + getZ(), width, width, angle, speed, retardation, 0.03f * Settings.GAME_FPS, tempColor);
+				particle.init(getX() + getWidth() / 2 - width / 2, getY() + getHeight() / 2 - height / 2 - getDepth() + getZ(), width, width, angle, speed, retardation, 0.03f * Settings.GAME_FPS, tempColor);
 			}
 		}
 	}
