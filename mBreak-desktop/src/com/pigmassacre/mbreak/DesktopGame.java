@@ -16,7 +16,9 @@ public class DesktopGame {
 			for (int i = 0; i < displayModes.length; i++) {
 				System.out.println(displayModes[i]);
 			}
-			config.setFromDisplayMode(displayModes[0]);
+			// config.setFromDisplayMode(displayModes[0]);
+			// TODO: Present a list of options to the user, or just take the desktop display mode?
+			config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
 			
 			float newScale = displayModes[0].width / Settings.BASE_SCREEN_WIDTH;
 	        Settings.GAME_SCALE = newScale + 1;

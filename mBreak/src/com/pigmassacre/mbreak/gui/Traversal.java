@@ -38,8 +38,9 @@ public class Traversal implements InputProcessor {
 		case Keys.ENTER:
 			for (Menu menu : menus) {
 				for (Item item : menu.items) {
-					if (item.selected)
+					if (item.getSelected()) {
 						item.executeCallback();
+					}
 				}
 			}
 			break;
@@ -66,7 +67,7 @@ public class Traversal implements InputProcessor {
 		camera.unproject(coords);
 		for (Menu menu : menus) {
 			for (Item item : menu.items) {
-				if (item.isPointerOverItem(coords.x, coords.y) && item.selected) {
+				if (item.isPointerOverItem(coords.x, coords.y) && item.getSelected()) {
 					item.executeCallback();
 				}
 			}
@@ -102,7 +103,7 @@ public class Traversal implements InputProcessor {
 		for (Menu menu : menus) {
 			for (Item item : menu.items) {
 				if (item.isPointerOverItem(coords.x, coords.y)) {
-					item.selected = true;
+					item.setSelected(true);
 					selectedItem = item;
 					unselectAll = true;
 				}
@@ -112,7 +113,7 @@ public class Traversal implements InputProcessor {
 			for (Menu menu : menus) {
 				for (Item item : menu.items) {
 					if (item != selectedItem)
-						item.selected = false;
+						item.setSelected(false);
 				}
 			}
 		}
@@ -179,8 +180,8 @@ public class Traversal implements InputProcessor {
 			}
 			possibleItems = temp;
 			
-			selectedItem.selected = false;
-			possibleItems.get(0).selected = true;
+			selectedItem.setSelected(false);
+			possibleItems.get(0).setSelected(true);
 		}
 	}
 	
@@ -239,15 +240,15 @@ public class Traversal implements InputProcessor {
 			}
 			possibleItems = temp;
 			
-			selectedItem.selected = false;
-			possibleItems.get(0).selected = true;
+			selectedItem.setSelected(false);
+			possibleItems.get(0).setSelected(true);
 		}
 	}
 	
 	public Item getSelectedItem() {
 		for (Menu menu : menus) {
 			for (Item item : menu.items) {
-				if (item.selected)
+				if (item.getSelected())
 					return item;
 			}
 		}

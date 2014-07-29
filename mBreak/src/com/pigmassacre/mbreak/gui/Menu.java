@@ -89,7 +89,7 @@ public class Menu extends Actor {
 		for (Item item : items) {
 //			item.act(delta);
 			
-			if (item.selected) {
+			if (item.getSelected()) {
 				selectedItems.add(item);
 				
 				if (item != previouslySelectedItem) {

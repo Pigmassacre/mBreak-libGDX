@@ -109,13 +109,27 @@ public class DebugInput extends InputAdapter {
 			}
 			break;
 		case Keys.M:
-			screen.timeScale += 0.1f;
+			if (Settings.getDebugMode()) {
+				if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
+					screen.timeScale += 1f;
+				} else {
+					screen.timeScale += 0.1f;
+				}
+			}
 			break;
 		case Keys.N:
-			screen.timeScale -= 0.1f;
+			if (Settings.getDebugMode()) {
+				if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
+					screen.timeScale -= 1f;
+				} else {
+					screen.timeScale -= 0.1f;
+				}
+			}
 			break;
 		case Keys.B:
-			screen.timeScale = 1f;
+			if (Settings.getDebugMode()) {
+				screen.timeScale = 1f;
+			}
 			break;
 		}
 		return true;

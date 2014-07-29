@@ -65,7 +65,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 			}
 			
 		});
-		textItem.selected = true;
+		textItem.setSelected(true);
 		stage.addActor(textItem);
 		Menu menu = new ListMenu();
 		menu.setX(textItem.getHeight() + textItem.getWidth() / 2);

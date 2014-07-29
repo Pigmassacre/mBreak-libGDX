@@ -102,7 +102,7 @@ public class TextItem extends Item {
 	public void draw(Batch batch, float parentAlpha) {
 		font.setColor(shadowColor);
 		font.draw(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY());
-		if (selected) {
+		if (getSelected()) {
 			font.setColor(selectedColor);
 		} else {
 			font.setColor(getColor());

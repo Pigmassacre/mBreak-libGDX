@@ -24,6 +24,9 @@ public class Assets {
 		if (!assetManager.isLoaded("fonts/ADDLG__.fnt")) {
 			assetManager.load("fonts/ADDLG__.fnt", BitmapFont.class);
 		}
+		if (!assetManager.isLoaded("sound/select.ogg")) {
+			assetManager.load("sound/select.ogg", Sound.class);
+		}
 	}
 	
 	public static void loadMenuAssets() {

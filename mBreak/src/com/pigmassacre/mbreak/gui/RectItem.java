@@ -45,14 +45,14 @@ public class RectItem extends Item {
 		shapeRenderer.rect(shadowRectangle.getX(), shadowRectangle.getY(), shadowRectangle.getWidth(), shadowRectangle.getHeight());
 //		shapeRenderer.end();
 
-		if (chosen) {
+		if (getChosen()) {
 //			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(chosenColor);
 			shapeRenderer.rect(chosenRectangle.getX(), chosenRectangle.getY(), chosenRectangle.getWidth(), chosenRectangle.getHeight());
 //			shapeRenderer.end();
 		}
 			
-		if (selected) {
+		if (getSelected()) {
 //			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(selectedColor);
 			shapeRenderer.rect(selectedRectangle.getX(), selectedRectangle.getY(), selectedRectangle.getWidth(), selectedRectangle.getHeight());
@@ -68,7 +68,7 @@ public class RectItem extends Item {
 		drawBeforeDisabled(batch, parentAlpha);
 		batch.end();
 
-		if (disabled) {
+		if (getDisabled()) {
 //			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(disabledColor);
 			shapeRenderer.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());

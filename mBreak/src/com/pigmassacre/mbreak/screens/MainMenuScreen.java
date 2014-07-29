@@ -56,7 +56,7 @@ public class MainMenuScreen extends AbstractScreen {
 		
 		TextItem textItem;
 		textItem = new TextItem("Start");
-		textItem.selected = true;
+		textItem.setSelected(true);
 		textItem.setCallback(new ItemCallback() {
 
 			@Override
@@ -128,7 +128,7 @@ public class MainMenuScreen extends AbstractScreen {
 				switch(keycode) {
 				case Keys.BACK:
 					for (Menu menu : traversal.menus) {
-						if (menu.items.get(menu.items.size() - 1).selected) {
+						if (menu.items.get(menu.items.size() - 1).getSelected()) {
 							quit();
 							break;
 						}
@@ -136,9 +136,9 @@ public class MainMenuScreen extends AbstractScreen {
 				case Keys.ESCAPE:
 					for (Menu menu : traversal.menus) {
 						for (Item item : menu.items){
-							item.selected = false;
+							item.setSelected(false);
 						}
-						menu.items.get(menu.items.size() - 1).selected = true;
+						menu.items.get(menu.items.size() - 1).setSelected(true);
 						break;
 					}
 					break;

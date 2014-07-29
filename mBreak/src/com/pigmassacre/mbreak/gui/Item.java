@@ -1,10 +1,12 @@
 package com.pigmassacre.mbreak.gui;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Assets;
 
 public class Item extends Widget {
 	
@@ -27,11 +29,13 @@ public class Item extends Widget {
 
 	float offsetXRetreatSpeed, offsetYRetreatSpeed;
 	
-	public boolean selected = false, chosen = false, disabled = false;
+	private boolean selected = false, chosen = false, disabled = false;
 	
 	float stateTime;
 	
 	Rectangle rectangle;
+	
+	private Sound selectSound;
 	
 	public Item() {
 		shapeRenderer = new ShapeRenderer();
@@ -51,6 +55,41 @@ public class Item extends Widget {
 		stateTime = 0;
 		
 		setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		
+		selectSound = Assets.getSound("sound/select.ogg");
+	}
+	
+	public void setSelected(boolean selected) {
+		if (selected) {
+			selectSound.play();
+		}
+		this.selected = selected;
+	}
+	
+	public boolean getSelected() {
+		return selected;
+	}
+	
+	public void setChosen(boolean chosen) {
+		if (chosen) {
+//			selectSound.play();
+		}
+		this.chosen = chosen;
+	}
+	
+	public boolean getChosen() {
+		return chosen;
+	}
+	
+	public void setDisabled(boolean disabled) {
+		if (disabled) {
+//			selectSound.play();
+		}
+		this.disabled = disabled;
+	}
+	
+	public boolean getDisabled() {
+		return disabled;
 	}
 	
 	public void setCallback(ItemCallback callback) {
@@ -58,8 +97,9 @@ public class Item extends Widget {
 	}
 	
 	public void executeCallback() {
-		if (callback != null)
+		if (callback != null) {
 			this.callback.execute(this);
+		}
 	}
 	
 	public float getOffsetX() {
