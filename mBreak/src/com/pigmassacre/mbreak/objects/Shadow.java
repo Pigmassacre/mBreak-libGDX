@@ -95,7 +95,7 @@ public class Shadow extends GameActor implements Poolable {
 		batch.setColor(getColor());
 //		float zDropOff = 0f;
 		//  + (parentActor.getZ() / zDropOff) / 2
-		batch.draw(parentActor.image, getX(), getY() + Settings.getLevelYOffset() - parentActor.getZ() * 0.5f, getWidth(), getHeight() + parentActor.getDepth());
+		batch.draw(parentActor.image, getX(), getY() + Settings.getLevelYOffset(), getWidth(), getHeight() + parentActor.getDepth());
 		batch.setColor(temp);
 	}
 

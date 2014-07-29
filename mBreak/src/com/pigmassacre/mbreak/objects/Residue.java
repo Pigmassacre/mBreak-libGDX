@@ -69,7 +69,7 @@ public class Residue extends GameActor implements Poolable {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() - getZ() * 0.5f, getWidth(), getHeight() + getDepth());
+		batch.draw(image, getX(), getY() + Settings.getLevelYOffset(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 	}
 	

@@ -87,10 +87,24 @@ public class Particle extends GameActor implements Poolable {
 		setX(getX() + MathUtils.cos(angle) * speed * delta);
 		setY(getY() + MathUtils.sin(angle) * speed * delta);
 		
-		if (rectangle.x + rectangle.width <= Settings.LEVEL_X
-				|| rectangle.x >= Settings.LEVEL_MAX_X
-				|| rectangle.y <= Settings.LEVEL_Y
-				|| rectangle.y + rectangle.height >= Settings.LEVEL_MAX_Y) {
+		boolean outside = false;
+		if (rectangle.x + rectangle.width <= Settings.LEVEL_X) {
+			setX(Settings.LEVEL_X);
+			outside = true;
+		}
+		if (rectangle.x >= Settings.LEVEL_MAX_X) {
+			setX(Settings.LEVEL_MAX_X - getWidth());
+			outside = true;
+		}
+		if (rectangle.y <= Settings.LEVEL_Y) {
+			setY(Settings.LEVEL_Y);
+			outside = true;
+		}
+		if (rectangle.y + rectangle.height >= Settings.LEVEL_MAX_Y) {
+			setY(Settings.LEVEL_MAX_Y - getHeight());
+			outside = true;
+		}
+		if (outside) {
 			particlePool.free(this);
 			return;
 		}

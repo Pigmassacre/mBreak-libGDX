@@ -60,7 +60,7 @@ public class Item extends Widget {
 	}
 	
 	public void setSelected(boolean selected) {
-		if (selected) {
+		if (selected && !this.selected) {
 			selectSound.play();
 		}
 		this.selected = selected;
@@ -71,8 +71,8 @@ public class Item extends Widget {
 	}
 	
 	public void setChosen(boolean chosen) {
-		if (chosen) {
-//			selectSound.play();
+		if (chosen && !this.chosen) {
+			
 		}
 		this.chosen = chosen;
 	}
@@ -82,8 +82,8 @@ public class Item extends Widget {
 	}
 	
 	public void setDisabled(boolean disabled) {
-		if (disabled) {
-//			selectSound.play();
+		if (disabled && !this.disabled) {
+			
 		}
 		this.disabled = disabled;
 	}
