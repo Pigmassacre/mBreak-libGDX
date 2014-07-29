@@ -30,6 +30,11 @@ public class Background extends Actor {
 		setHeight(background.getRegionHeight() * Settings.GAME_SCALE);
 	}
 	
+	public void act(float delta) {
+		setY(((Gdx.graphics.getHeight() - background.getRegionHeight() * Settings.GAME_SCALE) / 2f) + Settings.getLevelYOffset());
+	};
+	
+	
 	ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
 	@Override

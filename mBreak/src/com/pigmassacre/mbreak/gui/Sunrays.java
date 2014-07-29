@@ -27,6 +27,12 @@ public class Sunrays extends Widget {
 		this.offsetY = offsetY;
 	}
 	
+	public void removeTarget() {
+		target = null;
+//		this.offsetX = 0;
+//		this.offsetY = 0;
+	}
+	
 	@Override
 	public float getWidth() {
 		return image.getRegionWidth() * Settings.GAME_SCALE;

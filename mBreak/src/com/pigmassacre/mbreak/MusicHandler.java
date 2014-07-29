@@ -89,4 +89,17 @@ public class MusicHandler {
 		return false;
 	}
 	
+	public static float getVolume() {
+		if (currentMusic != null) {
+			return currentMusic.getVolume();
+		}
+		return 0f;
+	}
+	
+	public static void setVolume(float volume) {
+		if (currentMusic != null) {
+			currentMusic.setVolume(volume);
+		}
+	}
+	
 }

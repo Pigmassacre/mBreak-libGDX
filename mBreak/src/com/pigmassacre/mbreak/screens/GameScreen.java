@@ -6,9 +6,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.SnapshotArray;
@@ -17,6 +15,7 @@ import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GameActorAccessor;
+import com.pigmassacre.mbreak.gui.SettingsAccessor;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.Block;
@@ -31,17 +30,30 @@ public class GameScreen extends AbstractScreen {
 	Background background;
 	Foreground foreground;
 	
-	public GameScreen(MBreak game, Color leftColor, Color rightColor) {
+	Sunrays sunrays;
+	
+	public GameScreen(MBreak game, Sunrays givenSunrays, Color leftColor, Color rightColor) {
 		super(game);
-		Sunrays sunrays = new Sunrays();
+		
+		if (givenSunrays == null) {
+			sunrays = new Sunrays();
+		} else {
+			sunrays = givenSunrays;
+		}
 		sunrays.setX(Gdx.graphics.getWidth() / 2 - sunrays.getWidth() / 2);
 		sunrays.setY(Gdx.graphics.getHeight() / 2 - sunrays.getHeight() / 2);
 		sunrays.offsetY = Settings.getLevelYOffset();
 		stage.addActor(sunrays);
-
+		
+//		Settings.setLevelYOffset(-100 * Settings.GAME_SCALE);
+		
 		background = new Background("glass");
 		foreground = new Foreground("glass");
-
+		
+//		Tween.from(background, SettingsAccessor.LEVEL_OFFSET, 1f).target(-2 * Settings.GAME_SCALE)
+//			.ease(TweenEquations.easeInOutExpo)
+//			.start(getTweenManager());
+		
 		Settings.LEVEL_WIDTH = background.getWidth();
 		Settings.LEVEL_HEIGHT = background.getHeight();
 		Settings.LEVEL_X = (Gdx.graphics.getWidth() - Settings.LEVEL_WIDTH) / 2f;
@@ -145,8 +157,6 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(foreground);
 	}
 	
-	Color backgroundColor = new Color();;
-	
 	@Override
 	public void renderClearScreen(float delta) {
 		float leftPlayerBlockCount = 0, rightPlayerBlockCount = 0;
@@ -193,8 +203,7 @@ public class GameScreen extends AbstractScreen {
 			backgroundColor.lerp(color, 0.05f);
 		}
 		
-		Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		super.renderClearScreen(delta);
 	}
 	
 	@Override
@@ -220,7 +229,8 @@ public class GameScreen extends AbstractScreen {
 	private void back() {
 		MusicHandler.stop();
 		Assets.unloadGameAssets();
-		game.setScreen(new PrepareMenuScreen(game));
+		Gdx.input.setCursorCatched(false);
+		game.setScreen(new PrepareMenuScreen(game, null, sunrays));
 		
 	}
 	

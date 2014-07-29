@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -62,23 +63,30 @@ public class AbstractScreen implements Screen {
 		delta *= timeScale;
 		
 		stage.act(delta);
-		
 		getTweenManager().update(delta);
 		
 		renderClearScreen(delta);
         renderBackground(delta);
         
         stage.draw();
+        
+        postRender(delta);
 	}
 	
+	protected Color backgroundColor = new Color(0.25f, 0.5f, 0.25f, 1f);
+	
 	public void renderClearScreen(float delta) {
-		Gdx.gl.glClearColor(1f, 0.5f, 0.25f, 1f);
+		Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 	
 	public void renderBackground(float delta) {
 		
 	}
+	
+	public void postRender(float delta) {
+		
+	};
 
 	@Override
 	public void resize(int width, int height) {

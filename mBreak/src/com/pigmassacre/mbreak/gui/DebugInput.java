@@ -47,18 +47,20 @@ public class DebugInput extends InputAdapter {
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Vector3 coords = new Vector3(screenX, screenY, 0);
-		stage.getCamera().unproject(coords);
-		if (stage != null && (pointer == 0 || button == Buttons.LEFT) && rectangle.contains(coords.x, coords.y)) {
-			Ball ball = new Ball();
-			Player player;
-			if (leftPlayer) {
-				player = (Player) Groups.playerGroup.getChildren().first();
-			} else {
-				player = (Player) Groups.playerGroup.getChildren().peek();
+		if (Settings.getDebugMode()) {
+			Vector3 coords = new Vector3(screenX, screenY, 0);
+			stage.getCamera().unproject(coords);
+			if (stage != null && (pointer == 0 || button == Buttons.LEFT) && rectangle.contains(coords.x, coords.y)) {
+				Ball ball = new Ball();
+				Player player;
+				if (leftPlayer) {
+					player = (Player) Groups.playerGroup.getChildren().first();
+				} else {
+					player = (Player) Groups.playerGroup.getChildren().peek();
+				}
+				leftPlayer = !leftPlayer;
+				ball.init(coords.x, coords.y, (float) (MathUtils.random() * 2 * Math.PI), player, player.getColor());
 			}
-			leftPlayer = !leftPlayer;
-			ball.init(coords.x, coords.y, (float) (MathUtils.random() * 2 * Math.PI), player, player.getColor());
 		}
 		return false;
 	}
@@ -71,8 +73,10 @@ public class DebugInput extends InputAdapter {
 			
 			if (Settings.getDebugMode()) {
 				createDebugMessage("Debug Mode ON");
+				Gdx.input.setCursorCatched(false);
 			} else {
 				createDebugMessage("Debug Mode OFF");
+				Gdx.input.setCursorCatched(true);
 			}
 			
 			break;

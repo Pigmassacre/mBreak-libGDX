@@ -38,6 +38,11 @@ public class Foreground extends Actor {
 	}
 	
 	@Override
+	public void act(float delta) {
+		
+	}
+	
+	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.draw(topLeftCorner, getX() - topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, getY() + getHeight() + Settings.getLevelYOffset(), topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, topLeftCorner.getRegionHeight() * Settings.GAME_SCALE);
 		batch.draw(topRightCorner, getX() + getWidth(), getY() + getHeight() + Settings.getLevelYOffset(), topLeftCorner.getRegionWidth() * Settings.GAME_SCALE, topLeftCorner.getRegionHeight() * Settings.GAME_SCALE);

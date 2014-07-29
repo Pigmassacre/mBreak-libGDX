@@ -6,9 +6,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class ActorAccessor implements TweenAccessor<Actor> {
 
+//	public enum Values {
+//		POSITION_X,
+//		POSITION_y,
+//		POSITION_XY,
+//		SIZE_WH;
+//	}
+	
 	public static final int POSITION_X = 1;
     public static final int POSITION_Y = 2;
     public static final int POSITION_XY = 3;
+    public static final int SIZE_WH = 4;
 	
 	@Override
 	public int getValues(Actor target, int tweenType, float[] returnValues) {
@@ -23,6 +31,10 @@ public class ActorAccessor implements TweenAccessor<Actor> {
 	            returnValues[0] = target.getX();
 	            returnValues[1] = target.getY();
 	            return 2;
+	        case SIZE_WH:
+	        	returnValues[0] = target.getWidth();
+	        	returnValues[1] = target.getHeight();
+	        	return 2;
         default: 
         	assert false; 
         	return -1;
@@ -42,6 +54,10 @@ public class ActorAccessor implements TweenAccessor<Actor> {
 	            target.setX(newValues[0]);
 	            target.setY(newValues[1]);
 	            break;
+	        case SIZE_WH:
+	        	target.setWidth(newValues[0]);
+	        	target.setHeight(newValues[1]);
+	        	break;
 	        default: 
 	        	assert false; 
 	        	break;

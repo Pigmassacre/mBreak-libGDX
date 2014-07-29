@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
-
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquation;
-import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 
 public class TweenHelp {
 	
@@ -28,24 +28,47 @@ public class TweenHelp {
 		return choices;
 	}
 	
-	public static void setupSingleItemTween(Item item, TweenManager tweenManager, TweenEquation ease, float duration, boolean left, boolean right, boolean up, boolean down) {
+	public static Tween setupSingleItemTweenFrom(Item item, TweenManager tweenManager, TweenEquation ease, float duration, boolean left, boolean right, boolean up, boolean down) {
 		List<String> choices = setupChoices(left, right, up, down);
 		
 		String choice = choices.get(random.nextInt(choices.size()));
 		if (choice == "left") {
-			Tween.from(item, ActorAccessor.POSITION_X, duration).target(-item.getWidth())
+			return Tween.from(item, ActorAccessor.POSITION_X, duration).target(-item.getWidth())
 				.ease(ease)
 				.start(tweenManager);
 		} else if (choice == "right") {
-			Tween.from(item, ActorAccessor.POSITION_X, duration).target(Gdx.graphics.getWidth() + item.getWidth())
+			return Tween.from(item, ActorAccessor.POSITION_X, duration).target(Gdx.graphics.getWidth() + item.getWidth())
 				.ease(ease)
 				.start(tweenManager);
 		} else if (choice == "up") {
-			Tween.from(item, ActorAccessor.POSITION_Y, duration).target(-item.getHeight())
+			return Tween.from(item, ActorAccessor.POSITION_Y, duration).target(-item.getHeight())
 				.ease(ease)
 				.start(tweenManager);
-		} else if (choice == "down") {
-			Tween.from(item, ActorAccessor.POSITION_Y, duration).target(Gdx.graphics.getHeight() + item.getHeight())
+		} else {
+			return Tween.from(item, ActorAccessor.POSITION_Y, duration).target(Gdx.graphics.getHeight() + item.getHeight())
+				.ease(ease)
+				.start(tweenManager);
+		}
+	}
+	
+	public static Tween setupSingleItemTweenTo(Item item, TweenManager tweenManager, TweenEquation ease, float duration, boolean left, boolean right, boolean up, boolean down) {
+		List<String> choices = setupChoices(left, right, up, down);
+		
+		String choice = choices.get(random.nextInt(choices.size()));
+		if (choice == "left") {
+			return Tween.to(item, ActorAccessor.POSITION_X, duration).target(-item.getWidth())
+				.ease(ease)
+				.start(tweenManager);
+		} else if (choice == "right") {
+			return Tween.to(item, ActorAccessor.POSITION_X, duration).target(Gdx.graphics.getWidth() + item.getWidth())
+				.ease(ease)
+				.start(tweenManager);
+		} else if (choice == "up") {
+			return Tween.to(item, ActorAccessor.POSITION_Y, duration).target(-item.getHeight())
+				.ease(ease)
+				.start(tweenManager);
+		} else {
+			return Tween.to(item, ActorAccessor.POSITION_Y, duration).target(Gdx.graphics.getHeight() + item.getHeight())
 				.ease(ease)
 				.start(tweenManager);
 		}

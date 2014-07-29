@@ -22,15 +22,21 @@ public class Settings {
 	}
 	
 	public static boolean getDebugMode() {
-		return getPreferences().getBoolean(DEBUG_MODE, true);
+		return getPreferences().getBoolean(DEBUG_MODE, false);
 	}
 	
 	public static void setDebugMode(boolean mode) {
 		getPreferences().putBoolean(DEBUG_MODE, mode);
 	}
 	
+	private static float levelYOffset = -2 * Settings.GAME_SCALE;
+	
 	public static float getLevelYOffset() {
-		return -2 * Settings.GAME_SCALE;
+		return Settings.levelYOffset;
+	}
+	
+	public static void setLevelYOffset(float levelYOffset) {
+		Settings.levelYOffset = levelYOffset;
 	}
 
 }
