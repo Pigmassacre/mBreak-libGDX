@@ -156,6 +156,7 @@ public class IntroScreen extends AbstractScreen {
 	
 	private void startMainMenu() {
 		game.setScreen(new MainMenuScreen(game, logo, sunrays));
+		dispose();
 	}
 	
 	private class IntroInputProcessor extends InputAdapter {

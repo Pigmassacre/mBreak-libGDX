@@ -27,10 +27,11 @@ public class IntroLoadingScreen extends AbstractScreen {
 		
 		if (Assets.getAssetManager().update()) {
 			game.setScreen(new IntroScreen(game));
+			dispose();
 		}
 		
 		loadingTextItem.setString("Now Loading " + (int) (Assets.getAssetManager().getProgress() * 100) + "%");
 		loadingTextItem.setX((Gdx.graphics.getWidth() - loadingTextItem.getWidth()) / 2);
 	}
-
+	
 }

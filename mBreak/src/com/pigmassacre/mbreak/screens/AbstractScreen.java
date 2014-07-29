@@ -45,16 +45,11 @@ public class AbstractScreen implements Screen {
 		Tween.registerAccessor(GameActor.class, new GameActorAccessor());
 		Tween.registerAccessor(Actor.class, new ActorAccessor());
 	}
-
-	public SpriteBatch getBatch() {
-		if (batch == null)
-			batch = new SpriteBatch();
-		return batch;
-	}
 	
 	public TweenManager getTweenManager() {
-		if (tweenManager == null)
+		if (tweenManager == null) {
 			tweenManager = new TweenManager();
+		}
 		return tweenManager;
 	}
 	
@@ -94,13 +89,15 @@ public class AbstractScreen implements Screen {
 	}
 
 	public InputMultiplexer getInputMultiplexer() {
-		if (inputMultiplexer == null)
+		if (inputMultiplexer == null) {
 			inputMultiplexer = new InputMultiplexer();
+		}
 		return inputMultiplexer;
 	}
 	
 	@Override
 	public void show() {
+		Gdx.app.log(MBreak.LOG, "Showing screen: " + getName());
 		getInputMultiplexer().addProcessor(traversal);
 		getInputMultiplexer().addProcessor(stage);
 		Gdx.input.setInputProcessor(getInputMultiplexer());
@@ -109,7 +106,6 @@ public class AbstractScreen implements Screen {
 	@Override
 	public void hide() {
 		Gdx.app.log(MBreak.LOG, "Hiding screen: " + getName());
-		dispose();
 	}
 
 	@Override
@@ -126,8 +122,9 @@ public class AbstractScreen implements Screen {
 	public void dispose() {
 		Gdx.app.log(MBreak.LOG, "Disposing screen: " + getName());
 		stage.dispose();
-		if (batch != null)
+		if (batch != null) {
 			batch.dispose();
+		}
 	}
 
 }

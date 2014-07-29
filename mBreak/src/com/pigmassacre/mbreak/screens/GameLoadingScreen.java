@@ -103,6 +103,7 @@ public class GameLoadingScreen extends AbstractScreen {
 	public void postRender(float delta) {
 		if (finishedTweening) {
 			game.setScreen(new GameScreen(game, sunrays, leftColor, rightColor));
+			dispose();
 		}
 	}
 	

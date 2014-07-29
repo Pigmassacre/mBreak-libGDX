@@ -15,7 +15,6 @@ import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GameActorAccessor;
-import com.pigmassacre.mbreak.gui.SettingsAccessor;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.Block;
@@ -208,6 +207,7 @@ public class GameScreen extends AbstractScreen {
 	
 	@Override
 	public void show() {
+		Gdx.input.setCursorCatched(!Settings.getDebugMode());
 		getInputMultiplexer().addProcessor(new InputAdapter() {
 
 			@Override
@@ -227,11 +227,12 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	private void back() {
-		MusicHandler.stop();
-		Assets.unloadGameAssets();
-		Gdx.input.setCursorCatched(false);
-		game.setScreen(new PrepareMenuScreen(game, null, sunrays));
-		
+//		MusicHandler.stop();
+//		Assets.unloadGameAssets();
+//		Gdx.input.setCursorCatched(false);
+//		game.setScreen(new PrepareMenuScreen(game, null, sunrays));
+//		dispose();
+		game.setScreen(new PauseScreen(game, this));
 	}
 	
 	@Override

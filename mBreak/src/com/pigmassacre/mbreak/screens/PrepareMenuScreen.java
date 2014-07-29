@@ -368,4 +368,10 @@ public class PrepareMenuScreen extends AbstractScreen {
 		super.show();
 	}
 
+	@Override
+	public void hide() {
+		super.hide();
+		dispose();
+	}
+	
 }

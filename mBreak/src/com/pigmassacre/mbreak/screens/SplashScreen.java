@@ -16,8 +16,15 @@ public class SplashScreen extends AbstractScreen {
 	public void render(float delta) {
 		super.render(delta);
 		stateTime += delta;
-		if (stateTime >= endTime)
+		if (stateTime >= endTime) {
 			game.setScreen(new IntroScreen(game));
+		}
+	}
+	
+	@Override
+	public void hide() {
+		super.hide();
+		dispose();
 	}
 	
 }
