@@ -71,7 +71,7 @@ public class Item extends Widget {
 	}
 	
 	public void setChosen(boolean chosen) {
-		if (chosen && !this.chosen) {
+		if (chosen && !this.chosen ) {
 			
 		}
 		this.chosen = chosen;

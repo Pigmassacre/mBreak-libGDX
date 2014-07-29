@@ -21,9 +21,12 @@ import com.pigmassacre.mbreak.objects.Ball;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Player;
 import com.pigmassacre.mbreak.objects.powerups.ElectricityPowerup;
+import com.pigmassacre.mbreak.objects.powerups.EnlargerPowerup;
 import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
 import com.pigmassacre.mbreak.objects.powerups.FrostPowerup;
+import com.pigmassacre.mbreak.objects.powerups.MultiballPowerup;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
+import com.pigmassacre.mbreak.objects.powerups.ReducerPowerup;
 import com.pigmassacre.mbreak.objects.powerups.SpeedPowerup;
 import com.pigmassacre.mbreak.screens.AbstractScreen;
 
@@ -92,7 +95,7 @@ public class DebugInput extends InputAdapter {
 				float powerupX = Settings.LEVEL_X + powerupWidth / 2;
 				float powerupY = Settings.LEVEL_Y;
 				Powerup powerup;
-				switch(MathUtils.random(3)) {
+				switch(MathUtils.random(6)) {
 				case 0:
 					powerup = new FirePowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
 					break;
@@ -104,6 +107,15 @@ public class DebugInput extends InputAdapter {
 					break;
 				case 3:
 					powerup = new FrostPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+					break;
+				case 4:
+					powerup = new EnlargerPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+					break;
+				case 5:
+					powerup = new ReducerPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
+					break;
+				case 6:
+					powerup = new MultiballPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
 					break;
 				}
 			}

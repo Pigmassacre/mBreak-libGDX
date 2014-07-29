@@ -40,14 +40,14 @@ electricity
   index: -1
 enlarger
   rotate: false
-  xy: 62, 21
-  size: 8, 8
-  orig: 8, 8
+  xy: 52, 20
+  size: 8, 9
+  orig: 8, 9
   offset: 0, 0
   index: -1
 fire
   rotate: false
-  xy: 52, 20
+  xy: 62, 20
   size: 8, 9
   orig: 8, 9
   offset: 0, 0
@@ -61,9 +61,9 @@ frost
   index: -1
 multiball
   rotate: false
-  xy: 72, 21
-  size: 8, 8
-  orig: 8, 8
+  xy: 72, 20
+  size: 8, 9
+  orig: 8, 9
   offset: 0, 0
   index: -1
 paddle
@@ -73,18 +73,39 @@ paddle
   orig: 6, 24
   offset: 0, 0
   index: -1
-particle
+paddle_bottom
+  rotate: false
+  xy: 110, 24
+  size: 6, 5
+  orig: 6, 5
+  offset: 0, 0
+  index: -1
+paddle_middle
   rotate: false
   xy: 12, 2
+  size: 6, 1
+  orig: 6, 1
+  offset: 0, 0
+  index: -1
+paddle_top
+  rotate: false
+  xy: 118, 26
+  size: 6, 3
+  orig: 6, 3
+  offset: 0, 0
+  index: -1
+particle
+  rotate: false
+  xy: 28, 16
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 reducer
   rotate: false
-  xy: 82, 21
-  size: 8, 8
-  orig: 8, 8
+  xy: 82, 20
+  size: 8, 9
+  orig: 8, 9
   offset: 0, 0
   index: -1
 rocket
