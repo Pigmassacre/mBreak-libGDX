@@ -3,9 +3,10 @@ package com.pigmassacre.mbreak.gui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.math.Rectangle;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.objects.Assets;
 
 public class TextItem extends Item {
 	
@@ -65,11 +66,11 @@ public class TextItem extends Item {
 	}
 	
 	public float getWidth() {
-		return font.getBounds(string).width;
+		return font.getBounds(string, new TextBounds()).width;
 	}
 	
 	public float getHeight() {
-		return font.getBounds(string).height;
+		return font.getBounds(string, new TextBounds()).height;
 	}
 	
 	public void setHide(Boolean hide) {

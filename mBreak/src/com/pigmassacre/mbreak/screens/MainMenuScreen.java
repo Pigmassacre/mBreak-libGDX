@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 import com.pigmassacre.mbreak.gui.ListMenu;
@@ -116,6 +117,7 @@ public class MainMenuScreen extends AbstractScreen {
 	}
 	
 	public void quit() {
+		Settings.savePreferences();
 		Gdx.app.exit();
 	}
 	

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
 
 public class Particle extends GameActor implements Poolable {

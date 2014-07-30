@@ -1,9 +1,9 @@
 package com.pigmassacre.mbreak.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.objects.Assets;
 
 public class IntroLoadingScreen extends AbstractScreen {
 

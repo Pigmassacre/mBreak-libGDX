@@ -2,8 +2,8 @@ package com.pigmassacre.mbreak.gui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.objects.Assets;
 
 public class ImageItem extends RectItem {
 

@@ -8,13 +8,13 @@ import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.objects.Assets;
 
 public class GameLoadingScreen extends AbstractScreen {
 

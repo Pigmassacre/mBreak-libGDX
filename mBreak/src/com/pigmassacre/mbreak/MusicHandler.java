@@ -2,18 +2,25 @@ package com.pigmassacre.mbreak;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.audio.Music;
-import com.pigmassacre.mbreak.objects.Assets;
+import com.badlogic.gdx.audio.Music.OnCompletionListener;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.ObjectMap;
 
 public class MusicHandler {
 
 	private static Music currentMusic;
 	private static List<Music> musicList = new LinkedList<Music>();
+	private static ObjectMap<Music, String> musicMap = new ObjectMap<Music, String>();
 	private static int currentPosition = 0;
+	private static boolean shuffle = false;
 
-	public static void addSong(String name) {
-		musicList.add(Assets.getMusic(name));
+	public static void addSong(String name, String actualName) {
+		Music music = Assets.getMusic(name);
+		musicList.add(music);
+		musicMap.put(music, actualName);
 	}
 	
 	public static void setSong(String name) {
@@ -26,7 +33,22 @@ public class MusicHandler {
 	public static boolean play() {
 		if (currentMusic != null) {
 			currentMusic.play();
+			currentMusic.setOnCompletionListener(new OnCompletionListener() {
+				
+				@Override
+				public void onCompletion(Music music) {
+					next();
+				}
+				
+			});
 			return true;
+		} else if (!musicList.isEmpty()) {
+			if (getShuffle()) {
+				currentMusic = musicList.get(MathUtils.random(0, musicList.size() - 1));
+			} else {
+				
+			}
+			play();
 		}
 		return false;
 	}
@@ -42,6 +64,7 @@ public class MusicHandler {
 	public static boolean stop() {
 		if (currentMusic != null) {
 			currentMusic.stop();
+			currentMusic = null;
 			return true;
 		}
 		return false;
@@ -51,8 +74,16 @@ public class MusicHandler {
 		if (currentMusic != null) {
 			currentMusic.stop();
 		}
-		if (++currentPosition > musicList.size() - 1) {
-			currentPosition = 0;
+		if (getShuffle()) {
+			System.out.println("currPos: " + currentPosition);
+			System.out.println("musicList size (-1): " + (musicList.size() - 1));
+			int newInt = getRandomWithExclusion(0, musicList.size() - 1, currentPosition);
+			System.out.println("newPos: " + newInt);
+			currentPosition = newInt;
+		} else {
+			if (++currentPosition > musicList.size() - 1) {
+				currentPosition = 0;
+			}
 		}
 		currentMusic = musicList.get(currentPosition);
 		play();
@@ -67,6 +98,14 @@ public class MusicHandler {
 		}
 		currentMusic = musicList.get(currentPosition);
 		play();
+	}
+	
+	public static void setShuffle(boolean shuffle) {
+		MusicHandler.shuffle = shuffle;
+	}
+	
+	public static boolean getShuffle() {
+		return shuffle;
 	}
 	
 	public static boolean isLooping() {
@@ -100,6 +139,21 @@ public class MusicHandler {
 		if (currentMusic != null) {
 			currentMusic.setVolume(volume);
 		}
+	}
+	
+	public static String getNameOfCurrentSong() {
+		return musicMap.get(currentMusic);
+	}
+	
+	private static int getRandomWithExclusion(int start, int end, int... exclude) {
+	    int random = start + MathUtils.random(end - start + 1 - exclude.length - 1);
+	    for (int ex : exclude) {
+	        if (random < ex) {
+	            break;
+	        }
+	        random++;
+	    }
+	    return random;
 	}
 	
 }

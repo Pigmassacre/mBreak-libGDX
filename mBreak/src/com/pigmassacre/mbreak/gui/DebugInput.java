@@ -10,14 +10,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 import com.pigmassacre.mbreak.objects.Ball;
+import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Player;
 import com.pigmassacre.mbreak.objects.powerups.ElectricityPowerup;
@@ -41,6 +45,9 @@ public class DebugInput extends InputAdapter {
 		this.screen = screen;
 		this.stage = stage;
 		rectangle = new Rectangle(Settings.LEVEL_X, Settings.LEVEL_Y, Settings.LEVEL_WIDTH, Settings.LEVEL_HEIGHT);
+		if (Settings.getDebugMode()) {
+			showFPSCounter();
+		}
 	}
 	
 	private boolean leftPlayer = true;
@@ -74,20 +81,20 @@ public class DebugInput extends InputAdapter {
 			if (Settings.getDebugMode()) {
 				createDebugMessage("Debug Mode ON");
 				Gdx.input.setCursorCatched(false);
+				showFPSCounter();
 			} else {
 				createDebugMessage("Debug Mode OFF");
 				Gdx.input.setCursorCatched(true);
+				hideFPSCounter();
 			}
 			
 			break;
 		case Keys.R:
 			if (Settings.getDebugMode()) {
-				createDebugMessage("Removed all balls");
 				SnapshotArray<Actor> array = Groups.ballGroup.getChildren();
 				Actor[] items = array.begin();
 				for (int i = 0, n = array.size; i < n; i++) {
-					Actor item = items[i];
-					((Ball) item).reset();
+					((Ball) items[i]).reset();
 				}
 				array.end();
 			}
@@ -111,6 +118,7 @@ public class DebugInput extends InputAdapter {
 				} else {
 					screen.timeScale += 0.1f;
 				}
+				createDebugMessage("Set timescale to " + screen.timeScale);
 			}
 			break;
 		case Keys.N:
@@ -120,11 +128,25 @@ public class DebugInput extends InputAdapter {
 				} else {
 					screen.timeScale -= 0.1f;
 				}
+				createDebugMessage("Set timescale to " + screen.timeScale);
 			}
 			break;
 		case Keys.B:
 			if (Settings.getDebugMode()) {
 				screen.timeScale = 1f;
+				createDebugMessage("Reset timescale to " + screen.timeScale);
+			}
+			break;
+		case Keys.Z:
+			if (Settings.getDebugMode()) {
+				MusicHandler.prev();
+				createDebugMessage("Now Playing: " + MusicHandler.getNameOfCurrentSong());
+			}
+			break;
+		case Keys.X:
+			if (Settings.getDebugMode()) {
+				MusicHandler.next();
+				createDebugMessage("Now Playing: " + MusicHandler.getNameOfCurrentSong());
 			}
 			break;
 		}
@@ -197,6 +219,33 @@ public class DebugInput extends InputAdapter {
 						
 					})
 			.start(screen.getTweenManager());
+	}
+	
+	private static TextItem fpsCounterTextItem;
+	
+	private void showFPSCounter() {
+		if (fpsCounterTextItem == null) {
+			fpsCounterTextItem = new TextItem(Integer.toString(Gdx.graphics.getFramesPerSecond()));
+			fpsCounterTextItem.setColor(1f, 1f, 1f, 0.75f);
+			fpsCounterTextItem.setX(4 * Settings.GAME_SCALE);
+			fpsCounterTextItem.setY(Gdx.graphics.getHeight() - 2 * Settings.GAME_SCALE);
+			fpsCounterTextItem.setActCallback(new ItemCallback() {
+				
+				@Override
+				public void execute(Item data) {
+					fpsCounterTextItem.setString(Integer.toString(Gdx.graphics.getFramesPerSecond()));
+				}
+				
+			});
+		}
+		
+		if (!stage.getActors().contains(fpsCounterTextItem, true)) {
+			stage.addActor(fpsCounterTextItem);
+		}
+	}
+	
+	private void hideFPSCounter() {
+		fpsCounterTextItem.remove();
 	}
 	
 }

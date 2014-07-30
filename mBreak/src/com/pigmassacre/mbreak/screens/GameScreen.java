@@ -10,13 +10,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GameActorAccessor;
 import com.pigmassacre.mbreak.gui.Sunrays;
-import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Paddle;
@@ -137,10 +137,15 @@ public class GameScreen extends AbstractScreen {
 			.delay(delay + 0.025f)
 			.start(getTweenManager());
 
-		tempBlock.destroy();
+		tempBlock.destroy(false);
 		
-		MusicHandler.setSong("music/game/choke.ogg");
-		MusicHandler.setLooping(true);
+		MusicHandler.stop();
+		MusicHandler.addSong("music/game/choke.ogg", "choke");
+		MusicHandler.addSong("music/game/divine_intervention.ogg", "Divine Intervention");
+		MusicHandler.addSong("music/game/socialmoron.ogg", "Social Moron");
+		MusicHandler.addSong("music/game/stardstm.ogg", "stardust memories");
+//		MusicHandler.setLooping(true);
+		MusicHandler.setShuffle(true);
 		MusicHandler.play();
 		
 		stage.addActor(background);

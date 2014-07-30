@@ -21,6 +21,10 @@ public class Settings {
 		return Gdx.app.getPreferences(PREFS_NAME);
 	}
 	
+	public static void savePreferences() {
+		getPreferences().flush();
+	}
+	
 	public static boolean getDebugMode() {
 		return getPreferences().getBoolean(DEBUG_MODE, false);
 	}

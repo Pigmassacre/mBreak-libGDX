@@ -1,7 +1,7 @@
 package com.pigmassacre.mbreak.objects.powerups;
 
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.effects.SpeedEffect;
 

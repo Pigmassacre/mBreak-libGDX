@@ -2,8 +2,8 @@ package com.pigmassacre.mbreak.objects.powerups;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.objects.Assets;
 import com.pigmassacre.mbreak.objects.Particle;
 
 public class ElectricityPowerup extends Powerup {

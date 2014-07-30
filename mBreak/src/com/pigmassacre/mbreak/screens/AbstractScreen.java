@@ -85,7 +85,7 @@ public class AbstractScreen implements Screen {
 	
 	public void postRender(float delta) {
 		
-	};
+	}
 
 	@Override
 	public void resize(int width, int height) {

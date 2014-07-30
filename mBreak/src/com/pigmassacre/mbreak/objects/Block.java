@@ -1,7 +1,9 @@
 package com.pigmassacre.mbreak.objects;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
 
 public class Block extends GameActor {	
@@ -9,10 +11,13 @@ public class Block extends GameActor {
 	protected float health, maxHealth;
 	private Color originalColor;
 	
+	private Sound onDestroySound;
+	
 	public Block(float x, float y, Player owner, Color color) {
 		super();
 		
 		image = Assets.getTextureRegion("block");
+		onDestroySound = Assets.getSound("sound/blockDestroyed.wav");
 		
 		setDepth(2 * Settings.GAME_SCALE);
 		setZ(2 * Settings.GAME_SCALE);
@@ -78,6 +83,20 @@ public class Block extends GameActor {
 		
 		if (health <= 0) {
 			destroy();
+		}
+	}
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		onDestroySound.play();
+	}
+	
+	public void destroy(boolean playSound) {
+		if (playSound) {
+			destroy();
+		} else {
+			super.destroy();
 		}
 	}
 	

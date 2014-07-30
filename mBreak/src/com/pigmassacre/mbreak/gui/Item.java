@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.objects.Assets;
 
 public class Item extends Widget {
 	
@@ -14,7 +14,7 @@ public class Item extends Widget {
 		public void execute(Item data);
 	}
 	
-	protected ItemCallback callback;
+	protected ItemCallback callback, actCallback;
 	
 	protected ShapeRenderer shapeRenderer;
 
@@ -189,6 +189,18 @@ public class Item extends Widget {
 		
 		rectangle.setX(getX() + offsetX);
 		rectangle.setY(getY() + offsetY);
+		
+		executeActCallback();
+	}
+	
+	public void setActCallback(ItemCallback actCallback) {
+		this.actCallback = actCallback;
+	}
+	
+	private void executeActCallback() {
+		if (actCallback != null) {
+			actCallback.execute(this);
+		}
 	}
 	
 }

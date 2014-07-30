@@ -8,13 +8,15 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.effects.Effect;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
 
 public class Ball extends GameActor implements Poolable {
 	
-	private Sound sound;
+	private Sound hitSound;
+//	private Array<Sound> blockSounds;
 	
 	private boolean collided;
 	
@@ -32,7 +34,11 @@ public class Ball extends GameActor implements Poolable {
 		super();
 		alive = false;
 		image = Assets.getTextureRegion("ball");
-		sound = Assets.getSound("sound/ball.ogg");
+		hitSound = Assets.getSound("sound/ball.ogg");
+//		blockSounds = new Array<Sound>();
+//		blockSounds.add(Assets.getSound("sound/ballBlock1.wav"));
+//		blockSounds.add(Assets.getSound("sound/ballBlock2.wav"));
+//		blockSounds.add(Assets.getSound("sound/ballBlock4.wav"));
 	}
 	
 	public void init(float x, float y, float angle, Player owner, Color color) {
@@ -166,7 +172,7 @@ public class Ball extends GameActor implements Poolable {
 			}
 
 			if (collided) {
-				sound.play();
+				hitSound.play();
 				new Flash(this, 0.33f);
 			}
 			
@@ -368,6 +374,11 @@ public class Ball extends GameActor implements Poolable {
 	public void onHitObject(GameActor object) {
 		shootParticlesOnHit(3, 5);
 		super.onHitObject(object);
+	}
+
+	@Override
+	public void onHitBlock(Block block) {
+//		blockSounds.random().play();
 	}
 	
 	@Override

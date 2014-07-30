@@ -1,8 +1,10 @@
-package com.pigmassacre.mbreak.objects;
+package com.pigmassacre.mbreak;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -48,6 +50,9 @@ public class Assets {
 		}
 		if (!assetManager.isLoaded("sound/ball.ogg")) {
 			assetManager.load("sound/ball.ogg", Sound.class);
+		}
+		if (!assetManager.isLoaded("sound/blockDestroyed.wav")) {
+			assetManager.load("sound/blockDestroyed.wav", Sound.class);
 		}
 		if (!assetManager.isLoaded("music/game/choke.ogg")) {
 			assetManager.load("music/game/choke.ogg", Music.class);
