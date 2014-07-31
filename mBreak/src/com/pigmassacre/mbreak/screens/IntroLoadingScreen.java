@@ -11,6 +11,7 @@ public class IntroLoadingScreen extends AbstractScreen {
 	
 	public IntroLoadingScreen(MBreak game) {
 		super(game);
+		Assets.loadAssetManager();
 		Assets.loadFonts();
 		Assets.getAssetManager().finishLoading();
 		Assets.loadMenuAssets();

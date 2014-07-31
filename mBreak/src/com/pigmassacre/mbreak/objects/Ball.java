@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
@@ -14,6 +15,14 @@ import com.pigmassacre.mbreak.objects.effects.Effect;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
 
 public class Ball extends GameActor implements Poolable {
+	
+	public static final Pool<Ball> ballPool = new Pool<Ball>() {
+
+		protected Ball newObject() {
+			return new Ball();
+		};
+
+	};
 	
 	private Sound hitSound;
 //	private Array<Sound> blockSounds;
@@ -41,7 +50,7 @@ public class Ball extends GameActor implements Poolable {
 //		blockSounds.add(Assets.getSound("sound/ballBlock4.wav"));
 	}
 	
-	public void init(float x, float y, float angle, Player owner, Color color) {
+	public void init(float x, float y, float angle, Player owner) {
 		alive = true;
 		
 		circle = new Circle();
@@ -64,7 +73,7 @@ public class Ball extends GameActor implements Poolable {
 		traceTime = 0f;
 		traceRate = 0.00053f * Settings.GAME_FPS;
 		
-		setColor(color);
+		setColor(owner.getColor());
 		
 		shadow = Shadow.shadowPool.obtain();
 		shadow.init(this, false);
@@ -180,7 +189,7 @@ public class Ball extends GameActor implements Poolable {
 		}
 		
 		traceTime += delta;
-		if (traceTime > traceRate) {
+		if (traceTime > traceRate && speed > 0f) {
 			new Trace(this);
 			traceTime = 0f;
 		}

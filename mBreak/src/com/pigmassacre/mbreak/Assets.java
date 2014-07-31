@@ -1,22 +1,28 @@
 package com.pigmassacre.mbreak;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.pigmassacre.mbreak.objects.GrayscaleShader;
 
 public class Assets {
 
 	private static AssetManager assetManager;
 	
+	public static void loadAssetManager() {
+		assetManager = new AssetManager();
+	}
+	
 	public static AssetManager getAssetManager() {
 		if (assetManager == null) {
-			assetManager = new AssetManager();
+			System.err.println("AssetManager not loaded.");
 		}
+//		if (assetManager == null) {
+//			assetManager = new AssetManager();
+//		}
 		return assetManager;
 	}
 	
@@ -44,6 +50,8 @@ public class Assets {
 	
 	public static void loadGameAssets() {
 		getAssetManager();
+		
+		GrayscaleShader.loadShader();
 		
 		if (!assetManager.isLoaded("images/gametextures.atlas")) {
 			assetManager.load("images/gametextures.atlas", TextureAtlas.class);

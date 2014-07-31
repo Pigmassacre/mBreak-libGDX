@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.pigmassacre.mbreak.MBreak;
+import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.ListMenu;
@@ -67,8 +68,8 @@ public class PauseScreen extends AbstractScreen {
 	}
 
 	private void quit() {
-		game.setScreen(new MainMenuScreen(game));
 		pausedScreen.dispose();
+		game.setScreen(new MainMenuScreen(game));
 	}
 	
 	@Override
@@ -106,5 +107,17 @@ public class PauseScreen extends AbstractScreen {
 		super.hide();
 		dispose();
 	}
+
+//	@Override
+//	public void pause() {
+//		super.pause();
+////		MusicHandler.pause();
+//	}
+//	
+//	@Override
+//	public void resume() {
+//		super.resume();
+////		MusicHandler.play();
+//	}
 	
 }

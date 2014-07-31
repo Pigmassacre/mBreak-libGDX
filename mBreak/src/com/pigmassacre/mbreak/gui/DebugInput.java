@@ -58,7 +58,7 @@ public class DebugInput extends InputAdapter {
 			Vector3 coords = new Vector3(screenX, screenY, 0);
 			stage.getCamera().unproject(coords);
 			if (stage != null && (pointer == 0 || button == Buttons.LEFT) && rectangle.contains(coords.x, coords.y)) {
-				Ball ball = new Ball();
+				Ball ball = Ball.ballPool.obtain();
 				Player player;
 				if (leftPlayer) {
 					player = (Player) Groups.playerGroup.getChildren().first();
@@ -66,7 +66,7 @@ public class DebugInput extends InputAdapter {
 					player = (Player) Groups.playerGroup.getChildren().peek();
 				}
 				leftPlayer = !leftPlayer;
-				ball.init(coords.x, coords.y, (float) (MathUtils.random() * 2 * Math.PI), player, player.getColor());
+				ball.init(coords.x, coords.y, (float) (MathUtils.random() * 2 * Math.PI), player);
 			}
 		}
 		return false;

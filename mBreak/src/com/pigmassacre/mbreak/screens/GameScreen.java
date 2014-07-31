@@ -1,12 +1,15 @@
 package com.pigmassacre.mbreak.screens;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.SnapshotArray;
@@ -17,6 +20,7 @@ import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GameActorAccessor;
 import com.pigmassacre.mbreak.gui.Sunrays;
+import com.pigmassacre.mbreak.objects.Ball;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Paddle;
@@ -30,6 +34,8 @@ public class GameScreen extends AbstractScreen {
 	Foreground foreground;
 	
 	Sunrays sunrays;
+	
+	float oldSpeed;
 	
 	public GameScreen(MBreak game, Sunrays givenSunrays, Color leftColor, Color rightColor) {
 		super(game);
@@ -139,12 +145,43 @@ public class GameScreen extends AbstractScreen {
 
 		tempBlock.destroy(false);
 		
+		Ball ball = Ball.ballPool.obtain();
+		
+		Player startingPlayer;
+		float angle;
+		if (MathUtils.randomBoolean()) {
+			startingPlayer = leftPlayer;
+			angle = MathUtils.PI;
+		} else {
+			startingPlayer = rightPlayer;
+			angle = 0f;
+		}
+		
+		ball.init(Settings.LEVEL_X + (Settings.LEVEL_WIDTH - ball.getWidth()) / 2, Settings.LEVEL_Y + (Settings.LEVEL_HEIGHT - ball.getHeight()) / 2, angle, startingPlayer);
+		oldSpeed = ball.speed;
+		ball.speed = 0f;
+		z = ball.getZ();
+		ball.setZ(1000);
+		Tween.to(ball, GameActorAccessor.Z, 2f)
+			.target(z)
+			.ease(TweenEquations.easeOutExpo)
+			.delay(delay + 1f)
+			.setUserData(ball)
+			.setCallback(new TweenCallback() {
+				
+				@Override
+				public void onEvent(int type, BaseTween<?> source) {
+					((Ball) source.getUserData()).speed = oldSpeed;
+				}
+				
+			})
+			.start(getTweenManager());
+		
 		MusicHandler.stop();
 		MusicHandler.addSong("music/game/choke.ogg", "choke");
 		MusicHandler.addSong("music/game/divine_intervention.ogg", "Divine Intervention");
 		MusicHandler.addSong("music/game/socialmoron.ogg", "Social Moron");
 		MusicHandler.addSong("music/game/stardstm.ogg", "stardust memories");
-//		MusicHandler.setLooping(true);
 		MusicHandler.setShuffle(true);
 		MusicHandler.play();
 		
@@ -239,14 +276,15 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	public void pause() {
 		super.pause();
-		MusicHandler.pause();
+//		MusicHandler.pause();
+		back();
 	}
 
-	@Override
-	public void resume() {
-		super.resume();
-		MusicHandler.play();
-	}
+//	@Override
+//	public void resume() {
+//		super.resume();
+//		MusicHandler.play();
+//	}
 
 	@Override
 	public void dispose() {

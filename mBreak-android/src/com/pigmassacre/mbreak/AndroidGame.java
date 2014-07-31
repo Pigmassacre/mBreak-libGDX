@@ -11,14 +11,6 @@ public class AndroidGame extends AndroidApplication {
     public void onCreate (android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        /* TODO: Make Android version portrait?
-        if (Settings.BASE_SCREEN_WIDTH > Settings.BASE_SCREEN_HEIGHT) {
-        	int tempHeight = Settings.BASE_SCREEN_HEIGHT;
-            Settings.BASE_SCREEN_HEIGHT = Settings.BASE_SCREEN_WIDTH;
-            Settings.BASE_SCREEN_WIDTH = tempHeight;
-            Settings.GAME_SCALE = 1;
-        }*/
-        
         Display display = getWindowManager().getDefaultDisplay();
         int newScale;
         if (android.os.Build.VERSION.SDK_INT >= 13) {
@@ -32,6 +24,7 @@ public class AndroidGame extends AndroidApplication {
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.hideStatusBar = true;
+        cfg.useGL20 = true;
         initialize(new MBreak(), cfg);
     }
 }
