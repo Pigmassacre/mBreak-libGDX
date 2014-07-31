@@ -8,7 +8,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.pigmassacre.mbreak.MBreak;
@@ -22,7 +21,6 @@ public class AbstractScreen implements Screen {
 	protected final MBreak game;
 	
 	protected Stage stage;
-	private SpriteBatch batch;
 	private TweenManager tweenManager;
 	
 	private InputMultiplexer inputMultiplexer;
@@ -39,6 +37,13 @@ public class AbstractScreen implements Screen {
 		this.stage = new Stage();
 		registerTweenAccessor();
 		this.traversal = new Traversal(stage.getCamera());
+		getInputMultiplexer().addProcessor(traversal);
+		getInputMultiplexer().addProcessor(stage);
+		registerInputProcessors();
+	}
+	
+	protected void registerInputProcessors() {
+		
 	}
 	
 	protected void registerTweenAccessor() {
@@ -102,8 +107,6 @@ public class AbstractScreen implements Screen {
 	@Override
 	public void show() {
 		Gdx.app.log(MBreak.LOG, "Showing screen: " + getName());
-		getInputMultiplexer().addProcessor(traversal);
-		getInputMultiplexer().addProcessor(stage);
 		Gdx.input.setInputProcessor(getInputMultiplexer());
 	}
 
@@ -126,9 +129,6 @@ public class AbstractScreen implements Screen {
 	public void dispose() {
 		Gdx.app.log(MBreak.LOG, "Disposing screen: " + getName());
 		stage.dispose();
-		if (batch != null) {
-			batch.dispose();
-		}
 	}
 
 }

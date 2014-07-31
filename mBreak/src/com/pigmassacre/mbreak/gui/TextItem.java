@@ -1,10 +1,13 @@
 package com.pigmassacre.mbreak.gui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
 
@@ -19,9 +22,15 @@ public class TextItem extends Item {
 	private float blinkRate = 0.75f;
 	private float stateBlinkTime;
 	
+	private boolean wrapped;
+	
+	private float textSideBounds;
+
+	private HAlignment alignment;
+	
 	public TextItem(CharSequence string) {
 		super();
-		
+
 		font = Assets.getBitmapFont("fonts/ADDLG__.fnt");
 		font.setScale(Settings.GAME_SCALE);
 		shadowColor = new Color(0.196f, 0.196f, 0.196f, 1.0f);
@@ -30,6 +39,10 @@ public class TextItem extends Item {
 		
 		shadowOffsetX = 0f;
 		shadowOffsetY = -1f * Settings.GAME_SCALE;
+		
+		textSideBounds = 25f * Settings.GAME_SCALE;
+		wrapped = false;
+		alignment = HAlignment.LEFT;
 		
 		stateBlinkTime = 0f;
 
@@ -61,16 +74,46 @@ public class TextItem extends Item {
 		this.string = string;
 	}
 	
+	public void setAlignment(HAlignment alignment) {
+		this.alignment = alignment;
+	}
+	
+	public HAlignment getAlignment() {
+		return alignment;
+	}
+	
+	public boolean isWrapped() {
+		return wrapped;
+	}
+
+	public void setWrapped(boolean wrapped) {
+		this.wrapped = wrapped;
+	}
+	
+	public float getWrapWidth() {
+		return Gdx.graphics.getWidth() - textSideBounds;
+	}
+	
 	public BitmapFont getFont() {
 		return font;
 	}
 	
 	public float getWidth() {
-		return font.getBounds(string, new TextBounds()).width;
+		if (wrapped) {
+//			return font.getCache().setWrappedText(string, 0, 0, Gdx.graphics.getWidth() - textSideBounds, alignment).width;
+			return font.getWrappedBounds(string, Gdx.graphics.getWidth() - textSideBounds).width;
+		} else {
+			return font.getBounds(string).width;
+		}
 	}
 	
 	public float getHeight() {
-		return font.getBounds(string, new TextBounds()).height;
+		if (wrapped) {
+//			return font.getCache().setWrappedText(string, 0, 0, Gdx.graphics.getWidth() - textSideBounds, alignment).height;
+			return font.getWrappedBounds(string, Gdx.graphics.getWidth() - textSideBounds).height;
+		} else {
+			return font.getBounds(string).height;
+		}
 	}
 	
 	public void setHide(Boolean hide) {
@@ -102,13 +145,21 @@ public class TextItem extends Item {
 	
 	public void draw(Batch batch, float parentAlpha) {
 		font.setColor(shadowColor);
-		font.draw(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY());
+		if (wrapped) {
+			font.drawWrapped(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY(), getWrapWidth(), alignment);
+		} else {
+			font.draw(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY());
+		}
 		if (getSelected()) {
 			font.setColor(selectedColor);
 		} else {
 			font.setColor(getColor());
 		}
-		font.draw(batch, string, getX() + getOffsetX(), getY() + getOffsetY());
+		if (wrapped) {
+			font.drawWrapped(batch, string, getX() + getOffsetX(), getY() + getOffsetY(), getWrapWidth(), alignment);
+		} else {
+			font.draw(batch, string, getX() + getOffsetX(), getY() + getOffsetY());
+		}
 	}
 	
 }

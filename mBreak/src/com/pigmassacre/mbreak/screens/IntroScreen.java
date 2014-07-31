@@ -135,24 +135,6 @@ public class IntroScreen extends AbstractScreen {
 		if (introTime >= endTime)
 			super.render(delta);
 	}
-
-	@Override
-	public void show() {
-		getInputMultiplexer().addProcessor(new IntroInputProcessor());
-		super.show();
-	}
-	
-	@Override
-	public void pause() {
-		super.pause();
-		MusicHandler.pause();
-	}
-
-	@Override
-	public void resume() {
-		super.resume();
-		MusicHandler.play();
-	}
 	
 	private void startMainMenu() {
 		game.setScreen(new MainMenuScreen(game, logo, sunrays));
@@ -177,6 +159,11 @@ public class IntroScreen extends AbstractScreen {
 			return true;
 		}
 
+	}
+	
+	@Override
+	protected void registerInputProcessors() {
+		getInputMultiplexer().addProcessor(new IntroInputProcessor());
 	}
 	
 }

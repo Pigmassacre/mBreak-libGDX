@@ -118,18 +118,9 @@ public class MainMenuScreen extends AbstractScreen {
 			MusicHandler.play();
 		}
 	}
-
-	public void startPrepareMenu() {
-		game.setScreen(new PrepareMenuScreen(game, logo, sunrays));
-	}
-	
-	public void quit() {
-		Settings.savePreferences();
-		Gdx.app.exit();
-	}
 	
 	@Override
-	public void show() {
+	protected void registerInputProcessors() {
 		getInputMultiplexer().addProcessor(new InputAdapter() {
 			
 			@Override
@@ -156,7 +147,15 @@ public class MainMenuScreen extends AbstractScreen {
 			}
 			
 		});
-		super.show();
+	}
+
+	public void startPrepareMenu() {
+		game.setScreen(new PrepareMenuScreen(game, logo, sunrays));
+	}
+	
+	public void quit() {
+		Settings.savePreferences();
+		Gdx.app.exit();
 	}
 	
 	@Override

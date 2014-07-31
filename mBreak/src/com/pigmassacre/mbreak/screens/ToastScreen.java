@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
@@ -15,22 +16,29 @@ import com.pigmassacre.mbreak.gui.Menu;
 import com.pigmassacre.mbreak.gui.TextItem;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 
-public class PauseScreen extends AbstractScreen {
+public class ToastScreen extends AbstractScreen {
 	
-	AbstractScreen pausedScreen;
+	private final AbstractScreen pausedScreen;
 	
-	public PauseScreen(MBreak game, AbstractScreen pausedScreen) {
+	public ToastScreen(MBreak game, AbstractScreen pausedScreen, String message) {
 		super(game);
-		Gdx.input.setCursorCatched(false);
 		this.pausedScreen = pausedScreen;
 		
+		TextItem textItem;
+		textItem = new TextItem(message);
+		textItem.setAlignment(HAlignment.CENTER);
+		textItem.setWrapped(true);
+		textItem.setColor(0.9f, 0.25f, 0.25f, 1f);
+		textItem.setX((Gdx.graphics.getWidth() - textItem.getWrapWidth()) / 2f);
+		textItem.setY((Gdx.graphics.getHeight()) / 2 + textItem.getHeight() / 2f);
+		stage.addActor(textItem);
+
 		Menu menu = new ListMenu();
 		menu.setX(Gdx.graphics.getWidth() / 2);
-		menu.setY(Gdx.graphics.getHeight() / 2);
+		menu.setY(textItem.getY() - textItem.getHeight() * 1.5f);
 		traversal.menus.add(menu);
 		
-		TextItem textItem;
-		textItem = new TextItem("Resume");
+		textItem = new TextItem("Ok");
 		textItem.setSelected(true);
 		textItem.setCallback(new ItemCallback() {
 
@@ -40,29 +48,16 @@ public class PauseScreen extends AbstractScreen {
 			}
 			
 		});
-		menu.add(textItem);
-		Tween.from(textItem, ActorAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
-		stage.addActor(textItem);
 		
-		textItem = new TextItem("Quit");
-		textItem.setCallback(new ItemCallback() {
-
-			@Override
-			public void execute(Item data) {
-				quit();
-			}
-			
-		});
-		menu.add(textItem);
-		Tween.from(textItem, ActorAccessor.POSITION_X, 0.75f).target(-textItem.getWidth()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
+		Tween.from(textItem, ActorAccessor.POSITION_Y, 0.75f).target(0).ease(TweenEquations.easeOutExpo).start(getTweenManager());
 		stage.addActor(textItem);
+		menu.add(textItem);
 		
-		menu.setY((Gdx.graphics.getHeight() + textItem.getHeight()) / 2);
 		menu.cleanup();
 		
 		stage.addActor(menu);
 	}
-	
+
 	@Override
 	protected void registerInputProcessors() {
 		getInputMultiplexer().addProcessor(new InputAdapter() {
@@ -83,11 +78,6 @@ public class PauseScreen extends AbstractScreen {
 	
 	private void back() {
 		game.setScreen(pausedScreen);
-	}
-
-	private void quit() {
-		pausedScreen.dispose();
-		game.setScreen(new MainMenuScreen(game));
 	}
 	
 	@Override
@@ -112,8 +102,8 @@ public class PauseScreen extends AbstractScreen {
 	
 	@Override
 	public void hide() {
-		MusicHandler.setVolume(oldVolume);
 		super.hide();
+		MusicHandler.setVolume(oldVolume);
 		dispose();
 	}
 	

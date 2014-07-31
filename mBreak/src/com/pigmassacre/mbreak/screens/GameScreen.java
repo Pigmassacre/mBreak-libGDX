@@ -165,7 +165,7 @@ public class GameScreen extends AbstractScreen {
 		Tween.to(ball, GameActorAccessor.Z, 2f)
 			.target(z)
 			.ease(TweenEquations.easeOutExpo)
-			.delay(delay + 1f)
+			.delay(delay + 1.25f)
 			.setUserData(ball)
 			.setCallback(new TweenCallback() {
 				

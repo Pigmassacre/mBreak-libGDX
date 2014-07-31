@@ -1,11 +1,8 @@
 package com.pigmassacre.mbreak.gui;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
@@ -50,13 +47,11 @@ public class Traversal implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -77,7 +72,6 @@ public class Traversal implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -121,7 +115,6 @@ public class Traversal implements InputProcessor {
 	
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}	
 
@@ -258,9 +251,7 @@ public class Traversal implements InputProcessor {
 	public List<Item> fillListOfPossibleItems() {
 		List<Item> possibleItems = new ArrayList<Item>();
 		for (Menu menu : menus) {
-			for (Item item : menu.items) {
-				possibleItems.add(item);
-			}
+			possibleItems.addAll(menu.items);
 		}
 		return possibleItems;
 	}

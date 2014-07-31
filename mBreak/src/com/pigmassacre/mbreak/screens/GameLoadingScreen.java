@@ -64,22 +64,10 @@ public class GameLoadingScreen extends AbstractScreen {
 	public void render(float delta) {
 		super.render(delta);
 		
-//		MusicHandler.setVolume(MusicHandler.getVolume() + (0.5f - MusicHandler.getVolume()) * delta);
-		
 		if (Assets.getAssetManager().update() && !finishedLoading) {
 			sunrays.removeTarget();
 			Timeline.createSequence()
 				.push(Tween.to(logo, ActorAccessor.POSITION_Y, 0.5f).target(Gdx.graphics.getHeight() + logo.getHeight()).ease(TweenEquations.easeInExpo))
-//				.setCallback(new TweenCallback() {
-//					
-//					@Override
-//					public void onEvent(int type, BaseTween<?> source) {
-//						sunrays.offsetY = Settings.getLevelYOffset();
-//					}
-//					
-//				})
-//				.push(Tween.to(sunrays, ActorAccessor.POSITION_Y, 0.5f).target((Gdx.graphics.getHeight() - sunrays.getHeight()) / 2 - sunrays.offsetY + Settings.getLevelYOffset())
-//						.ease(TweenEquations.easeOutExpo))
 				.setCallback(new TweenCallback() {
 					
 					@Override

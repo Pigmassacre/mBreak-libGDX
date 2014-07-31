@@ -110,7 +110,6 @@ public class PrepareMenuScreen extends AbstractScreen {
 		leftColorMenu = colorMenu;
 		RectItem colorItem = new RectItem();
 		colorItem.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-		leftColor = colorItem.getColor();
 		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
 		
@@ -182,7 +181,6 @@ public class PrepareMenuScreen extends AbstractScreen {
 		rightColorMenu = colorMenu;
 		colorItem = new RectItem();
 		colorItem.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-		rightColor = colorItem.getColor();
 		colorMenu.add(colorItem);
 		stage.addActor(colorItem);
 		
@@ -257,68 +255,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		}
 	}
 	
-	public void back() {
-		game.setScreen(new MainMenuScreen(game, logo, sunrays));
-	}
-	
-	// For the ugly hack below.
-	private boolean finished = false, startingGame = false;;
-	
-	public void start() {
-		getTweenManager().killAll();
-		
-		Timeline timeline = Timeline.createSequence();
-		
-		timeline.beginParallel();
-		
-		for (Item item : leftColorMenu.items) {
-			item.setCallback(null);
-			timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, true, false, true, true));
-		}
-		
-		for (Item item : rightColorMenu.items) {
-			item.setCallback(null);
-			timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, false, true, true, true));
-		}
-		
-		back.setCallback(null);
-		start.setCallback(null);
-		
-		timeline.push(Tween.to(back, ActorAccessor.POSITION_XY, 0.5f).target(-back.getWidth(), -back.getHeight())
-			.ease(TweenEquations.easeInExpo));
-		
-		timeline.push(Tween.to(start, ActorAccessor.POSITION_XY, 0.5f).target(Gdx.graphics.getWidth() + start.getWidth(), -start.getHeight())
-			.ease(TweenEquations.easeInExpo));
-		
-		timeline.end();
-		
-		timeline.push(Tween.to(logo, ActorAccessor.POSITION_Y, 1f)
-					.target((Gdx.graphics.getHeight() - logo.getHeight()) / 2 - sunrays.offsetY + Settings.getLevelYOffset())
-					.ease(TweenEquations.easeInOutExpo));
-		
-		timeline.setCallback(new TweenCallback() {
-			
-			@Override
-			public void onEvent(int type, BaseTween<?> source) {
-				finished = true;
-			}
-			
-		});
-		
-		startingGame = true;
-		timeline.start(getTweenManager());
-	}
-	
-	@Override
-	public void postRender(float delta) {
-		// This is an ugly hack in order to not display one empty frame in between this screen and the next screen.
-		if (finished) {
-			game.setScreen(new GameLoadingScreen(game, logo, sunrays, leftColor, rightColor));
-		}
-	}
-	
-	@Override
-	public void show() {
+	protected void registerInputProcessors() {
 		getInputMultiplexer().addProcessor(new InputAdapter() {
 			
 			@Override
@@ -335,13 +272,72 @@ public class PrepareMenuScreen extends AbstractScreen {
 			}
 			
 		});
-		super.show();
-	}
-
-	@Override
-	public void hide() {
-		super.hide();
+	};
+	
+	public void back() {
+		game.setScreen(new MainMenuScreen(game, logo, sunrays));
 		dispose();
+	}
+	
+	// For the ugly hack below.
+	private boolean finished = false, startingGame = false;;
+	
+	public void start() {
+		if (leftColor != null && rightColor != null) {
+			getTweenManager().killAll();
+			
+			Timeline timeline = Timeline.createSequence();
+			
+			timeline.beginParallel();
+			
+			for (Item item : leftColorMenu.items) {
+				item.setCallback(null);
+				timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, true, false, true, true));
+			}
+			
+			for (Item item : rightColorMenu.items) {
+				item.setCallback(null);
+				timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, false, true, true, true));
+			}
+			
+			back.setCallback(null);
+			start.setCallback(null);
+			
+			timeline.push(Tween.to(back, ActorAccessor.POSITION_XY, 0.5f).target(-back.getWidth(), -back.getHeight())
+				.ease(TweenEquations.easeInExpo));
+			
+			timeline.push(Tween.to(start, ActorAccessor.POSITION_XY, 0.5f).target(Gdx.graphics.getWidth() + start.getWidth(), -start.getHeight())
+				.ease(TweenEquations.easeInExpo));
+			
+			timeline.end();
+			
+			timeline.push(Tween.to(logo, ActorAccessor.POSITION_Y, 1f)
+						.target((Gdx.graphics.getHeight() - logo.getHeight()) / 2 - sunrays.offsetY + Settings.getLevelYOffset())
+						.ease(TweenEquations.easeInOutExpo));
+			
+			timeline.setCallback(new TweenCallback() {
+				
+				@Override
+				public void onEvent(int type, BaseTween<?> source) {
+					finished = true;
+				}
+				
+			});
+			
+			startingGame = true;
+			timeline.start(getTweenManager());
+		} else {
+			game.setScreen(new ToastScreen(game, this, "You must choose colors for both players before you can start the game."));
+		}
+	}
+	
+	@Override
+	public void postRender(float delta) {
+		// This is an ugly hack in order to not display one empty frame in between this screen and the next screen.
+		if (finished) {
+			dispose();
+			game.setScreen(new GameLoadingScreen(game, logo, sunrays, leftColor, rightColor));
+		}
 	}
 	
 }
