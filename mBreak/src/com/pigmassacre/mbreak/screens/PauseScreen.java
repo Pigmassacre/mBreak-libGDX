@@ -5,6 +5,9 @@ import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.InputAdapter;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
@@ -61,6 +64,8 @@ public class PauseScreen extends AbstractScreen {
 		menu.cleanup();
 		
 		stage.addActor(menu);
+		
+		shapeRenderer = new ShapeRenderer();
 	}
 	
 	@Override
@@ -96,9 +101,17 @@ public class PauseScreen extends AbstractScreen {
 		super.render(delta);
 	}
 	
+	private ShapeRenderer shapeRenderer;
+	
 	@Override
 	public void renderClearScreen(float delta) {
 		// So we don't clear the screen each frame, we let the pausdScreens .draw() method do that.
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(0f, 0f, 0f, 0.5f);
+		shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		shapeRenderer.end();
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 	
 	private float oldVolume;
