@@ -83,8 +83,12 @@ public class PauseScreen extends AbstractScreen {
 		
 	}
 	
+	private float oldVolume;
+	
 	@Override
 	public void show() {
+		oldVolume = MusicHandler.getVolume();
+		MusicHandler.setVolume(0.25f);
 		getInputMultiplexer().addProcessor(new InputAdapter() {
 			
 			@Override
@@ -104,6 +108,7 @@ public class PauseScreen extends AbstractScreen {
 	
 	@Override
 	public void hide() {
+		MusicHandler.setVolume(oldVolume);
 		super.hide();
 		dispose();
 	}
