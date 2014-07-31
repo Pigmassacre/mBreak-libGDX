@@ -80,7 +80,7 @@ public class Flash extends Effect {
 				batch.draw(parentActor.image, parentActor.getX(), parentActor.getY() + Settings.getLevelYOffset() + parentActor.getZ(), parentActor.getWidth(), parentActor.getHeight() + parentActor.getDepth());
 			}
 		} else {
-			batch.draw(parentActor.image, getX(), getY() - getDepth() + getZ(), getWidth(), getHeight() + getDepth());
+			batch.draw(parentActor.image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		}
 		batch.setColor(temp);
 		batch.setShader(null);
