@@ -150,6 +150,15 @@ public class Item extends Widget {
 		this.shadowOffsetY = y;
 	}
 	
+	@Override
+	public float getMaxWidth() {
+		return getWidth();
+	}
+	
+	public float getMaxHeight() {
+		return getHeight();
+	};
+	
 	public boolean isPointerOverItem(float x, float y) {
 		return x >= rectangle.getX() && x <= rectangle.getX() + rectangle.getWidth() && y <= rectangle.getY() && y >= rectangle.getY() - rectangle.getHeight();
 	}

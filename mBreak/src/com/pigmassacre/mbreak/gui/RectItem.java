@@ -21,6 +21,16 @@ public class RectItem extends Item {
 		shadowRectangle = new Rectangle(getX() + getShadowOffsetX(), getY() + getShadowOffsetY(), getWidth(), getHeight());
 	}
 	
+	@Override
+	public float getMaxWidth() {
+		return getWidth() + Math.max(borderSizeSelected, borderSizeChosen);
+	}
+	
+	@Override
+	public float getMaxHeight() {
+		return getHeight() + Math.max(borderSizeSelected, borderSizeChosen);
+	}
+	
 	public void act(float delta) {
 		super.act(delta);
 		

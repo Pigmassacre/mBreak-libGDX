@@ -4,14 +4,12 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
@@ -113,74 +111,31 @@ public class PrepareMenuScreen extends AbstractScreen {
 		RectItem colorItem = new RectItem();
 		colorItem.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 		leftColor = colorItem.getColor();
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				leftColor = data.getColor();
-			}
-			
-		});
 		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(0.0f, 1.0f, 0.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				leftColor = data.getColor();
-			}
-			
-		});
 		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(0.0f, 0.0f, 1.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				leftColor = data.getColor();
-			}
-			
-		});
 		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(1.0f, 1.0f, 0.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				leftColor = data.getColor();
-			}
-			
-		});
 		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(1.0f, 0.0f, 1.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				leftColor = data.getColor();
-			}
-			
-		});
 		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(0.0f, 1.0f, 1.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				leftColor = data.getColor();
-			}
-			
-		});
 		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
 		
@@ -190,6 +145,34 @@ public class PrepareMenuScreen extends AbstractScreen {
 		
 		for (Item item : colorMenu.items) {
 			TweenHelp.setupSingleItemTweenFrom(item, getTweenManager(), TweenEquations.easeOutExpo, 0.5f, true, false, true, true);
+			item.setCallback(new ItemCallback() {
+				
+				@Override
+				public void execute(Item data) {
+					if (!data.getDisabled()) {
+						leftColor = data.getColor();
+
+						data.setChosen(!data.getChosen());
+						
+						for (Item item : leftColorMenu.items) {
+							if (!item.equals(data)) {
+								item.setChosen(false);
+							}
+						}
+						
+						for (Item item : rightColorMenu.items) {
+							item.setDisabled(false);
+						}
+						
+						for (Item item : rightColorMenu.items) {
+							if (item.getColor().equals(data.getColor())) {
+								item.setDisabled(data.getChosen());
+							}
+						}
+					}
+				}
+				
+			});
 		}
 		
 		traversal.menus.add(colorMenu);
@@ -200,76 +183,33 @@ public class PrepareMenuScreen extends AbstractScreen {
 		colorItem = new RectItem();
 		colorItem.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 		rightColor = colorItem.getColor();
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				rightColor = data.getColor();
-			}
-			
-		});
-		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(0.0f, 1.0f, 0.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				rightColor = data.getColor();
-			}
-			
-		});
-		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(0.0f, 0.0f, 1.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				rightColor = data.getColor();
-			}
-			
-		});
-		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(1.0f, 1.0f, 0.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				rightColor = data.getColor();
-			}
-			
-		});
-		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(1.0f, 0.0f, 1.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				rightColor = data.getColor();
-			}
-			
-		});
-		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
 		colorItem = new RectItem();
 		colorItem.setColor(0.0f, 1.0f, 1.0f, 1.0f);
-		colorItem.setCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				rightColor = data.getColor();
-			}
-			
-		});
-		stage.addActor(colorItem);
 		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
 		
 		colorMenu.setX(Gdx.graphics.getWidth() - 2 * colorMenu.getWidth());
 		colorMenu.setY(colorMenu.getHeight() * 2);
@@ -277,6 +217,34 @@ public class PrepareMenuScreen extends AbstractScreen {
 		
 		for (Item item : colorMenu.items) {
 			TweenHelp.setupSingleItemTweenFrom(item, getTweenManager(), TweenEquations.easeOutExpo, 0.5f, false, true, true, true);
+			item.setCallback(new ItemCallback() {
+				
+				@Override
+				public void execute(Item data) {
+					if (!data.getDisabled()) {
+						rightColor = data.getColor();
+
+						data.setChosen(!data.getChosen());
+						
+						for (Item item : rightColorMenu.items) {
+							if (!item.equals(data)) {
+								item.setChosen(false);
+							}
+						}
+						
+						for (Item item : leftColorMenu.items) {
+							item.setDisabled(false);
+						}
+						
+						for (Item item : leftColorMenu.items) {
+							if (item.getColor().equals(data.getColor())) {
+								item.setDisabled(data.getChosen());
+							}
+						}
+					}
+				}
+				
+			});
 		}
 		
 		traversal.menus.add(colorMenu);

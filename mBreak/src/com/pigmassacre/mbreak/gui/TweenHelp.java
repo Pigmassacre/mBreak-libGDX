@@ -33,19 +33,19 @@ public class TweenHelp {
 		
 		String choice = choices.get(random.nextInt(choices.size()));
 		if (choice == "left") {
-			return Tween.from(item, ActorAccessor.POSITION_X, duration).target(-item.getWidth())
+			return Tween.from(item, ActorAccessor.POSITION_X, duration).target(-item.getMaxWidth())
 				.ease(ease)
 				.start(tweenManager);
 		} else if (choice == "right") {
-			return Tween.from(item, ActorAccessor.POSITION_X, duration).target(Gdx.graphics.getWidth() + item.getWidth())
+			return Tween.from(item, ActorAccessor.POSITION_X, duration).target(Gdx.graphics.getWidth() + item.getMaxWidth())
 				.ease(ease)
 				.start(tweenManager);
 		} else if (choice == "up") {
-			return Tween.from(item, ActorAccessor.POSITION_Y, duration).target(-item.getHeight())
+			return Tween.from(item, ActorAccessor.POSITION_Y, duration).target(-item.getMaxHeight())
 				.ease(ease)
 				.start(tweenManager);
 		} else {
-			return Tween.from(item, ActorAccessor.POSITION_Y, duration).target(Gdx.graphics.getHeight() + item.getHeight())
+			return Tween.from(item, ActorAccessor.POSITION_Y, duration).target(Gdx.graphics.getHeight() + item.getMaxHeight())
 				.ease(ease)
 				.start(tweenManager);
 		}
@@ -56,19 +56,19 @@ public class TweenHelp {
 		
 		String choice = choices.get(random.nextInt(choices.size()));
 		if (choice == "left") {
-			return Tween.to(item, ActorAccessor.POSITION_X, duration).target(-item.getWidth())
+			return Tween.to(item, ActorAccessor.POSITION_X, duration).target(-item.getMaxWidth())
 				.ease(ease)
 				.start(tweenManager);
 		} else if (choice == "right") {
-			return Tween.to(item, ActorAccessor.POSITION_X, duration).target(Gdx.graphics.getWidth() + item.getWidth())
+			return Tween.to(item, ActorAccessor.POSITION_X, duration).target(Gdx.graphics.getWidth() + item.getMaxWidth())
 				.ease(ease)
 				.start(tweenManager);
 		} else if (choice == "up") {
-			return Tween.to(item, ActorAccessor.POSITION_Y, duration).target(-item.getHeight())
+			return Tween.to(item, ActorAccessor.POSITION_Y, duration).target(-item.getMaxHeight())
 				.ease(ease)
 				.start(tweenManager);
 		} else {
-			return Tween.to(item, ActorAccessor.POSITION_Y, duration).target(Gdx.graphics.getHeight() + item.getHeight())
+			return Tween.to(item, ActorAccessor.POSITION_Y, duration).target(Gdx.graphics.getHeight() + item.getMaxHeight())
 				.ease(ease)
 				.start(tweenManager);
 		}
