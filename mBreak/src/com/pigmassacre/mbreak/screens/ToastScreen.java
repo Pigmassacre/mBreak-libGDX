@@ -6,9 +6,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -40,16 +38,17 @@ public class ToastScreen extends AbstractScreen {
 
 		Menu menu = new ListMenu();
 		menu.setX(Gdx.graphics.getWidth() / 2);
-		menu.setY(textItem.getY() - textItem.getHeight() * 1.5f);
+		menu.setY(textItem.getY() - textItem.getHeight());
 		traversal.menus.add(menu);
 		
 		textItem = new TextItem("Ok");
 		textItem.setSelected(true);
+		menu.setY(menu.getY() - textItem.getHeight() * 2f);
 		textItem.setCallback(new ItemCallback() {
 
 			@Override
 			public void execute(Item data) {
-				back(); 
+				back();
 			}
 			
 		});

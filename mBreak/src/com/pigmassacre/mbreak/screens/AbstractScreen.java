@@ -72,8 +72,16 @@ public class AbstractScreen implements Screen {
 	
 	public void draw(float delta) {
 		renderClearScreen(delta);
-		renderBackground(delta);
 		stage.draw();
+//		stage.getCamera().update();
+//		if (!stage.getRoot().isVisible()) return;
+//		stage.getSpriteBatch().setProjectionMatrix(stage.getCamera().combined);
+//		stage.getSpriteBatch().begin();
+//		renderBackground(delta);
+//		stage.getRoot().draw(stage.getSpriteBatch(), 1);
+//		renderForeground(delta);
+//		stage.getSpriteBatch().end();
+		
 		postRender(delta);
 	}
 	
@@ -85,6 +93,10 @@ public class AbstractScreen implements Screen {
 	}
 	
 	public void renderBackground(float delta) {
+		
+	}
+	
+	public void renderForeground(float delta) {
 		
 	}
 	

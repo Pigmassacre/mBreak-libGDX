@@ -30,8 +30,6 @@ public class GameScreen extends AbstractScreen {
 
 	Player leftPlayer, rightPlayer;
 	Paddle leftPaddle, rightPaddle;
-	Background background;
-	Foreground foreground;
 	
 	Sunrays sunrays;
 	
@@ -50,22 +48,15 @@ public class GameScreen extends AbstractScreen {
 		sunrays.offsetY = Settings.getLevelYOffset();
 		stage.addActor(sunrays);
 		
-//		Settings.setLevelYOffset(-100 * Settings.GAME_SCALE);
-		
-		background = new Background("glass");
-		foreground = new Foreground("glass");
-		
-//		Tween.from(background, SettingsAccessor.LEVEL_OFFSET, 1f).target(-2 * Settings.GAME_SCALE)
-//			.ease(TweenEquations.easeInOutExpo)
-//			.start(getTweenManager());
-		
-		Settings.LEVEL_WIDTH = background.getWidth();
-		Settings.LEVEL_HEIGHT = background.getHeight();
+		Settings.LEVEL_WIDTH = Assets.getTextureRegion("glass/floor").getRegionWidth() * Settings.GAME_SCALE;
+		Settings.LEVEL_HEIGHT = Assets.getTextureRegion("glass/floor").getRegionHeight() * Settings.GAME_SCALE;
 		Settings.LEVEL_X = (Gdx.graphics.getWidth() - Settings.LEVEL_WIDTH) / 2f;
 		Settings.LEVEL_Y = (Gdx.graphics.getHeight() - Settings.LEVEL_HEIGHT) / 2f;
 		Settings.LEVEL_MAX_X = Settings.LEVEL_X + Settings.LEVEL_WIDTH;
 		Settings.LEVEL_MAX_Y = Settings.LEVEL_Y + Settings.LEVEL_HEIGHT;
 
+		Level.setCurrentLevel("glass");
+		
 		leftPlayer = new Player("left");
 		leftPlayer.setX(2.5f * Settings.GAME_SCALE);
 		leftPlayer.setY(2.5f * Settings.GAME_SCALE);
@@ -185,7 +176,7 @@ public class GameScreen extends AbstractScreen {
 		MusicHandler.setShuffle(true);
 		MusicHandler.play();
 		
-		stage.addActor(background);
+		stage.addActor(Level.getCurrentLevel().getBackground());
 		stage.addActor(Groups.playerGroup);
 		stage.addActor(Groups.residueGroup);
 		stage.addActor(Groups.shadowGroup);
@@ -195,7 +186,7 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(Groups.ballGroup);
 		stage.addActor(Groups.paddleGroup);
 		stage.addActor(Groups.particleGroup);
-		stage.addActor(foreground);
+		stage.addActor(Level.getCurrentLevel().getForeground());
 	}
 	
 	@Override
@@ -246,6 +237,16 @@ public class GameScreen extends AbstractScreen {
 		
 		super.renderClearScreen(delta);
 	}
+	
+//	@Override
+//	public void renderBackground(float delta) {
+//		Level.getCurrentLevel().drawBackground(stage.getSpriteBatch());
+//	}
+//	
+//	@Override
+//	public void renderForeground(float delta) {
+//		Level.getCurrentLevel().drawForeground(stage.getSpriteBatch());
+//	}
 	
 	@Override
 	public void show() {

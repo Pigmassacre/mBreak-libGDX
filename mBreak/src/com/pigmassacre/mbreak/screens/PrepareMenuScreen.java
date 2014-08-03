@@ -149,20 +149,27 @@ public class PrepareMenuScreen extends AbstractScreen {
 				@Override
 				public void execute(Item data) {
 					if (!data.getDisabled()) {
-						leftColor = data.getColor();
-
 						data.setChosen(!data.getChosen());
 						
+						if (data.getChosen()) {
+							leftColor = data.getColor(); 
+						} else {
+							leftColor = null;
+						}
+						
+						// Unchoose the remaining items.
 						for (Item item : leftColorMenu.items) {
 							if (!item.equals(data)) {
 								item.setChosen(false);
 							}
 						}
 						
+						// Enable all items for the other menu.
 						for (Item item : rightColorMenu.items) {
 							item.setDisabled(false);
 						}
 						
+						// Disable the item in the other menu corresponding to this item.
 						for (Item item : rightColorMenu.items) {
 							if (item.getColor().equals(data.getColor())) {
 								item.setDisabled(data.getChosen());
@@ -220,9 +227,13 @@ public class PrepareMenuScreen extends AbstractScreen {
 				@Override
 				public void execute(Item data) {
 					if (!data.getDisabled()) {
-						rightColor = data.getColor();
-
 						data.setChosen(!data.getChosen());
+						
+						if (data.getChosen()) {
+							rightColor = data.getColor();
+						} else {
+							rightColor = null;
+						}
 						
 						for (Item item : rightColorMenu.items) {
 							if (!item.equals(data)) {
