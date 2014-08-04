@@ -13,6 +13,7 @@ import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.effects.Effect;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
+import com.pigmassacre.mbreak.screens.Level;
 
 public class Ball extends GameActor implements Poolable {
 	
@@ -25,11 +26,10 @@ public class Ball extends GameActor implements Poolable {
 	};
 	
 	private Sound hitSound;
-//	private Array<Sound> blockSounds;
 	
 	private boolean collided;
 	
-	private Circle circle;
+	public Circle circle;
 	
 	private float DAMAGE = 10;
 	
@@ -44,10 +44,6 @@ public class Ball extends GameActor implements Poolable {
 		alive = false;
 		image = Assets.getTextureRegion("ball");
 		hitSound = Assets.getSound("sound/ball.ogg");
-//		blockSounds = new Array<Sound>();
-//		blockSounds.add(Assets.getSound("sound/ballBlock1.wav"));
-//		blockSounds.add(Assets.getSound("sound/ballBlock2.wav"));
-//		blockSounds.add(Assets.getSound("sound/ballBlock4.wav"));
 	}
 	
 	public void init(float x, float y, float angle, Player owner) {
@@ -113,7 +109,7 @@ public class Ball extends GameActor implements Poolable {
 	@Override
 	public void move(float delta) {
 //		stateTime += delta;
-//		setZ(((MathUtils.sin(stateTime * 10) + 1) / 2) * 5); 
+//		setZ(((MathUtils.sin(stateTime * 10) + 1) / 2) * 50); 
 		
 		speedHandled = 0f;
 		while (speedHandled < speed) {
@@ -156,29 +152,7 @@ public class Ball extends GameActor implements Poolable {
 			setX((float) (circle.x + (Math.cos(angle) * tickSpeed * delta)));
 			setY((float) (circle.y + (Math.sin(angle) * tickSpeed * delta)));
 			
-			if (circle.x - circle.radius < Settings.LEVEL_X) {
-				onHitWall(GameActor.WallSide.LEFT);
-				angle = (float) (Math.PI - angle);
-				setX(Settings.LEVEL_X + circle.radius);
-				collided = true;
-			} else if (circle.x + circle.radius > Settings.LEVEL_MAX_X) {
-				onHitWall(GameActor.WallSide.RIGHT);
-				angle = (float) (Math.PI - angle);
-				setX(Settings.LEVEL_MAX_X - circle.radius);
-				collided = true;
-			}
-			
-			if (circle.y - circle.radius < Settings.LEVEL_Y) {
-				onHitWall(GameActor.WallSide.DOWN);
-				angle = -angle;
-				setY(Settings.LEVEL_Y + circle.radius);
-				collided = true;
-			} else if (circle.y + circle.radius > Settings.LEVEL_MAX_Y) {
-				onHitWall(GameActor.WallSide.UP);
-				angle = -angle;
-				setY(Settings.LEVEL_MAX_Y - circle.radius);
-				collided = true;
-			}
+			Level.getCurrentLevel().checkCollision(this);
 
 			if (collided) {
 				hitSound.play();
@@ -398,6 +372,28 @@ public class Ball extends GameActor implements Poolable {
 	
 	@Override
 	public void onHitWall(WallSide side) {
+		switch (side) {
+		case LEFT:
+			angle = (float) (Math.PI - angle);
+			setX(Settings.LEVEL_X + circle.radius);
+			collided = true;
+			break;
+		case RIGHT:
+			angle = (float) (Math.PI - angle);
+			setX(Settings.LEVEL_MAX_X - circle.radius);
+			collided = true;
+			break;
+		case DOWN:
+			angle = -angle;
+			setY(Settings.LEVEL_Y + circle.radius);
+			collided = true;
+			break;
+		case UP:
+			angle = -angle;
+			setY(Settings.LEVEL_MAX_Y - circle.radius);
+			collided = true;
+			break;
+		}
 		shootParticlesOnHit(3, 5);
 		for (Actor effect : effectGroup.getChildren()) {
 			((Effect) effect).onHitWall(side);

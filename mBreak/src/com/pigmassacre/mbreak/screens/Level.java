@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Ball;
+import com.pigmassacre.mbreak.objects.GameActor;
 
 public class Level extends Actor {
 
@@ -76,6 +78,51 @@ public class Level extends Actor {
 			batch.draw(horizontalWallBottom, Level.getCurrentLevel().getX(), Level.getCurrentLevel().getY() - 1 * Settings.GAME_SCALE, horizontalWallBottom.getRegionWidth() * Settings.GAME_SCALE, horizontalWallBottom.getRegionHeight() * Settings.GAME_SCALE);
 		}
 		
+	}
+	
+	public boolean checkCollision(GameActor actor) {
+		if (actor instanceof Ball) {
+			return checkCollisionBall((Ball) actor);
+		}
+		return checkCollisionGameActor(actor);
+	}
+	
+	private boolean checkCollisionBall(Ball ball) {
+		boolean hit = false;
+		if (ball.circle.x - ball.circle.radius < Settings.LEVEL_X) {
+			ball.onHitWall(GameActor.WallSide.LEFT);
+			hit = true;
+		} else if (ball.circle.x + ball.circle.radius > Settings.LEVEL_MAX_X) {
+			ball.onHitWall(GameActor.WallSide.RIGHT);
+			hit = true;
+		}
+		if (ball.circle.y - ball.circle.radius < Settings.LEVEL_Y) {
+			ball.onHitWall(GameActor.WallSide.DOWN);
+			hit = true;
+		} else if (ball.circle.y + ball.circle.radius > Settings.LEVEL_MAX_Y) {
+			ball.onHitWall(GameActor.WallSide.UP);
+			hit = true;
+		}
+		return hit;
+	}
+	
+	private boolean checkCollisionGameActor(GameActor actor) {
+		boolean hit = false;
+		if (actor.rectangle.x < Settings.LEVEL_X) {
+			actor.onHitWall(GameActor.WallSide.LEFT);
+			hit = true;
+		} else if (actor.rectangle.x + actor.rectangle.width > Settings.LEVEL_MAX_X) {
+			actor.onHitWall(GameActor.WallSide.RIGHT);
+			hit = true;
+		}
+		if (actor.rectangle.y < Settings.LEVEL_Y) {
+			actor.onHitWall(GameActor.WallSide.DOWN);
+			hit = true;
+		} else if (actor.rectangle.y + actor.rectangle.height > Settings.LEVEL_MAX_Y) {
+			actor.onHitWall(GameActor.WallSide.UP);
+			hit = true;
+		}
+		return hit;
 	}
 	
 }

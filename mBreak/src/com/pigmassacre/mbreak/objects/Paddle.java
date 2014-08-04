@@ -5,10 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.screens.Level;
 
 public class Paddle extends GameActor {
 
@@ -148,14 +148,29 @@ public class Paddle extends GameActor {
 
 		setY(getY() + velocityY * delta);
 
-		if (getY() + getHeight() > Settings.LEVEL_MAX_Y) {
-			setY(Settings.LEVEL_MAX_Y - getHeight());
-		} else if (getY() < Settings.LEVEL_Y) {
-			setY(Settings.LEVEL_Y);
-		}
+		Level.getCurrentLevel().checkCollision(this);
+//		if (getY() + getHeight() > Settings.LEVEL_MAX_Y) {
+//			setY(Settings.LEVEL_MAX_Y - getHeight());
+//		} else if (getY() < Settings.LEVEL_Y) {
+//			setY(Settings.LEVEL_Y);
+//		}
 
 	}
 
+	@Override
+	public void onHitWall(WallSide side) {
+		switch (side) {
+		case UP:
+			setY(Settings.LEVEL_MAX_Y - getHeight());
+			break;
+		case DOWN:
+			setY(Settings.LEVEL_Y);
+			break;
+		default:
+			break;
+		}
+	}
+	
 	private Color temp;
 
 	@Override

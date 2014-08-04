@@ -55,11 +55,6 @@ public class GameScreen extends AbstractScreen {
 		Settings.LEVEL_MAX_X = Settings.LEVEL_X + Settings.LEVEL_WIDTH;
 		Settings.LEVEL_MAX_Y = Settings.LEVEL_Y + Settings.LEVEL_HEIGHT;
 		
-//		System.out.println(Assets.getTextureRegion("glass/floor").getRegionWidth());
-//		System.out.println(Assets.getTextureRegion("glass/floor").getRegionWidth() * Settings.GAME_SCALE);
-//		System.out.println(Assets.getTextureRegion("glass/floor").getRegionHeight());
-//		System.out.println(Assets.getTextureRegion("glass/floor").getRegionHeight() * Settings.GAME_SCALE);
-
 		Level.setCurrentLevel("glass");
 		
 		leftPlayer = new Player("left");
@@ -219,42 +214,11 @@ public class GameScreen extends AbstractScreen {
 			strength = (rightPlayerBlockCount - leftPlayerBlockCount) / (leftPlayerBlockCount + rightPlayerBlockCount);
 			winningPlayer = rightPlayer;
 		} else {
-//			Color color = leftPlayer.getColor().cpy();
-//			Color temp = rightPlayer.getColor().cpy();
-//			color.r += temp.r;
-//			if (color.r > 0) {
-//				color.r -= 1;
-//			}
-//			color.g += temp.g;
-//			if (color.g > 0) {
-//				color.g -= 1;
-//			}
-//			color.b += temp.b;
-//			if (color.b > 0) {
-//				color.b -= 1;
-//			}
-//			color = new Color(1f, 1f, 1f, 1f).sub(leftPlayer.getColor().cpy().mul(0.5f).add(rightPlayer.getColor().cpy().mul(0.5f)));
-//			color = leftPlayer.getColor().cpy().mul(0.5f).add(rightPlayer.getColor().cpy().mul(0.5f));
-//			color.add(leftPlayer.getColor().r * 0.15f, 0.15f, 0.15f, 0f);
 			backgroundColor.lerp(leftPlayer.getColor().cpy().mul(0.5f).add(rightPlayer.getColor().cpy().mul(0.5f)), 0.05f);
 		}
 		
 		if (winningPlayer != null) {
-			float lowerColorBound = 0.0f;
-			Color color = winningPlayer.getColor().cpy().mul(strength, strength, strength, 1f).add(winningPlayer.getColor().cpy().mul(0.25f));
-			if (color.r < lowerColorBound) {
-				color.r = lowerColorBound;
-			}
-			if (color.g < lowerColorBound) {
-				color.g = lowerColorBound;
-			}
-			if (color.b < lowerColorBound) {
-				color.b = lowerColorBound;
-			}
-			if (color.a < lowerColorBound) {
-				color.a = lowerColorBound;
-			}
-			backgroundColor.lerp(color, 0.05f);
+			backgroundColor.lerp(winningPlayer.getColor().cpy().mul(strength, strength, strength, 1f).add(winningPlayer.getColor().cpy().mul(0.25f)), 0.05f);
 		}
 		
 		super.renderClearScreen(delta);
