@@ -7,19 +7,19 @@ import com.pigmassacre.mbreak.objects.Player;
 public class EnlargerEffect extends Effect {
 
 	private Player effectOwner;
-	private float heightChange;
+//	private float heightChange;
 	
 	public EnlargerEffect(GameActor parentActor, float duration) {
 		super(parentActor, duration);
 		effectOwner = parentActor.owner;
-		float oldHeight = effectOwner.paddle.getHeight();
-		effectOwner.paddle.setHeight(effectOwner.paddle.getHeight() - 6 * Settings.GAME_SCALE);
-		heightChange = oldHeight - effectOwner.paddle.getHeight();
+//		float oldHeight = effectOwner.paddle.getHeight();
+		effectOwner.paddle.addHeight(6 * Settings.GAME_SCALE);
+//		heightChange = oldHeight - effectOwner.paddle.getHeight();
 	}
 	
 	@Override
 	public void destroy() {
-		effectOwner.paddle.setHeight(effectOwner.paddle.getHeight() + heightChange);
+		effectOwner.paddle.addHeight(-6 * Settings.GAME_SCALE);
 		super.destroy();
 	}
 

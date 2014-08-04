@@ -189,6 +189,7 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(Groups.paddleGroup);
 		stage.addActor(Groups.particleGroup);
 		stage.addActor(Level.getCurrentLevel().getForeground());
+		stage.addActor(Groups.textItemGroup);
 	}
 	
 	@Override

@@ -1,5 +1,8 @@
 package com.pigmassacre.mbreak.objects;
 
+import java.text.DecimalFormat;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -10,6 +13,9 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.gui.Item;
+import com.pigmassacre.mbreak.gui.Item.ItemCallback;
+import com.pigmassacre.mbreak.gui.TextItem;
 import com.pigmassacre.mbreak.objects.GameActor.DestroyCallback;
 import com.pigmassacre.mbreak.objects.powerups.ElectricityPowerup;
 import com.pigmassacre.mbreak.objects.powerups.EnlargerPowerup;
@@ -31,8 +37,10 @@ public class Level extends Actor {
 	private TextureRegion topLeftCorner, bottomLeftCorner, topRightCorner, bottomRightCorner;
 	
 	public Array<Vector2> powerupSpawnPositions = new Array<Vector2>();
-	private float powerupSpawnStartTime = 2f;
-	private float powerupSpawnWaitTime = 2f;
+	private float powerupSpawnStartTime = 5f;
+	private float powerupSpawnWaitTime = 5f;
+	
+	private TextItem powerupSpawnTimerTextItem;
 
 	public static Level getCurrentLevel() {
 		return currentLevel;
@@ -77,11 +85,19 @@ public class Level extends Actor {
 			
 			@Override
 			public void run() {
-				Level.getCurrentLevel().spawnPowerup();
-				Timer.instance().scheduleTask(getPowerupTask(), powerupSpawnWaitTime);
+				onPowerupTimerFinish();
 			}
 			
 		}, powerupSpawnStartTime);
+	}
+	
+	private Task powerupTask;
+	
+	private void onPowerupTimerFinish() {
+		Level.getCurrentLevel().spawnPowerup();
+		powerupTask = getPowerupTask();
+		createPowerupTimerTextItem();
+		Timer.instance().scheduleTask(powerupTask, powerupSpawnWaitTime);
 	}
 	
 	private Task getPowerupTask() {
@@ -89,12 +105,34 @@ public class Level extends Actor {
 			
 			@Override
 			public void run() {
-				Level.getCurrentLevel().spawnPowerup();
-				Timer.instance().scheduleTask(getPowerupTask(), powerupSpawnWaitTime);
+				onPowerupTimerFinish();
 			}
 			
 		};
 	}
+	
+	private DecimalFormat decimalFormat;
+	
+	private void createPowerupTimerTextItem() {
+		if (powerupSpawnTimerTextItem == null) {
+			powerupSpawnTimerTextItem = new TextItem();
+			powerupSpawnTimerTextItem.setColor(1f, 1f, 1f, 1f);
+			decimalFormat = new DecimalFormat("0.0");
+			Groups.textItemGroup.addActor(powerupSpawnTimerTextItem);
+		}
+		powerupSpawnTimerTextItem.setActCallback(new ItemCallback() {
+			
+			@Override
+			public void execute(Item data) {
+				powerupSpawnTimerTextItem.setString(decimalFormat.format((powerupTask.getExecuteTimeMillis() - System.nanoTime() / 1000000) / 1000f));
+				powerupSpawnTimerTextItem.setX(Gdx.graphics.getWidth() / 2 - powerupSpawnTimerTextItem.getWidth() / 2);
+				powerupSpawnTimerTextItem.setY(getY() + getHeight() + powerupSpawnTimerTextItem.getHeight() * 2);
+			}
+			
+		});
+	}
+
+	
 	
 	public void spawnPowerup() {
 		if (powerupSpawnPositions.size > 0) {

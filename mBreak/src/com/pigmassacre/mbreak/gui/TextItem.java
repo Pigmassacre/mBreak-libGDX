@@ -26,6 +26,10 @@ public class TextItem extends Item {
 
 	private HAlignment alignment;
 	
+	public TextItem() {
+		this("");
+	}
+	
 	public TextItem(CharSequence string) {
 		super();
 

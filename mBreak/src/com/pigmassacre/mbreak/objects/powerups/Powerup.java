@@ -110,7 +110,6 @@ public class Powerup extends GameActor {
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		System.out.println(getZ());
 		batch.draw(getImage(), getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		super.draw(batch, parentAlpha);
 	}

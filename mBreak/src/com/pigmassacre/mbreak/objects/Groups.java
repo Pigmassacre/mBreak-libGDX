@@ -10,9 +10,9 @@ public class Groups {
 	public static Group paddleGroup = new Group();
 	public static Group shadowGroup = new Group();
 	public static Group blockGroup = new Group();
-//	public static Group effectGroup = new Group();
 	public static Group powerupGroup = new Group();
 	public static Group particleGroup = new Group();
 	public static Group residueGroup = new Group();
+	public static Group textItemGroup = new Group();
 
 }

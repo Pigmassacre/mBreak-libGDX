@@ -32,6 +32,8 @@ public class Paddle extends GameActor {
 	private TextureRegion topImage, middleImage, bottomImage;
 	private float topHeight, middleHeight, bottomHeight;
 	private float smallestHeight, largestHeight;
+	
+	public float actualHeight, actualWidth;
 
 	public Paddle(Player owner) {
 		super();
@@ -53,6 +55,8 @@ public class Paddle extends GameActor {
 		bottomHeight = bottomImage.getRegionHeight() * Settings.GAME_SCALE;
 		middleHeight = 26 * Settings.GAME_SCALE - topHeight - bottomHeight + getDepth();
 		setHeight(topHeight + middleHeight + bottomHeight - getDepth());
+		actualWidth = getWidth();
+		actualHeight = getHeight();
 
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
@@ -79,6 +83,7 @@ public class Paddle extends GameActor {
 
 	@Override
 	public void setHeight(float height) {
+		actualHeight = height;
 		if (height < smallestHeight) {
 			height = smallestHeight;
 		} else if (height > largestHeight) {
@@ -88,7 +93,10 @@ public class Paddle extends GameActor {
 		float oldHeight = getHeight();
 		super.setHeight(height);
 		setY(getY() + ((oldHeight - getHeight()) / 2));
-		
+	}
+	
+	public void addHeight(float height) {
+		setHeight(actualHeight + height);
 	}
 
 	@Override
