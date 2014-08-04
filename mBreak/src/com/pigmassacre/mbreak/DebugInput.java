@@ -24,6 +24,7 @@ import com.pigmassacre.mbreak.objects.Ball;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Level;
 import com.pigmassacre.mbreak.objects.Player;
+import com.pigmassacre.mbreak.objects.powerups.Powerup;
 import com.pigmassacre.mbreak.screens.AbstractScreen;
 
 public class DebugInput extends InputAdapter {
@@ -101,6 +102,17 @@ public class DebugInput extends InputAdapter {
 					Level.getCurrentLevel().spawnPowerup();
 				}
 				
+			}
+			break;
+		case Keys.O:
+			if (Settings.getDebugMode()) {
+				SnapshotArray<Actor> array = Groups.powerupGroup.getChildren();
+				Object[] items = array.begin();
+				for (int i = 0, n = array.size; i < n; i++) {
+					Powerup powerup = (Powerup) items[i];
+					powerup.destroy();
+				}
+				array.end();
 			}
 			break;
 		case Keys.M:

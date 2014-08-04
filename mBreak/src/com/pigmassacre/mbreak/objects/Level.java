@@ -30,9 +30,9 @@ public class Level extends Actor {
 	private TextureRegion verticalWallLeft, verticalWallRight, horizontalWallBottom;
 	private TextureRegion topLeftCorner, bottomLeftCorner, topRightCorner, bottomRightCorner;
 	
-	private Array<Vector2> powerupSpawnPositions = new Array<Vector2>();
-	private float powerupSpawnStartTime = 5f;
-	private float powerupSpawnWaitTime = 10f;
+	public Array<Vector2> powerupSpawnPositions = new Array<Vector2>();
+	private float powerupSpawnStartTime = 2f;
+	private float powerupSpawnWaitTime = 2f;
 
 	public static Level getCurrentLevel() {
 		return currentLevel;
@@ -78,9 +78,22 @@ public class Level extends Actor {
 			@Override
 			public void run() {
 				Level.getCurrentLevel().spawnPowerup();
+				Timer.instance().scheduleTask(getPowerupTask(), powerupSpawnWaitTime);
 			}
 			
 		}, powerupSpawnStartTime);
+	}
+	
+	private Task getPowerupTask() {
+		return new Task() {
+			
+			@Override
+			public void run() {
+				Level.getCurrentLevel().spawnPowerup();
+				Timer.instance().scheduleTask(getPowerupTask(), powerupSpawnWaitTime);
+			}
+			
+		};
 	}
 	
 	public void spawnPowerup() {

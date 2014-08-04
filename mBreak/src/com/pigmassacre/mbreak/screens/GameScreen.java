@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.badlogic.gdx.utils.Timer;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.DebugInput;
 import com.pigmassacre.mbreak.MBreak;
@@ -284,6 +285,7 @@ public class GameScreen extends AbstractScreen {
 		Groups.particleGroup.clear();
 		MusicHandler.stop();
 		Assets.unloadGameAssets();
+		Timer.instance().clear();
 		Gdx.input.setCursorCatched(false);
 	}
 
