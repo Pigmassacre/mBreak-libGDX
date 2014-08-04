@@ -2,7 +2,6 @@ package com.pigmassacre.mbreak;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Music.OnCompletionListener;

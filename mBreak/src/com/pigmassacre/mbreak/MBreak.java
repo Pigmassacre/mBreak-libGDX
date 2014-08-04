@@ -11,10 +11,7 @@ public class MBreak extends Game {
 	
 	private FPSLogger fpsLogger;
 	
-	private final Settings settings;
-	
 	public MBreak() {
-		settings = new Settings();
 	}
 
 	@Override
@@ -29,16 +26,18 @@ public class MBreak extends Game {
 		super.resize(width, height);
 		
 		Gdx.input.setCatchBackKey(true);
-		if (getScreen() == null)
+		if (getScreen() == null) {
 			setScreen(new IntroLoadingScreen(this));
+		}
 	}
 
 	@Override
 	public void render() {
 		super.render();
 		
-		if (settings.getDebugMode())
+		if (Settings.getDebugMode()) {
 			fpsLogger.log();
+		}
 	}
 
 	@Override

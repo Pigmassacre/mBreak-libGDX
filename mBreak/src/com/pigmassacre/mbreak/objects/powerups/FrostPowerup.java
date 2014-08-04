@@ -40,7 +40,7 @@ public class FrostPowerup extends Powerup {
 				frames[index++] = temp[j][i];
 			}
 		}
-		image = frames[0];
+		setImage(frames[0]);
 		
 		setDepth(1 * Settings.GAME_SCALE);
 		setWidth((sheet.getRegionWidth() / FRAME_COLS) * Settings.GAME_SCALE);
@@ -64,11 +64,11 @@ public class FrostPowerup extends Powerup {
 		super.act(delta);
 
 		if (getZ() < minZGrace) {
-			image = frames[0];
+			setImage(frames[0]);
 		} else if (getZ() > maxZGrace) {
-			image = frames[2];
+			setImage(frames[2]);
 		} else {
-			image = frames[1];
+			setImage(frames[1]);
 		}
 		
 		particleSpawnTime += delta;

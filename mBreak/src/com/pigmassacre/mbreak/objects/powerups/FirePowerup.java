@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.objects.Flash;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Particle;
 import com.pigmassacre.mbreak.objects.effects.FireEffect;
@@ -22,11 +21,11 @@ public class FirePowerup extends Powerup {
 	public FirePowerup(float x, float y) {
 		super(x, y);
 
-		image = Assets.getTextureRegion("fire");
+		setImage(Assets.getTextureRegion("fire"));
 		
 		setDepth(1 * Settings.GAME_SCALE);
-		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
+		setWidth(getImage().getRegionWidth() * Settings.GAME_SCALE);
+		setHeight(getImage().getRegionHeight() * Settings.GAME_SCALE - getDepth());
 	}
 
 	@Override

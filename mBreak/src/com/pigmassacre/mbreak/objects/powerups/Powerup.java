@@ -6,10 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.Ball;
-import com.pigmassacre.mbreak.objects.Flash;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Groups;
 import com.pigmassacre.mbreak.objects.Shadow;
+import com.pigmassacre.mbreak.objects.effects.Flash;
 
 public class Powerup extends GameActor {
 
@@ -118,7 +118,7 @@ public class Powerup extends GameActor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		System.out.println(getZ());
-		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
+		batch.draw(getImage(), getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		super.draw(batch, parentAlpha);
 	}
 	

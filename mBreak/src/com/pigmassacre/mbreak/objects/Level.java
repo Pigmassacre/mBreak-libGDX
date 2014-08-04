@@ -1,12 +1,24 @@
-package com.pigmassacre.mbreak.screens;
+package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.objects.Ball;
-import com.pigmassacre.mbreak.objects.GameActor;
+import com.pigmassacre.mbreak.objects.GameActor.DestroyCallback;
+import com.pigmassacre.mbreak.objects.powerups.ElectricityPowerup;
+import com.pigmassacre.mbreak.objects.powerups.EnlargerPowerup;
+import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
+import com.pigmassacre.mbreak.objects.powerups.FrostPowerup;
+import com.pigmassacre.mbreak.objects.powerups.MultiballPowerup;
+import com.pigmassacre.mbreak.objects.powerups.Powerup;
+import com.pigmassacre.mbreak.objects.powerups.ReducerPowerup;
+import com.pigmassacre.mbreak.objects.powerups.SpeedPowerup;
 
 public class Level extends Actor {
 
@@ -17,6 +29,10 @@ public class Level extends Actor {
 	private TextureRegion backgroundImage, horizontalWallTop;
 	private TextureRegion verticalWallLeft, verticalWallRight, horizontalWallBottom;
 	private TextureRegion topLeftCorner, bottomLeftCorner, topRightCorner, bottomRightCorner;
+	
+	private Array<Vector2> powerupSpawnPositions = new Array<Vector2>();
+	private float powerupSpawnStartTime = 5f;
+	private float powerupSpawnWaitTime = 10f;
 
 	public static Level getCurrentLevel() {
 		return currentLevel;
@@ -45,6 +61,68 @@ public class Level extends Actor {
 		
 		background = new Background();
 		foreground = new Foreground();
+		
+		SpeedPowerup powerup = new SpeedPowerup(0, 0); 
+		powerupSpawnPositions = new Array<Vector2>();
+		powerupSpawnPositions.add(new Vector2(getX() + getWidth() / 2 - powerup.getWidth() / 2, getY() + getHeight() / 2 - powerup.getHeight() / 2));
+		powerupSpawnPositions.add(new Vector2(getX() + getWidth() * 0.35f - powerup.getWidth() / 2, getY() + getHeight() * 0.8f - powerup.getHeight() / 2));
+		powerupSpawnPositions.add(new Vector2(getX() + getWidth() / 2 - powerup.getWidth() / 2, getY() + getHeight() * 0.9f - powerup.getHeight() / 2));
+		powerupSpawnPositions.add(new Vector2(getX() + getWidth() * 0.65f - powerup.getWidth() / 2, getY() + getHeight() * 0.8f - powerup.getHeight() / 2));
+		powerupSpawnPositions.add(new Vector2(getX() + getWidth() * 0.35f - powerup.getWidth() / 2, getY() + getHeight() * 0.2f - powerup.getHeight() / 2));
+		powerupSpawnPositions.add(new Vector2(getX() + getWidth() / 2 - powerup.getWidth() / 2, getY() + getHeight() * 0.1f - powerup.getHeight() / 2));
+		powerupSpawnPositions.add(new Vector2(getX() + getWidth() * 0.65f - powerup.getWidth() / 2, getY() + getHeight() * 0.2f - powerup.getHeight() / 2));
+		powerup.destroy();
+		
+		Timer.instance().scheduleTask(new Task() {
+			
+			@Override
+			public void run() {
+				Level.getCurrentLevel().spawnPowerup();
+			}
+			
+		}, powerupSpawnStartTime);
+	}
+	
+	public void spawnPowerup() {
+		if (powerupSpawnPositions.size > 0) {
+			Vector2 pos = powerupSpawnPositions.get(MathUtils.random(powerupSpawnPositions.size - 1));
+			powerupSpawnPositions.removeValue(pos, false);
+			Powerup powerup;
+			switch(MathUtils.random(6)) {
+			case 0:
+				powerup = new FirePowerup(pos.x, pos.y);
+				break;
+			case 1:
+				powerup = new SpeedPowerup(pos.x, pos.y);
+				break;
+			case 2:
+				powerup = new ElectricityPowerup(pos.x, pos.y);
+				break;
+			case 3:
+				powerup = new FrostPowerup(pos.x, pos.y);
+				break;
+			case 4:
+				powerup = new EnlargerPowerup(pos.x, pos.y);
+				break;
+			case 5:
+				powerup = new ReducerPowerup(pos.x, pos.y);
+				break;
+			case 6:
+				powerup = new MultiballPowerup(pos.x, pos.y);
+				break;
+			default:
+				powerup = new FirePowerup(pos.x, pos.y);
+				break;	
+			}
+			powerup.setDestroyCallback(new DestroyCallback() {
+				
+				@Override
+				public void execute(GameActor actor, Object data) {
+					Level.getCurrentLevel().powerupSpawnPositions.add((Vector2) data);
+				}
+				
+			}, pos);
+		}
 	}
 
 	public Background getBackground() {

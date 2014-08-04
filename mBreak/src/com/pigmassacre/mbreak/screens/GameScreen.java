@@ -14,15 +14,16 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.pigmassacre.mbreak.Assets;
+import com.pigmassacre.mbreak.DebugInput;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.gui.DebugInput;
 import com.pigmassacre.mbreak.gui.GameActorAccessor;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.objects.Ball;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
+import com.pigmassacre.mbreak.objects.Level;
 import com.pigmassacre.mbreak.objects.Paddle;
 import com.pigmassacre.mbreak.objects.Player;
 
@@ -222,6 +223,12 @@ public class GameScreen extends AbstractScreen {
 		}
 		
 		super.renderClearScreen(delta);
+	}
+	
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		Level.getCurrentLevel().act(delta);
 	}
 	
 	@Override

@@ -1,10 +1,8 @@
 package com.pigmassacre.mbreak.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.effects.Effect;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
 
@@ -14,7 +12,7 @@ public class Player extends Actor {
 	
 	private Group currentPowerups;
 	
-	private float powerupOffset = 2f * Settings.GAME_SCALE;
+//	private float powerupOffset = 2f * Settings.GAME_SCALE;
 	
 	public Paddle paddle;
 	

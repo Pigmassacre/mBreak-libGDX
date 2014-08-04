@@ -1,9 +1,11 @@
-package com.pigmassacre.mbreak.objects;
+package com.pigmassacre.mbreak.objects.effects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.objects.effects.Effect;
+import com.pigmassacre.mbreak.objects.GameActor;
+import com.pigmassacre.mbreak.objects.GrayscaleShader;
+import com.pigmassacre.mbreak.objects.Paddle;
 
 public class Flash extends Effect {
 
@@ -77,10 +79,10 @@ public class Flash extends Effect {
 				Paddle paddle = (Paddle) parentActor;
 				paddle.drawImages(batch, parentAlpha, 0, 0, 0);
 			} else {
-				batch.draw(parentActor.image, parentActor.getX(), parentActor.getY() + Settings.getLevelYOffset() + parentActor.getZ(), parentActor.getWidth(), parentActor.getHeight() + parentActor.getDepth());
+				batch.draw(parentActor.getImage(), parentActor.getX(), parentActor.getY() + Settings.getLevelYOffset() + parentActor.getZ(), parentActor.getWidth(), parentActor.getHeight() + parentActor.getDepth());
 			}
 		} else {
-			batch.draw(parentActor.image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
+			batch.draw(parentActor.getImage(), getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		}
 		batch.setColor(temp);
 		batch.setShader(null);

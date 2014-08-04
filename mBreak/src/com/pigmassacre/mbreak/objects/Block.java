@@ -16,7 +16,7 @@ public class Block extends GameActor {
 	public Block(float x, float y, Player owner, Color color) {
 		super();
 		
-		image = Assets.getTextureRegion("block");
+		setImage(Assets.getTextureRegion("block"));
 		onDestroySound = Assets.getSound("sound/blockDestroyed.wav");
 		
 		setDepth(2 * Settings.GAME_SCALE);
@@ -24,8 +24,8 @@ public class Block extends GameActor {
 		
 		setX(x);
 		setY(y);
-		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
+		setWidth(getImage().getRegionWidth() * Settings.GAME_SCALE);
+		setHeight(getImage().getRegionHeight() * Settings.GAME_SCALE - getDepth());
 		
 		rectangle.set(getX(), getY(), getWidth(), getHeight());
 				
@@ -106,7 +106,7 @@ public class Block extends GameActor {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = new Color(batch.getColor());
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
+		batch.draw(getImage(), getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 		super.draw(batch, parentAlpha);
 	}

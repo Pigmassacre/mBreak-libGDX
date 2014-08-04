@@ -26,7 +26,7 @@ public class Shadow extends GameActor implements Poolable {
 	
 	public void init(GameActor parentActor, boolean linger) {
 		this.parentActor = parentActor;
-		image = parentActor.image;
+		setImage(parentActor.getImage());
 		
 		setColor(0f, 0f, 0f, 0.5f);
 		setZ(parentActor.getZ());
@@ -93,7 +93,7 @@ public class Shadow extends GameActor implements Poolable {
 			Paddle paddle = (Paddle) parentActor;
 			paddle.drawImages(batch, parentAlpha, 0, -paddle.getZ(), -paddle.getDepth());
 		} else {
-			batch.draw(parentActor.image, getX(), getY() + Settings.getLevelYOffset(), getWidth(), getHeight());
+			batch.draw(parentActor.getImage(), getX(), getY() + Settings.getLevelYOffset(), getWidth(), getHeight());
 		}
 		batch.setColor(temp);
 	}

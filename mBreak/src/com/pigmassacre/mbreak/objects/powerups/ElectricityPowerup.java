@@ -17,11 +17,11 @@ public class ElectricityPowerup extends Powerup {
 	public ElectricityPowerup(float x, float y) {
 		super(x, y);
 
-		image = Assets.getTextureRegion("electricity");
+		setImage(Assets.getTextureRegion("electricity"));
 		
 		setDepth(1 * Settings.GAME_SCALE);
-		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
+		setWidth(getImage().getRegionWidth() * Settings.GAME_SCALE);
+		setHeight(getImage().getRegionHeight() * Settings.GAME_SCALE - getDepth());
 	}
 	
 	@Override

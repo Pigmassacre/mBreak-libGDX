@@ -3,8 +3,6 @@ package com.pigmassacre.mbreak.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Menu extends Actor {
@@ -87,13 +85,10 @@ public class Menu extends Actor {
 		List<Item> selectedItems = new ArrayList<Item>();
 		
 		for (Item item : items) {
-//			item.act(delta);
-			
 			if (item.getSelected()) {
 				selectedItems.add(item);
 				
 				if (item != previouslySelectedItem) {
-					// TODO play sound
 					previouslySelectedItem = item;
 				}
 			}

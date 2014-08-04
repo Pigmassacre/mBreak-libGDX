@@ -6,9 +6,6 @@ import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Particle;
-import com.pigmassacre.mbreak.objects.Player.PowerupCommand;
-import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
-import com.pigmassacre.mbreak.objects.powerups.Powerup;
 
 public class FireEffect extends Effect {
 

@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.effects.Effect;
+import com.pigmassacre.mbreak.objects.effects.Flash;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
-import com.pigmassacre.mbreak.screens.Level;
 
 public class Ball extends GameActor implements Poolable {
 	
@@ -42,7 +42,7 @@ public class Ball extends GameActor implements Poolable {
 	public Ball() {
 		super();
 		alive = false;
-		image = Assets.getTextureRegion("ball");
+		setImage(Assets.getTextureRegion("ball"));
 		hitSound = Assets.getSound("sound/ball.ogg");
 	}
 	
@@ -52,8 +52,8 @@ public class Ball extends GameActor implements Poolable {
 		circle = new Circle();
 	
 		setDepth(1 * Settings.GAME_SCALE);
-		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
+		setWidth(getImage().getRegionWidth() * Settings.GAME_SCALE);
+		setHeight(getImage().getRegionHeight() * Settings.GAME_SCALE - getDepth());
 		setX(x);
 		setY(y);
 		setZ(3 * Settings.GAME_SCALE);
@@ -358,11 +358,6 @@ public class Ball extends GameActor implements Poolable {
 		shootParticlesOnHit(3, 5);
 		super.onHitObject(object);
 	}
-
-	@Override
-	public void onHitBlock(Block block) {
-//		blockSounds.random().play();
-	}
 	
 	@Override
 	public void onHitPaddle(Paddle paddle) {
@@ -427,7 +422,7 @@ public class Ball extends GameActor implements Poolable {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
+		batch.draw(getImage(), getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 		super.draw(batch, parentAlpha);
 	}

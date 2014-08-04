@@ -2,7 +2,6 @@ package com.pigmassacre.mbreak.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.pigmassacre.mbreak.Settings;
 
 public class Trace extends GameActor {
@@ -14,7 +13,7 @@ public class Trace extends GameActor {
 	public Trace(GameActor parentActor) {
 		this.parentActor = parentActor;
 		setColor(parentActor.getColor().cpy());
-		this.image = parentActor.image;
+		this.setImage(parentActor.getImage());
 		
 		setDepth(parentActor.getDepth());
 		setX(parentActor.getX());
@@ -49,7 +48,7 @@ public class Trace extends GameActor {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
+		batch.draw(getImage(), getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 		super.draw(batch, parentAlpha);
 	}

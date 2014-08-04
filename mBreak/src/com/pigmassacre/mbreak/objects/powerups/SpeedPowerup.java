@@ -12,11 +12,11 @@ public class SpeedPowerup extends Powerup {
 	public SpeedPowerup(float x, float y) {
 		super(x, y);
 
-		image = Assets.getTextureRegion("doublespeed");
+		setImage(Assets.getTextureRegion("doublespeed"));
 		
 		setDepth(1 * Settings.GAME_SCALE);
-		setWidth(image.getRegionWidth() * Settings.GAME_SCALE);
-		setHeight(image.getRegionHeight() * Settings.GAME_SCALE - getDepth());
+		setWidth(getImage().getRegionWidth() * Settings.GAME_SCALE);
+		setHeight(getImage().getRegionHeight() * Settings.GAME_SCALE - getDepth());
 	}
 
 	@Override

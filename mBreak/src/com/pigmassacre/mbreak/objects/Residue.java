@@ -25,8 +25,8 @@ public class Residue extends GameActor implements Poolable {
 	}
 	
 	public void init(GameActor parentActor) {
-		if (parentActor.image != null) {
-			image = parentActor.image;
+		if (parentActor.getImage() != null) {
+			setImage(parentActor.getImage());
 			setX(parentActor.getX());
 			setY(parentActor.getY());
 			setZ(parentActor.getZ());
@@ -44,7 +44,7 @@ public class Residue extends GameActor implements Poolable {
 	@Override
 	public void reset() {
 		alive = false;
-		image = null;
+		setImage(null);
 		remove();
 		clear();
 	}
@@ -69,7 +69,7 @@ public class Residue extends GameActor implements Poolable {
 	public void draw(Batch batch, float parentAlpha) {
 		temp = batch.getColor();
 		batch.setColor(getColor());
-		batch.draw(image, getX(), getY() + Settings.getLevelYOffset(), getWidth(), getHeight() + getDepth());
+		batch.draw(getImage(), getX(), getY() + Settings.getLevelYOffset(), getWidth(), getHeight() + getDepth());
 		batch.setColor(temp);
 	}
 	

@@ -12,7 +12,7 @@ public class GameActor extends Actor {
 	public Player owner;
 	protected GameActor parentActor;
 
-	protected TextureRegion image;
+	public TextureRegion image;
 
 	private float z;
 	private float depth;
@@ -73,7 +73,35 @@ public class GameActor extends Actor {
 	public void setDepth(float depth) {
 		this.depth = depth;
 	}
-
+	
+	public TextureRegion getImage() {
+		return image;
+	}
+	
+	public void setImage(TextureRegion image) {
+		this.image = image;
+	}
+	
+	public interface DestroyCallback {
+		
+		public void execute(GameActor actor, Object data);
+		
+	}
+	
+	private DestroyCallback destroyCallback;
+	private Object destroyCallbackData;
+	
+	public void setDestroyCallback(DestroyCallback destroyCallback, Object destroyCallbackData) {
+		this.destroyCallback = destroyCallback;
+		this.destroyCallbackData = destroyCallbackData;
+	}
+	
+	private void executeDestroyCallback() {
+		if (destroyCallback != null) {
+			destroyCallback.execute(this, destroyCallbackData);
+		}
+	}
+	
 	public void destroy() {
 		if (shadow != null) {
 			Shadow.shadowPool.free(shadow);
@@ -82,6 +110,7 @@ public class GameActor extends Actor {
 		alive = false;
 		remove();
 		clear();
+		executeDestroyCallback();
 	}
 
 	public void onHitObject(GameActor object) {

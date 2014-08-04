@@ -36,7 +36,7 @@ public class Particle extends GameActor implements Poolable {
 		setZ(3 * Settings.GAME_SCALE);
 		setWidth(width);
 		setHeight(height);
-		image = Assets.getTextureRegion("particle");
+		setImage(Assets.getTextureRegion("particle"));
 		
 		this.angle = angle;
 		this.speed = speed;
@@ -118,7 +118,7 @@ public class Particle extends GameActor implements Poolable {
 		if (alive) {
 			temp = batch.getColor();
 			batch.setColor(getColor());
-			batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight());
+			batch.draw(getImage(), getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight());
 			batch.setColor(temp);
 		}
 	}

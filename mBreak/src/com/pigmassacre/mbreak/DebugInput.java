@@ -1,4 +1,4 @@
-package com.pigmassacre.mbreak.gui;
+package com.pigmassacre.mbreak;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
@@ -10,28 +10,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.pigmassacre.mbreak.MusicHandler;
-import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.gui.ActorAccessor;
+import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
+import com.pigmassacre.mbreak.gui.TextItem;
 import com.pigmassacre.mbreak.objects.Ball;
-import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
+import com.pigmassacre.mbreak.objects.Level;
 import com.pigmassacre.mbreak.objects.Player;
-import com.pigmassacre.mbreak.objects.powerups.ElectricityPowerup;
-import com.pigmassacre.mbreak.objects.powerups.EnlargerPowerup;
-import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
-import com.pigmassacre.mbreak.objects.powerups.FrostPowerup;
-import com.pigmassacre.mbreak.objects.powerups.MultiballPowerup;
-import com.pigmassacre.mbreak.objects.powerups.Powerup;
-import com.pigmassacre.mbreak.objects.powerups.ReducerPowerup;
-import com.pigmassacre.mbreak.objects.powerups.SpeedPowerup;
 import com.pigmassacre.mbreak.screens.AbstractScreen;
 
 public class DebugInput extends InputAdapter {
@@ -103,10 +95,10 @@ public class DebugInput extends InputAdapter {
 			if (Settings.getDebugMode()) {
 				if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
 					for (int i = 0; i < 10; i++) {
-						spawnRandomPowerup();
+						Level.getCurrentLevel().spawnPowerup();
 					}
 				} else {
-					spawnRandomPowerup();
+					Level.getCurrentLevel().spawnPowerup();
 				}
 				
 			}
@@ -151,37 +143,6 @@ public class DebugInput extends InputAdapter {
 			break;
 		}
 		return true;
-	}
-	
-	private void spawnRandomPowerup() {
-		float powerupWidth = Settings.LEVEL_WIDTH / 2 - 4f * Settings.GAME_SCALE;
-		float powerupHeight = Settings.LEVEL_HEIGHT - 8f * Settings.GAME_SCALE;
-		float powerupX = Settings.LEVEL_X + powerupWidth / 2f;
-		float powerupY = Settings.LEVEL_Y;
-		Powerup powerup;
-		switch(MathUtils.random(6)) {
-		case 0:
-			powerup = new FirePowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-			break;
-		case 1:
-			powerup = new SpeedPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-			break;
-		case 2:
-			powerup = new ElectricityPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-			break;
-		case 3:
-			powerup = new FrostPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-			break;
-		case 4:
-			powerup = new EnlargerPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-			break;
-		case 5:
-			powerup = new ReducerPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-			break;
-		case 6:
-			powerup = new MultiballPowerup(powerupX + MathUtils.random() * powerupWidth, powerupY + MathUtils.random() * powerupHeight);
-			break;
-		}
 	}
 	
 	private static TextItem debugTextItem;

@@ -54,8 +54,8 @@ public class Effect extends GameActor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		if (image != null) {
-			batch.draw(image, getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
+		if (getImage() != null) {
+			batch.draw(getImage(), getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		}
 	}
 
