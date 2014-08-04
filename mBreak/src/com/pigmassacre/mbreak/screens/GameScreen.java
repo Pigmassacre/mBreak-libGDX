@@ -54,6 +54,11 @@ public class GameScreen extends AbstractScreen {
 		Settings.LEVEL_Y = (Gdx.graphics.getHeight() - Settings.LEVEL_HEIGHT) / 2f;
 		Settings.LEVEL_MAX_X = Settings.LEVEL_X + Settings.LEVEL_WIDTH;
 		Settings.LEVEL_MAX_Y = Settings.LEVEL_Y + Settings.LEVEL_HEIGHT;
+		
+//		System.out.println(Assets.getTextureRegion("glass/floor").getRegionWidth());
+//		System.out.println(Assets.getTextureRegion("glass/floor").getRegionWidth() * Settings.GAME_SCALE);
+//		System.out.println(Assets.getTextureRegion("glass/floor").getRegionHeight());
+//		System.out.println(Assets.getTextureRegion("glass/floor").getRegionHeight() * Settings.GAME_SCALE);
 
 		Level.setCurrentLevel("glass");
 		
@@ -214,7 +219,24 @@ public class GameScreen extends AbstractScreen {
 			strength = (rightPlayerBlockCount - leftPlayerBlockCount) / (leftPlayerBlockCount + rightPlayerBlockCount);
 			winningPlayer = rightPlayer;
 		} else {
-			backgroundColor.lerp(new Color(1f, 1f, 1f, 1f).sub(leftPlayer.getColor().cpy().add(rightPlayer.getColor().cpy())).mul(0.33f), 0.05f);
+//			Color color = leftPlayer.getColor().cpy();
+//			Color temp = rightPlayer.getColor().cpy();
+//			color.r += temp.r;
+//			if (color.r > 0) {
+//				color.r -= 1;
+//			}
+//			color.g += temp.g;
+//			if (color.g > 0) {
+//				color.g -= 1;
+//			}
+//			color.b += temp.b;
+//			if (color.b > 0) {
+//				color.b -= 1;
+//			}
+//			color = new Color(1f, 1f, 1f, 1f).sub(leftPlayer.getColor().cpy().mul(0.5f).add(rightPlayer.getColor().cpy().mul(0.5f)));
+//			color = leftPlayer.getColor().cpy().mul(0.5f).add(rightPlayer.getColor().cpy().mul(0.5f));
+//			color.add(leftPlayer.getColor().r * 0.15f, 0.15f, 0.15f, 0f);
+			backgroundColor.lerp(leftPlayer.getColor().cpy().mul(0.5f).add(rightPlayer.getColor().cpy().mul(0.5f)), 0.05f);
 		}
 		
 		if (winningPlayer != null) {
@@ -237,16 +259,6 @@ public class GameScreen extends AbstractScreen {
 		
 		super.renderClearScreen(delta);
 	}
-	
-//	@Override
-//	public void renderBackground(float delta) {
-//		Level.getCurrentLevel().drawBackground(stage.getSpriteBatch());
-//	}
-//	
-//	@Override
-//	public void renderForeground(float delta) {
-//		Level.getCurrentLevel().drawForeground(stage.getSpriteBatch());
-//	}
 	
 	@Override
 	public void show() {

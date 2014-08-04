@@ -1,7 +1,6 @@
 package com.pigmassacre.mbreak;
 
 import com.badlogic.gdx.Files;
-import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -12,20 +11,15 @@ public class DesktopGame {
 		config.fullscreen = false;
 		
 		if (config.fullscreen) {
-//			DisplayMode[] displayModes = LwjglApplicationConfiguration.getDisplayModes(); 
-//			for (int i = 0; i < displayModes.length; i++) {
-//				System.out.println(displayModes[i]);
-//			}
-			
-			// TODO: Present a list of options to the user, or just take the desktop display mode?
 			config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
-			
 			float newScale = LwjglApplicationConfiguration.getDesktopDisplayMode().width / Settings.BASE_SCREEN_WIDTH;
-	        Settings.GAME_SCALE = newScale + 1;
+	        Settings.GAME_SCALE = (int) Math.ceil(newScale + 1);
 		} else {
 			config.width = (int) (285 * Settings.GAME_SCALE);
 			config.height = (int) (160 * Settings.GAME_SCALE);
 		}
+		
+		System.out.println("Set GAME_SCALE to " + Settings.GAME_SCALE);
 		
 		config.useGL20 = true;
 		config.title = "mBreak";

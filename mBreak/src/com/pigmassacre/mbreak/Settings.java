@@ -9,7 +9,7 @@ public class Settings {
 	
 	private static final String DEBUG_MODE = "debug_mode";
 	
-	public static float GAME_SCALE = 3f;
+	public static int GAME_SCALE = 3;
 	public static int GAME_FPS = 60;
 	
 	public static int BASE_SCREEN_WIDTH = 285;
