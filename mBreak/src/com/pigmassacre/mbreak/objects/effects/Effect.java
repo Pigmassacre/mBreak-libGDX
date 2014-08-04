@@ -1,7 +1,8 @@
 package com.pigmassacre.mbreak.objects.effects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.GameActor;
 
@@ -20,13 +21,21 @@ public class Effect extends GameActor {
 		this.owner = this.parentActor.owner;
 		this.duration = duration;
 
-		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
+//		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
-		stateTime = 0f;
+//		stateTime = 0f;
 		
 //		connectedPowerups = new ArrayList<Powerup>();
 
 		this.parentActor.effectGroup.addActor(this);
+		Timer.instance().scheduleTask(new Task() {
+			
+			@Override
+			public void run() {
+				destroy();
+			}
+			
+		}, duration);
 	}
 
 	@Override
@@ -38,10 +47,10 @@ public class Effect extends GameActor {
 		setZ(parentActor.getZ());
 		setDepth(parentActor.getDepth());
 
-		stateTime += delta;
-		if (stateTime >= duration) {
-			destroy();
-		}
+//		stateTime += delta;
+//		if (stateTime >= duration) {
+//			destroy();
+//		}
 		
 		if (parentActor.owner == owner) {
 			actParticles(delta);

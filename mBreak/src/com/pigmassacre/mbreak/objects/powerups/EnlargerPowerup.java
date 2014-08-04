@@ -3,10 +3,11 @@ package com.pigmassacre.mbreak.objects.powerups;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.GameActor;
+import com.pigmassacre.mbreak.objects.effects.EnlargerEffect;
 
 public class EnlargerPowerup extends Powerup {
 
-//	private float duration = 5f;
+	private float duration = 5f;
 	
 	public EnlargerPowerup(float x, float y) {
 		super(x, y);
@@ -20,7 +21,7 @@ public class EnlargerPowerup extends Powerup {
 
 	@Override
 	protected void onHit(GameActor actor) {
-		actor.owner.paddle.setHeight(actor.owner.paddle.getHeight() + 6 * Settings.GAME_SCALE);
+		new EnlargerEffect(actor, duration);
 	}
 	
 }

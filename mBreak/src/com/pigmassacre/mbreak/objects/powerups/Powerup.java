@@ -34,13 +34,6 @@ public class Powerup extends GameActor {
 
 		new Flash(this, 0.33f, true);
 	}
-	
-	public Powerup(float x, float y, float width, float height) {
-		this(x, y);
-		setWidth(width);
-		setWidth(height);
-		rectangle.set(getX(), getY(), getWidth(), getHeight());
-	}
 
 	public void hit(GameActor actor) {
 		onHit(actor);
