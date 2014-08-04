@@ -11,17 +11,9 @@ import com.pigmassacre.mbreak.Settings;
 
 public class Paddle extends GameActor {
 
-	private float maxHeight, minHeight, maxWidth, minWidth;
-
-	private float acceleration, retardation, velocityX, velocityY;
+	private float acceleration, retardation, velocityY;
 	public float maxSpeed;
 	public final float defaultMaxSpeed;
-	private float centerX;
-
-	private float stabilizeSpeed, maxNudgeDistance;
-
-	private Color hitEffectStartColor, hitEffectFinalColor;
-	private float hitEffectTickAmount;
 
 	public boolean moveUp, moveDown;
 	public Rectangle touchRectangle;
@@ -65,11 +57,6 @@ public class Paddle extends GameActor {
 		defaultMaxSpeed = maxSpeed = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 
 		velocityY = 0f;
-
-		centerX = getX();
-
-		stabilizeSpeed = 0.1f * Settings.GAME_FPS * Settings.GAME_SCALE;
-		maxNudgeDistance = 2.5f * Settings.GAME_SCALE;
 
 		touchGraceSize = getHeight() / 8;
 		moveUp = false;
@@ -156,12 +143,6 @@ public class Paddle extends GameActor {
 		setY(getY() + velocityY * delta);
 
 		Level.getCurrentLevel().checkCollision(this);
-//		if (getY() + getHeight() > Settings.LEVEL_MAX_Y) {
-//			setY(Settings.LEVEL_MAX_Y - getHeight());
-//		} else if (getY() < Settings.LEVEL_Y) {
-//			setY(Settings.LEVEL_Y);
-//		}
-
 	}
 
 	@Override

@@ -64,39 +64,6 @@ public class Powerup extends GameActor {
 				command.execute(ball);
 			}
 		}
-		/*
-		def share_effect(self, entity, timeout_class, effect_creation_function, *args):
-			created_effect = None
-
-			# Add the effect to all the balls. However, if the ball has timeout, make sure it cannot use that balls effect as
-			# the effect to connect to the displayed powerup.
-			for ball in groups.Groups.ball_group:
-				has_timeout = False
-				for effect in ball.effect_group:
-					if effect.__class__ == timeout_class:
-						# Create the effect for the ball.
-						if args:
-							an_effect = effect_creation_function(ball, args)
-						else:
-							an_effect = effect_creation_function(ball)
-						an_effect.real_owner = entity.owner
-						has_timeout = True
-						break
-				if not has_timeout:
-					# Create the effect for the ball.
-					if args:
-						created_effect = effect_creation_function(ball, args)
-					else:
-						created_effect = effect_creation_function(ball)
-					created_effect.real_owner = entity.owner
-						
-			if created_effect != None:
-				# Add this effect to the owner of the ball.
-				entity.owner.effect_group.add(created_effect)
-
-				# Store a powerup of this type in entity owners powerup group, so we can display the powerups collected by a player.
-				entity.owner.add_powerup(self.__class__, created_effect)
-		 */
 	}
 	
 	@Override

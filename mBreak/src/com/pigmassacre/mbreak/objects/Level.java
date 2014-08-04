@@ -131,8 +131,6 @@ public class Level extends Actor {
 			
 		});
 	}
-
-	
 	
 	public void spawnPowerup() {
 		if (powerupSpawnPositions.size > 0) {
