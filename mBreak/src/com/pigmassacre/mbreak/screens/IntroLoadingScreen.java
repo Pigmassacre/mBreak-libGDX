@@ -1,6 +1,7 @@
 package com.pigmassacre.mbreak.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.TextItem;
@@ -20,6 +21,7 @@ public class IntroLoadingScreen extends AbstractScreen {
 		loadingTextItem.setX((Gdx.graphics.getWidth() - loadingTextItem.getWidth()) / 2);
 		loadingTextItem.setY((Gdx.graphics.getHeight() + loadingTextItem.getHeight()) / 2);
 		stage.addActor(loadingTextItem);
+		backgroundColor = new Color(36 / 255f, 36 / 255f, 36 / 255f, 1f);
 	}
 	
 	@Override
@@ -27,7 +29,7 @@ public class IntroLoadingScreen extends AbstractScreen {
 		super.render(delta);
 		
 		if (Assets.getAssetManager().update()) {
-			game.setScreen(new IntroScreen(game));
+			game.setScreen(new SplashScreen(game));
 			dispose();
 		}
 		

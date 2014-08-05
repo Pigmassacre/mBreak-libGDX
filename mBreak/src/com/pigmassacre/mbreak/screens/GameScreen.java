@@ -277,6 +277,7 @@ public class GameScreen extends AbstractScreen {
 		Groups.residueGroup.clear();
 		Groups.powerupGroup.clear();
 		Groups.particleGroup.clear();
+		Groups.textItemGroup.clear();
 		MusicHandler.stop();
 		Assets.unloadGameAssets();
 		Timer.instance().clear();

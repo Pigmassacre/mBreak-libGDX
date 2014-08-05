@@ -20,9 +20,6 @@ public class Assets {
 		if (assetManager == null) {
 			System.err.println("AssetManager not loaded.");
 		}
-//		if (assetManager == null) {
-//			assetManager = new AssetManager();
-//		}
 		return assetManager;
 	}
 	

@@ -126,7 +126,7 @@ public class Level extends Actor {
 			public void execute(Item data) {
 				powerupSpawnTimerTextItem.setString(decimalFormat.format((powerupTask.getExecuteTimeMillis() - System.nanoTime() / 1000000) / 1000f));
 				powerupSpawnTimerTextItem.setX(Gdx.graphics.getWidth() / 2 - powerupSpawnTimerTextItem.getWidth() / 2);
-				powerupSpawnTimerTextItem.setY(getY() + getHeight() + powerupSpawnTimerTextItem.getHeight() * 2);
+				powerupSpawnTimerTextItem.setY(Gdx.graphics.getHeight() - 2 * Settings.GAME_SCALE);
 			}
 			
 		});

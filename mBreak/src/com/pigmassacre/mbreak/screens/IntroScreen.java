@@ -10,6 +10,7 @@ import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
+import com.pigmassacre.mbreak.gui.Blinder;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
@@ -25,9 +26,14 @@ public class IntroScreen extends AbstractScreen {
 	
 	float introTime, endTime;
 	
+	private Blinder blinder;
+	
 	public IntroScreen(MBreak game) {
 		super(game);
 
+		blinder = new Blinder();
+		blinder.setup(getTweenManager());
+		
 		sunrays = new Sunrays();
 		stage.addActor(sunrays);
 		
@@ -51,6 +57,8 @@ public class IntroScreen extends AbstractScreen {
 		Tween.from(versionMessage, ActorAccessor.POSITION_XY, 1.0f).target(Gdx.graphics.getWidth(), -versionMessage.getHeight())
 			.ease(TweenEquations.easeOutBack)
 			.start(getTweenManager());
+		
+		stage.addActor(blinder);
 
 		MusicHandler.setSong("music/title/goluigi-nonuniform.ogg");
 		MusicHandler.setLooping(true);
@@ -147,6 +155,7 @@ public class IntroScreen extends AbstractScreen {
 		public boolean keyDown(int keycode) {
 			switch(keycode) {
 			case Keys.ENTER:
+			case Keys.ESCAPE:
 				startMainMenu();
 				break;
 			}

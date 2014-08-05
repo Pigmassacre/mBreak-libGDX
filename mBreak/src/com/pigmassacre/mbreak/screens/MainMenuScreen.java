@@ -2,6 +2,7 @@ package com.pigmassacre.mbreak.screens;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.equations.Expo;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 import com.pigmassacre.mbreak.gui.ListMenu;
@@ -16,7 +18,6 @@ import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Menu;
 import com.pigmassacre.mbreak.gui.Sunrays;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.gui.ActorAccessor;
 
 public class MainMenuScreen extends AbstractScreen {
 	
@@ -68,7 +69,7 @@ public class MainMenuScreen extends AbstractScreen {
 			
 		});
 		menu.add(textItem);
-		Tween.from(textItem, ActorAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth(), textItem.getY()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
+		Tween.from(textItem, ActorAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth()).ease(Expo.OUT).start(getTweenManager());
 		stage.addActor(textItem);
 		
 //		textItem = new TextItem("Options");

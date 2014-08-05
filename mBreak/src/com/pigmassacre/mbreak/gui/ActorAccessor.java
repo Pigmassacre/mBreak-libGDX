@@ -6,17 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class ActorAccessor implements TweenAccessor<Actor> {
 
-//	public enum Values {
-//		POSITION_X,
-//		POSITION_y,
-//		POSITION_XY,
-//		SIZE_WH;
-//	}
-	
 	public static final int POSITION_X = 1;
     public static final int POSITION_Y = 2;
     public static final int POSITION_XY = 3;
     public static final int SIZE_WH = 4;
+    public static final int SCALE_X = 5;
+    public static final int SCALE_Y = 6;
+    public static final int SCALE_XY = 7;
 	
 	@Override
 	public int getValues(Actor target, int tweenType, float[] returnValues) {
@@ -34,6 +30,16 @@ public class ActorAccessor implements TweenAccessor<Actor> {
 	        case SIZE_WH:
 	        	returnValues[0] = target.getWidth();
 	        	returnValues[1] = target.getHeight();
+	        	return 2;
+	        case SCALE_X:
+	        	returnValues[0] = target.getScaleX();
+	        	return 1;
+	        case SCALE_Y:
+	        	returnValues[0] = target.getScaleY();
+	        	return 1;
+	        case SCALE_XY:
+	        	returnValues[0] = target.getScaleX();
+	        	returnValues[1] = target.getScaleY();
 	        	return 2;
         default: 
         	assert false; 
@@ -57,6 +63,16 @@ public class ActorAccessor implements TweenAccessor<Actor> {
 	        case SIZE_WH:
 	        	target.setWidth(newValues[0]);
 	        	target.setHeight(newValues[1]);
+	        	break;
+	        case SCALE_X:
+	        	target.setScaleX(newValues[0]);
+	        	break;
+	        case SCALE_Y:
+	        	target.setScaleY(newValues[0]);
+	        	break;
+	        case SCALE_XY:
+	        	target.setScaleX(newValues[0]);
+	        	target.setScaleY(newValues[1]);
 	        	break;
 	        default: 
 	        	assert false; 
