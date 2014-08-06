@@ -80,7 +80,9 @@ public class Level extends Actor {
 		powerupSpawnPositions.add(new Vector2(getX() + getWidth() / 2 - powerup.getWidth() / 2, getY() + getHeight() * 0.1f - powerup.getHeight() / 2));
 		powerupSpawnPositions.add(new Vector2(getX() + getWidth() * 0.65f - powerup.getWidth() / 2, getY() + getHeight() * 0.2f - powerup.getHeight() / 2));
 		powerup.destroy();
-		
+	}
+	
+	public void startPowerupTimer() {
 		Timer.instance().scheduleTask(new Task() {
 			
 			@Override
@@ -96,7 +98,7 @@ public class Level extends Actor {
 	private void onPowerupTimerFinish() {
 		Level.getCurrentLevel().spawnPowerup();
 		powerupTask = getPowerupTask();
-		createPowerupTimerTextItem();
+//		createPowerupTimerTextItem();
 		Timer.instance().scheduleTask(powerupTask, powerupSpawnWaitTime);
 	}
 	

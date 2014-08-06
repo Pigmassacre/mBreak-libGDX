@@ -34,7 +34,7 @@ public class TextItem extends Item {
 		super();
 
 		font = Assets.getBitmapFont("fonts/ADDLG__.fnt");
-		font.setScale(Settings.GAME_SCALE);
+		setScale(Settings.GAME_SCALE);
 		shadowColor = new Color(0.196f, 0.196f, 0.196f, 1.0f);
 		
 		this.string = string;
@@ -56,22 +56,6 @@ public class TextItem extends Item {
 								  getHeight() * selectionHeightIncrease);
 	}
 	
-	public float getScaleX() {
-		return font.getScaleX();
-	}
-	
-	public float getScaleY() {
-		return font.getScaleY();
-	}
-	
-	public void setScale(float scaleXY) {
-		font.setScale(scaleXY);
-	}
-	
-	public void setScale(float scaleX, float scaleY) {
-		font.setScale(scaleX, scaleY);
-	}
-
 	public void setString(CharSequence string) {
 		this.string = string;
 	}
@@ -101,8 +85,8 @@ public class TextItem extends Item {
 	}
 	
 	public float getWidth() {
+		font.setScale(getScaleX(), getScaleY());
 		if (wrapped) {
-//			return font.getCache().setWrappedText(string, 0, 0, Gdx.graphics.getWidth() - textSideBounds, alignment).width;
 			return font.getWrappedBounds(string, Gdx.graphics.getWidth() - textSideBounds).width;
 		} else {
 			return font.getBounds(string).width;
@@ -110,8 +94,8 @@ public class TextItem extends Item {
 	}
 	
 	public float getHeight() {
+		font.setScale(getScaleX(), getScaleY());
 		if (wrapped) {
-//			return font.getCache().setWrappedText(string, 0, 0, Gdx.graphics.getWidth() - textSideBounds, alignment).height;
 			return font.getWrappedBounds(string, Gdx.graphics.getWidth() - textSideBounds).height;
 		} else {
 			return font.getBounds(string).height;
@@ -145,7 +129,11 @@ public class TextItem extends Item {
 		}
 	}
 	
+//	private float tempScaleX, tempScaleY;
+	
 	public void draw(Batch batch, float parentAlpha) {
+		font.setScale(getScaleX(), getScaleY());
+		shadowColor.a = getColor().a;
 		font.setColor(shadowColor);
 		if (wrapped) {
 			font.drawWrapped(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY(), getWrapWidth(), alignment);
@@ -162,6 +150,7 @@ public class TextItem extends Item {
 		} else {
 			font.draw(batch, string, getX() + getOffsetX(), getY() + getOffsetY());
 		}
+//		font.setScale(tempScaleX, tempScaleY);
 	}
 	
 }

@@ -1,9 +1,12 @@
 package com.pigmassacre.mbreak.screens;
 
 import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.equations.Cubic;
+import aurelienribon.tweenengine.equations.Expo;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -12,6 +15,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.Timer;
 import com.pigmassacre.mbreak.Assets;
@@ -19,8 +23,12 @@ import com.pigmassacre.mbreak.DebugInput;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.GameActorAccessor;
+import com.pigmassacre.mbreak.gui.Item;
+import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 import com.pigmassacre.mbreak.gui.Sunrays;
+import com.pigmassacre.mbreak.gui.TextItem;
 import com.pigmassacre.mbreak.objects.Ball;
 import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.Groups;
@@ -164,7 +172,7 @@ public class GameScreen extends AbstractScreen {
 				
 				@Override
 				public void onEvent(int type, BaseTween<?> source) {
-					((Ball) source.getUserData()).speed = oldSpeed;
+					startGameCountdown((Ball) source.getUserData());
 				}
 				
 			})
@@ -192,6 +200,114 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(Groups.textItemGroup);
 	}
 	
+	private Array<TextItem> countdownTextItems;
+	
+	protected void startGameCountdown(Ball ball) {
+		countdownTextItems = new Array<TextItem>();
+		int countdown = 3;
+		float angle = - MathUtils.PI / 2f;
+		float angleOffset = 16 * Settings.GAME_SCALE;
+		Timeline timeline = Timeline.createSequence();
+		for (int i = countdown; i > 0; i--) {
+			TextItem countdownTextItem = new TextItem(String.valueOf(i));
+			countdownTextItem.setColor(1f, 1f, 1f, 1f);
+			float x = Gdx.graphics.getWidth() / 2 - countdownTextItem.getWidth() / 2 + MathUtils.cos(angle) * angleOffset;
+			float y = Gdx.graphics.getHeight() / 2 - countdownTextItem.getHeight() / 2 + MathUtils.sin(angle) * angleOffset + countdownTextItem.getHeight();
+			countdownTextItem.setX(x + MathUtils.cos(angle) * (Gdx.graphics.getWidth() - countdownTextItem.getX()));
+			countdownTextItem.setY(y + MathUtils.sin(angle) * (Gdx.graphics.getHeight() - countdownTextItem.getY()));
+			timeline.push(Tween.to(countdownTextItem, ActorAccessor.POSITION_XY, 0.4f)
+						.target(x, y)
+						.ease(Expo.OUT));
+			angle += MathUtils.PI2 / 3f;
+			countdownTextItems.add(countdownTextItem);
+			stage.addActor(countdownTextItem);
+		}
+		
+		timeline.pushPause(0.1f);
+		
+		timeline.beginParallel();
+		
+		for (TextItem countdownTextItem : countdownTextItems) {
+			timeline.push(Tween.to(countdownTextItem, ActorAccessor.POSITION_XY, 0.5f)
+//						.target(0f)
+						.target(countdownTextItem.getX(), countdownTextItem.getY())
+						.ease(Expo.IN)
+						.setUserData(countdownTextItem)
+						.setCallback(new TweenCallback() {
+					
+							@Override
+							public void onEvent(int type, BaseTween<?> source) {
+								((TextItem) source.getUserData()).remove();
+							}
+							
+						}));
+		}
+		
+		TextItem goTextItem = new TextItem("GO");
+		goTextItem.setColor(1f, 1f, 1f, 0f);
+		goTextItem.setScale(0.25f);
+		goTextItem.setX(Gdx.graphics.getWidth() / 2 - goTextItem.getWidth() / 2);
+		goTextItem.setY(Gdx.graphics.getHeight() / 2 - goTextItem.getHeight() / 2 + goTextItem.getHeight());
+		goTextItem.setActCallback(new ItemCallback() {
+			
+			@Override
+			public void execute(Item data) {
+				data.setX(Gdx.graphics.getWidth() / 2 - data.getWidth() / 2);
+				data.setY(Gdx.graphics.getHeight() / 2 - data.getHeight() / 2 + data.getHeight());
+			}
+			
+		});
+		stage.addActor(goTextItem);
+		
+		timeline.beginSequence();
+		
+		timeline.beginParallel();
+		timeline.push(Tween.to(goTextItem, ActorAccessor.SCALE_XY, 0.2f)
+							.target(10f, 10f)
+							.ease(Expo.OUT));
+		timeline.push(Tween.to(goTextItem, ActorAccessor.ALPHA, 0.2f)
+				.target(1f)
+				.ease(Expo.OUT));
+		timeline.end();
+		
+		timeline.pushPause(0.6f);
+		
+		timeline.beginParallel();
+		timeline.push(Tween.to(goTextItem, ActorAccessor.SCALE_XY, 0.2f)
+				.target(0.25f, 0.25f)
+				.ease(Expo.IN));
+		timeline.push(Tween.to(goTextItem, ActorAccessor.ALPHA, 0.2f)
+				.target(0f)
+				.ease(Expo.IN)
+				.setUserData(goTextItem)
+				.setCallback(new TweenCallback() {
+			
+					@Override
+					public void onEvent(int type, BaseTween<?> source) {
+						((TextItem) source.getUserData()).remove();
+					}
+					
+				}));
+		timeline.end();
+		
+		timeline.end();
+		
+		timeline.pushPause(0.25f);
+		
+		timeline.end();
+		timeline.setUserData(ball);
+		timeline.setCallback(new TweenCallback() {
+			
+			@Override
+			public void onEvent(int type, BaseTween<?> source) {
+				((Ball) source.getUserData()).speed = oldSpeed;
+				Level.getCurrentLevel().startPowerupTimer();
+			}
+			
+		});
+		timeline.start(getTweenManager());
+	}
+
 	@Override
 	public void renderClearScreen(float delta) {
 		float leftPlayerBlockCount = 0, rightPlayerBlockCount = 0;

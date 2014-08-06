@@ -164,13 +164,11 @@ public class Item extends Widget {
 	}
 
 	public void act(float delta) {
+		executeActCallback();
+		
 		if (selected) {
 			offsetY = (float) ((Math.sin(stateTime * 0.0075) + 1) / 2.0f) * maxOffsetY;
 			stateTime += delta * 1000;
-//		} else if (true) {
-//			offsetY = (float) ((float) ((Math.sin(stateTime * 0.0075) + 1) / 2.0f) * (maxOffsetY / 2));
-//			offsetX = (float) ((Math.cos(stateTime * 0.005) + 1) / 2.0f) * maxOffsetX;
-//			stateTime += delta * 1000 * random.nextFloat();
 		} else {
 			stateTime = 0;
 			if (offsetY < 0) {
@@ -198,8 +196,6 @@ public class Item extends Widget {
 		
 		rectangle.setX(getX() + offsetX);
 		rectangle.setY(getY() + offsetY);
-		
-		executeActCallback();
 	}
 	
 	public void setActCallback(ItemCallback actCallback) {

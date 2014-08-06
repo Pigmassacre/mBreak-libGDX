@@ -66,8 +66,8 @@ public class AbstractScreen implements Screen {
 	}
 	
 	public void act(float delta) {
-		stage.act(delta);
 		getTweenManager().update(delta);
+		stage.act(delta);
 	}
 	
 	public void draw(float delta) {
