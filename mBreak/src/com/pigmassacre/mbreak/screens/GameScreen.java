@@ -229,9 +229,8 @@ public class GameScreen extends AbstractScreen {
 		
 		for (TextItem countdownTextItem : countdownTextItems) {
 			timeline.push(Tween.to(countdownTextItem, ActorAccessor.POSITION_XY, 0.5f)
-//						.target(0f)
 						.target(countdownTextItem.getX(), countdownTextItem.getY())
-						.ease(Expo.IN)
+						.ease(Expo.OUT)
 						.setUserData(countdownTextItem)
 						.setCallback(new TweenCallback() {
 					

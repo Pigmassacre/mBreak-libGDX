@@ -24,7 +24,7 @@ public class AndroidGame extends AndroidApplication {
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.hideStatusBar = true;
-        cfg.useGL20 = true;
+        cfg.useGLSurfaceView20API18 = true;
         initialize(new MBreak(), cfg);
     }
 }

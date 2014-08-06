@@ -21,7 +21,7 @@ public class DesktopGame {
 		
 		System.out.println("Set GAME_SCALE to " + Settings.GAME_SCALE);
 		
-		config.useGL20 = true;
+		config.useGL30 = true;
 		config.title = "mBreak";
 		config.addIcon("icon/icon16.png", Files.FileType.Internal);
 		config.addIcon("icon/icon32.png", Files.FileType.Internal);

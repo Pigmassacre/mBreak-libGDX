@@ -38,7 +38,7 @@ public class Logo extends Widget {
 		logoFrames[index++] = temp[0][0]; // Add the first frame again.
 		
 		logoAnimation = new Animation(0.075f, logoFrames);
-		logoAnimation.setPlayMode(Animation.LOOP_PINGPONG);
+		logoAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		
 		animationStateTime = 0f;
 		waitTime = 0f;

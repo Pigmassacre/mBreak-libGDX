@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.GameActorAccessor;
@@ -35,6 +36,10 @@ public class AbstractScreen implements Screen {
 	public AbstractScreen(MBreak game) {
 		this.game = game;
 		this.stage = new Stage();
+		// TODO: Fix viewport bullshit? Might end up getting to scrap GAME_SCALE!!!!!! :D
+		this.stage.setViewport(new ScreenViewport());
+//		this.stage.setViewport(new FitViewport(Settings.BASE_SCREEN_WIDTH, Settings.BASE_SCREEN_HEIGHT));
+//		this.stage.setViewport(new ExtendViewport(Settings.BASE_SCREEN_WIDTH, Settings.BASE_SCREEN_HEIGHT));
 		registerTweenAccessor();
 		this.traversal = new Traversal(stage.getCamera());
 		getInputMultiplexer().addProcessor(traversal);
@@ -89,7 +94,7 @@ public class AbstractScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(width, height, true);
+		stage.getViewport().update(width, height, true);
 	}
 
 	public InputMultiplexer getInputMultiplexer() {

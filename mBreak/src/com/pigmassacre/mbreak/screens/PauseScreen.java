@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.InputAdapter;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
@@ -121,12 +122,14 @@ public class PauseScreen extends AbstractScreen {
 		super.show();
 		oldVolume = MusicHandler.getVolume();
 		MusicHandler.setVolume(0.25f);
+		Timer.instance().stop();
 	}
 	
 	@Override
 	public void hide() {
-		MusicHandler.setVolume(oldVolume);
 		super.hide();
+		MusicHandler.setVolume(oldVolume);
+		Timer.instance().start();
 		dispose();
 	}
 	
