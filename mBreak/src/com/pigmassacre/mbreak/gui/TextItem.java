@@ -129,8 +129,6 @@ public class TextItem extends Item {
 		}
 	}
 	
-//	private float tempScaleX, tempScaleY;
-	
 	public void draw(Batch batch, float parentAlpha) {
 		font.setScale(getScaleX(), getScaleY());
 		shadowColor.a = getColor().a;
@@ -150,7 +148,6 @@ public class TextItem extends Item {
 		} else {
 			font.draw(batch, string, getX() + getOffsetX(), getY() + getOffsetY());
 		}
-//		font.setScale(tempScaleX, tempScaleY);
 	}
 	
 }

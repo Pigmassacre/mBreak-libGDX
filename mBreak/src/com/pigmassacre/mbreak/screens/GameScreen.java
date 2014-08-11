@@ -244,7 +244,7 @@ public class GameScreen extends AbstractScreen {
 		
 		TextItem goTextItem = new TextItem("GO");
 		goTextItem.setColor(1f, 1f, 1f, 0f);
-		goTextItem.setScale(0.25f);
+		goTextItem.setScale(0.1f * Settings.GAME_SCALE);
 		goTextItem.setX(Gdx.graphics.getWidth() / 2 - goTextItem.getWidth() / 2);
 		goTextItem.setY(Gdx.graphics.getHeight() / 2 - goTextItem.getHeight() / 2 + goTextItem.getHeight());
 		goTextItem.setActCallback(new ItemCallback() {
@@ -262,14 +262,14 @@ public class GameScreen extends AbstractScreen {
 		
 		timeline.beginParallel();
 		timeline.push(Tween.to(goTextItem, ActorAccessor.SCALE_XY, 0.2f)
-							.target(10f, 10f)
+							.target(5f * Settings.GAME_SCALE, 5f * Settings.GAME_SCALE)
 							.ease(Expo.OUT));
 		timeline.push(Tween.to(goTextItem, ActorAccessor.ALPHA, 0.2f)
 				.target(1f)
 				.ease(Expo.OUT));
 		timeline.end();
 		
-		timeline.pushPause(0.6f);
+		timeline.pushPause(0.25f);
 		
 		timeline.beginParallel();
 		timeline.push(Tween.to(goTextItem, ActorAccessor.SCALE_XY, 0.2f)
