@@ -3,6 +3,7 @@ package com.pigmassacre.mbreak.objects.powerups;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.objects.Ball;
@@ -12,6 +13,22 @@ import com.pigmassacre.mbreak.objects.Shadow;
 import com.pigmassacre.mbreak.objects.effects.Flash;
 
 public class Powerup extends GameActor {
+	
+	private static Array<Class<? extends Powerup>> availablePowerups;
+	
+	public static Array<Class<? extends Powerup>> getAvailablePowerups() {
+		if (availablePowerups == null) {
+			availablePowerups = new Array<Class<? extends Powerup>>();
+			availablePowerups.add(ElectricityPowerup.class);
+			availablePowerups.add(EnlargerPowerup.class);
+			availablePowerups.add(FirePowerup.class);
+			availablePowerups.add(FrostPowerup.class);
+			availablePowerups.add(MultiballPowerup.class);
+			availablePowerups.add(ReducerPowerup.class);
+			availablePowerups.add(SpeedPowerup.class);
+		}
+		return availablePowerups;
+	}
 
 	private float startTime;
 	private float maxZ, minZ;

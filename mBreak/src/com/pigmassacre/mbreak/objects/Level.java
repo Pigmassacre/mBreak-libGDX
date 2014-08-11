@@ -1,8 +1,5 @@
 package com.pigmassacre.mbreak.objects;
 
-import java.text.DecimalFormat;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -11,19 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Constructor;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.gui.Item;
-import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 import com.pigmassacre.mbreak.gui.TextItem;
 import com.pigmassacre.mbreak.objects.GameActor.DestroyCallback;
-import com.pigmassacre.mbreak.objects.powerups.ElectricityPowerup;
-import com.pigmassacre.mbreak.objects.powerups.EnlargerPowerup;
-import com.pigmassacre.mbreak.objects.powerups.FirePowerup;
-import com.pigmassacre.mbreak.objects.powerups.FrostPowerup;
-import com.pigmassacre.mbreak.objects.powerups.MultiballPowerup;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
-import com.pigmassacre.mbreak.objects.powerups.ReducerPowerup;
 import com.pigmassacre.mbreak.objects.powerups.SpeedPowerup;
 
 public class Level extends Actor {
@@ -98,7 +90,6 @@ public class Level extends Actor {
 	private void onPowerupTimerFinish() {
 		Level.getCurrentLevel().spawnPowerup();
 		powerupTask = getPowerupTask();
-//		createPowerupTimerTextItem();
 		Timer.instance().scheduleTask(powerupTask, powerupSpawnWaitTime);
 	}
 	
@@ -112,67 +103,28 @@ public class Level extends Actor {
 			
 		};
 	}
-	
-	private DecimalFormat decimalFormat;
-	
-	private void createPowerupTimerTextItem() {
-		if (powerupSpawnTimerTextItem == null) {
-			powerupSpawnTimerTextItem = new TextItem();
-			powerupSpawnTimerTextItem.setColor(1f, 1f, 1f, 1f);
-			decimalFormat = new DecimalFormat("0.0");
-			Groups.textItemGroup.addActor(powerupSpawnTimerTextItem);
-		}
-		powerupSpawnTimerTextItem.setActCallback(new ItemCallback() {
-			
-			@Override
-			public void execute(Item data) {
-				powerupSpawnTimerTextItem.setString(decimalFormat.format((powerupTask.getExecuteTimeMillis() - System.nanoTime() / 1000000) / 1000f));
-				powerupSpawnTimerTextItem.setX(Gdx.graphics.getWidth() / 2 - powerupSpawnTimerTextItem.getWidth() / 2);
-				powerupSpawnTimerTextItem.setY(Gdx.graphics.getHeight() - 2 * Settings.GAME_SCALE);
-			}
-			
-		});
-	}
-	
+
 	public void spawnPowerup() {
 		if (powerupSpawnPositions.size > 0) {
 			Vector2 pos = powerupSpawnPositions.get(MathUtils.random(powerupSpawnPositions.size - 1));
 			powerupSpawnPositions.removeValue(pos, false);
 			Powerup powerup;
-			switch(MathUtils.random(6)) {
-			case 0:
-				powerup = new FirePowerup(pos.x, pos.y);
-				break;
-			case 1:
-				powerup = new SpeedPowerup(pos.x, pos.y);
-				break;
-			case 2:
-				powerup = new ElectricityPowerup(pos.x, pos.y);
-				break;
-			case 3:
-				powerup = new FrostPowerup(pos.x, pos.y);
-				break;
-			case 4:
-				powerup = new EnlargerPowerup(pos.x, pos.y);
-				break;
-			case 5:
-				powerup = new ReducerPowerup(pos.x, pos.y);
-				break;
-			case 6:
-				powerup = new MultiballPowerup(pos.x, pos.y);
-				break;
-			default:
-				powerup = new FirePowerup(pos.x, pos.y);
-				break;	
+			try {
+				Constructor constructor = ClassReflection.getConstructor(Powerup.getAvailablePowerups().get(MathUtils.random(Powerup.getAvailablePowerups().size - 1)), float.class, float.class);
+				powerup = (Powerup) constructor.newInstance(pos.x, pos.y);
+				powerup.setDestroyCallback(new DestroyCallback() {
+					
+					@Override
+					public void execute(GameActor actor, Object data) {
+						Level.getCurrentLevel().powerupSpawnPositions.add((Vector2) data);
+					}
+					
+				}, pos);
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (ReflectionException e) {
+				e.printStackTrace();
 			}
-			powerup.setDestroyCallback(new DestroyCallback() {
-				
-				@Override
-				public void execute(GameActor actor, Object data) {
-					Level.getCurrentLevel().powerupSpawnPositions.add((Vector2) data);
-				}
-				
-			}, pos);
 		}
 	}
 
