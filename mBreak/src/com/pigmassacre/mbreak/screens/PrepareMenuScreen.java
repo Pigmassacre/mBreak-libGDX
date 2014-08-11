@@ -27,13 +27,13 @@ import com.pigmassacre.mbreak.gui.TweenHelp;
 
 public class PrepareMenuScreen extends AbstractScreen {
 
-	Logo logo;
-	Sunrays sunrays;
+	public Logo logo;
+	public Sunrays sunrays;
 	
 	Color leftColor, rightColor;
 	
 	GridMenu leftColorMenu, rightColorMenu;
-	Item back, start;
+	Item back, customize, start;
 	
 	public PrepareMenuScreen(MBreak game) {
 		this(game, null, null);
@@ -61,7 +61,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
 		
-		sunrays.attachTo(logo, 0, -logo.getHeight() / 6);
+		sunrays.attachTo(logo, 0, -logo.getHeight() / 6f);
 
 		TextItem textItem = new TextItem("Back");
 		back = textItem;
@@ -76,12 +76,33 @@ public class PrepareMenuScreen extends AbstractScreen {
 		textItem.setSelected(true);
 		stage.addActor(textItem);
 		Menu menu = new ListMenu();
-		menu.setX(textItem.getHeight() + textItem.getWidth() / 2);
+		menu.setX(textItem.getHeight() + textItem.getWidth() / 2f);
 		menu.setY(textItem.getHeight());
 		menu.add(textItem);
 		traversal.menus.add(menu);
 		stage.addActor(menu);
 		Tween.from(textItem, ActorAccessor.POSITION_XY, 0.5f).target(-textItem.getWidth(), -textItem.getHeight())
+			.ease(TweenEquations.easeOutExpo)
+			.start(getTweenManager());
+		
+		textItem = new TextItem("Customize");
+		customize = textItem;
+		textItem.setCallback(new ItemCallback() {
+
+			@Override
+			public void execute(Item data) {
+				customize();
+			}
+			
+		});
+		stage.addActor(textItem);
+		menu = new ListMenu();
+		menu.setX(Gdx.graphics.getWidth() / 2f);
+		menu.setY(textItem.getHeight());
+		menu.add(textItem);
+		traversal.menus.add(menu);
+		stage.addActor(menu);
+		Tween.from(textItem, ActorAccessor.POSITION_Y, 0.5f).target(-textItem.getHeight())
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
 		
@@ -97,7 +118,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		});
 		stage.addActor(textItem);
 		menu = new ListMenu();
-		menu.setX(Gdx.graphics.getWidth() - textItem.getWidth() - textItem.getHeight() + textItem.getWidth() / 2);
+		menu.setX(Gdx.graphics.getWidth() - textItem.getWidth() - textItem.getHeight() + textItem.getWidth() / 2f);
 		menu.setY(textItem.getHeight());
 		menu.add(textItem);
 		traversal.menus.add(menu);
@@ -106,38 +127,8 @@ public class PrepareMenuScreen extends AbstractScreen {
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
 		
-		GridMenu colorMenu = new GridMenu(3);
+		GridMenu colorMenu = createColorMenu();
 		leftColorMenu = colorMenu;
-		RectItem colorItem = new RectItem();
-		colorItem.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-		stage.addActor(colorItem);
-		colorMenu.add(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(0.0f, 1.0f, 0.0f, 1.0f);
-		stage.addActor(colorItem);
-		colorMenu.add(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(0.0f, 0.0f, 1.0f, 1.0f);
-		stage.addActor(colorItem);
-		colorMenu.add(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(1.0f, 1.0f, 0.0f, 1.0f);
-		stage.addActor(colorItem);
-		colorMenu.add(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(1.0f, 0.0f, 1.0f, 1.0f);
-		stage.addActor(colorItem);
-		colorMenu.add(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(0.0f, 1.0f, 1.0f, 1.0f);
-		stage.addActor(colorItem);
-		colorMenu.add(colorItem);
-		
 		colorMenu.setX(colorMenu.getWidth());
 		colorMenu.setY(colorMenu.getHeight() * 2);
 		colorMenu.cleanup();
@@ -184,38 +175,8 @@ public class PrepareMenuScreen extends AbstractScreen {
 		traversal.menus.add(colorMenu);
 		stage.addActor(colorMenu);
 		
-		colorMenu = new GridMenu(3);
+		colorMenu = createColorMenu();
 		rightColorMenu = colorMenu;
-		colorItem = new RectItem();
-		colorItem.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-		colorMenu.add(colorItem);
-		stage.addActor(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(0.0f, 1.0f, 0.0f, 1.0f);
-		colorMenu.add(colorItem);
-		stage.addActor(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(0.0f, 0.0f, 1.0f, 1.0f);
-		colorMenu.add(colorItem);
-		stage.addActor(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(1.0f, 1.0f, 0.0f, 1.0f);
-		colorMenu.add(colorItem);
-		stage.addActor(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(1.0f, 0.0f, 1.0f, 1.0f);
-		colorMenu.add(colorItem);
-		stage.addActor(colorItem);
-		
-		colorItem = new RectItem();
-		colorItem.setColor(0.0f, 1.0f, 1.0f, 1.0f);
-		colorMenu.add(colorItem);
-		stage.addActor(colorItem);
-		
 		colorMenu.setX(Gdx.graphics.getWidth() - 2 * colorMenu.getWidth());
 		colorMenu.setY(colorMenu.getHeight() * 2);
 		colorMenu.cleanup();
@@ -266,6 +227,40 @@ public class PrepareMenuScreen extends AbstractScreen {
 		}
 	}
 	
+	private GridMenu createColorMenu() {
+		GridMenu colorMenu = new GridMenu(3);
+		RectItem colorItem = new RectItem();
+		colorItem.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
+		colorItem = new RectItem();
+		colorItem.setColor(0.0f, 1.0f, 0.0f, 1.0f);
+		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
+		colorItem = new RectItem();
+		colorItem.setColor(0.0f, 0.0f, 1.0f, 1.0f);
+		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
+		colorItem = new RectItem();
+		colorItem.setColor(1.0f, 1.0f, 0.0f, 1.0f);
+		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
+		colorItem = new RectItem();
+		colorItem.setColor(1.0f, 0.0f, 1.0f, 1.0f);
+		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		
+		colorItem = new RectItem();
+		colorItem.setColor(0.0f, 1.0f, 1.0f, 1.0f);
+		colorMenu.add(colorItem);
+		stage.addActor(colorItem);
+		return colorMenu;
+	}
+
 	protected void registerInputProcessors() {
 		getInputMultiplexer().addProcessor(new InputAdapter() {
 			
@@ -288,6 +283,10 @@ public class PrepareMenuScreen extends AbstractScreen {
 	public void back() {
 		game.setScreen(new MainMenuScreen(game, logo, sunrays));
 		dispose();
+	}
+	
+	public void customize() {
+		game.setScreen(new CustomizeScreen(game, this));
 	}
 	
 	// For the ugly hack below.
@@ -316,6 +315,9 @@ public class PrepareMenuScreen extends AbstractScreen {
 			
 			timeline.push(Tween.to(back, ActorAccessor.POSITION_XY, 0.5f).target(-back.getWidth(), -back.getHeight())
 				.ease(TweenEquations.easeInExpo));
+			
+			timeline.push(Tween.to(customize, ActorAccessor.POSITION_Y, 0.5f).target(-customize.getHeight())
+					.ease(TweenEquations.easeInExpo));
 			
 			timeline.push(Tween.to(start, ActorAccessor.POSITION_XY, 0.5f).target(Gdx.graphics.getWidth() + start.getWidth(), -start.getHeight())
 				.ease(TweenEquations.easeInExpo));

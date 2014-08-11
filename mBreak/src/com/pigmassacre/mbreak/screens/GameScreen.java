@@ -5,7 +5,6 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
-import aurelienribon.tweenengine.equations.Cubic;
 import aurelienribon.tweenengine.equations.Expo;
 
 import com.badlogic.gdx.Gdx;
