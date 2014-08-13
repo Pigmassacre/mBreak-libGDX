@@ -24,8 +24,8 @@ public class ImageItem extends RectItem {
 	}
 	
 	public void drawBeforeDisabled(Batch batch, float parentAlpha) {
-		batch.draw(image, getX() + (rectangle.getWidth() - getImageWidth()) / 2, 
-						  getY() + (rectangle.getHeight() - getImageHeight()) / 2, 
+		batch.draw(image, rectangle.getX() + (rectangle.getWidth() - getImageWidth()) / 2, 
+						  rectangle.getY() + (rectangle.getHeight() - getImageHeight()) / 2, 
 						  getImageWidth(), 
 						  getImageHeight());
 	}

@@ -9,7 +9,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Color;
+import com.pigmassacre.mbreak.GameOptions;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
@@ -17,7 +17,6 @@ import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.GridMenu;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
-import com.pigmassacre.mbreak.gui.ListMenu;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Menu;
 import com.pigmassacre.mbreak.gui.RectItem;
@@ -30,10 +29,10 @@ public class PrepareMenuScreen extends AbstractScreen {
 	public Logo logo;
 	public Sunrays sunrays;
 	
-	Color leftColor, rightColor;
-	
 	GridMenu leftColorMenu, rightColorMenu;
-	Item back, customize, start;
+	public Item back, customize, start;
+
+	private boolean changingScreen = false;
 	
 	public PrepareMenuScreen(MBreak game) {
 		this(game, null, null);
@@ -63,6 +62,10 @@ public class PrepareMenuScreen extends AbstractScreen {
 		
 		sunrays.attachTo(logo, 0, -logo.getHeight() / 6f);
 
+		Menu menu = new Menu();
+		traversal.menus.add(menu);
+		stage.addActor(menu);
+		
 		TextItem textItem = new TextItem("Back");
 		back = textItem;
 		textItem.setCallback(new ItemCallback() {
@@ -75,12 +78,9 @@ public class PrepareMenuScreen extends AbstractScreen {
 		});
 		textItem.setSelected(true);
 		stage.addActor(textItem);
-		Menu menu = new ListMenu();
-		menu.setX(textItem.getHeight() + textItem.getWidth() / 2f);
-		menu.setY(textItem.getHeight());
+		textItem.setX(textItem.getHeight());
+		textItem.setY(textItem.getHeight() * 2f);
 		menu.add(textItem);
-		traversal.menus.add(menu);
-		stage.addActor(menu);
 		Tween.from(textItem, ActorAccessor.POSITION_XY, 0.5f).target(-textItem.getWidth(), -textItem.getHeight())
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
@@ -96,12 +96,9 @@ public class PrepareMenuScreen extends AbstractScreen {
 			
 		});
 		stage.addActor(textItem);
-		menu = new ListMenu();
-		menu.setX(Gdx.graphics.getWidth() / 2f);
-		menu.setY(textItem.getHeight());
+		textItem.setX(Gdx.graphics.getWidth() / 2f - textItem.getWidth() / 2f);
+		textItem.setY(textItem.getHeight() * 2f);
 		menu.add(textItem);
-		traversal.menus.add(menu);
-		stage.addActor(menu);
 		Tween.from(textItem, ActorAccessor.POSITION_Y, 0.5f).target(-textItem.getHeight())
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
@@ -117,12 +114,9 @@ public class PrepareMenuScreen extends AbstractScreen {
 			
 		});
 		stage.addActor(textItem);
-		menu = new ListMenu();
-		menu.setX(Gdx.graphics.getWidth() - textItem.getWidth() - textItem.getHeight() + textItem.getWidth() / 2f);
-		menu.setY(textItem.getHeight());
+		textItem.setX(Gdx.graphics.getWidth() - textItem.getWidth() - textItem.getHeight());
+		textItem.setY(textItem.getHeight() * 2f);
 		menu.add(textItem);
-		traversal.menus.add(menu);
-		stage.addActor(menu);
 		Tween.from(textItem, ActorAccessor.POSITION_XY, 0.5f).target(Gdx.graphics.getWidth() + textItem.getWidth(), -textItem.getHeight())
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
@@ -133,8 +127,27 @@ public class PrepareMenuScreen extends AbstractScreen {
 		colorMenu.setY(colorMenu.getHeight() * 2);
 		colorMenu.cleanup();
 		
-		for (Item item : colorMenu.items) {
+		traversal.menus.add(colorMenu);
+		stage.addActor(colorMenu);
+		
+		colorMenu = createColorMenu();
+		rightColorMenu = colorMenu;
+		colorMenu.setX(Gdx.graphics.getWidth() - 2 * colorMenu.getWidth());
+		colorMenu.setY(colorMenu.getHeight() * 2);
+		colorMenu.cleanup();
+		
+		for (Item item : leftColorMenu.items) {
 			TweenHelp.setupSingleItemTweenFrom(item, getTweenManager(), TweenEquations.easeOutExpo, 0.5f, true, false, true, true);
+			
+			if (GameOptions.getLeftColor() != null && GameOptions.getLeftColor().equals(item.getColor())) {
+				item.setChosen(true);
+				for (Item rightItem : rightColorMenu.items) {
+					if (rightItem.getColor().equals(item.getColor())) {
+						rightItem.setDisabled(item.getChosen());
+					}
+				}
+			}
+			
 			item.setCallback(new ItemCallback() {
 				
 				@Override
@@ -143,9 +156,9 @@ public class PrepareMenuScreen extends AbstractScreen {
 						data.setChosen(!data.getChosen());
 						
 						if (data.getChosen()) {
-							leftColor = data.getColor(); 
+							GameOptions.setLeftColor(data.getColor()); 
 						} else {
-							leftColor = null;
+							GameOptions.setLeftColor(null);
 						}
 						
 						// Unchoose the remaining items.
@@ -172,17 +185,18 @@ public class PrepareMenuScreen extends AbstractScreen {
 			});
 		}
 		
-		traversal.menus.add(colorMenu);
-		stage.addActor(colorMenu);
-		
-		colorMenu = createColorMenu();
-		rightColorMenu = colorMenu;
-		colorMenu.setX(Gdx.graphics.getWidth() - 2 * colorMenu.getWidth());
-		colorMenu.setY(colorMenu.getHeight() * 2);
-		colorMenu.cleanup();
-		
-		for (Item item : colorMenu.items) {
+		for (Item item : rightColorMenu.items) {
 			TweenHelp.setupSingleItemTweenFrom(item, getTweenManager(), TweenEquations.easeOutExpo, 0.5f, false, true, true, true);
+			
+			if (GameOptions.getRightColor() != null && GameOptions.getRightColor().equals(item.getColor())) {
+				item.setChosen(true);
+				for (Item leftItem : leftColorMenu.items) {
+					if (leftItem.getColor().equals(item.getColor())) {
+						leftItem.setDisabled(item.getChosen());
+					}
+				}
+			}
+			
 			item.setCallback(new ItemCallback() {
 				
 				@Override
@@ -191,9 +205,9 @@ public class PrepareMenuScreen extends AbstractScreen {
 						data.setChosen(!data.getChosen());
 						
 						if (data.getChosen()) {
-							rightColor = data.getColor();
+							GameOptions.setRightColor(data.getColor());
 						} else {
-							rightColor = null;
+							GameOptions.setRightColor(null);
 						}
 						
 						for (Item item : rightColorMenu.items) {
@@ -269,7 +283,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 				switch(keycode) {
 				case Keys.ESCAPE:
 				case Keys.BACK:
-					if (!startingGame) {
+					if (!changingScreen) {
 						back();
 					}
 					break;
@@ -286,14 +300,59 @@ public class PrepareMenuScreen extends AbstractScreen {
 	}
 	
 	public void customize() {
-		game.setScreen(new CustomizeScreen(game, this));
+//		getTweenManager().killAll();
+//		
+//		Timeline timeline = Timeline.createSequence();
+//		
+//		timeline.beginParallel();
+//		
+//		for (Item item : leftColorMenu.items) {
+//			item.setCallback(null);
+//			timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, true, false, true, false));
+//		}
+//		
+//		for (Item item : rightColorMenu.items) {
+//			item.setCallback(null);
+//			timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, false, true, true, false));
+//		}
+//		
+//		back.setCallback(null);
+//		customize.setCallback(null);
+//		start.setCallback(null);
+//		
+//		timeline.push(Tween.to(back, ActorAccessor.POSITION_XY, 0.5f).target(-back.getWidth(), -back.getHeight())
+//			.ease(TweenEquations.easeInExpo));
+//		
+//		timeline.push(Tween.to(customize, ActorAccessor.POSITION_Y, 0.5f).target(-customize.getHeight())
+//				.ease(TweenEquations.easeInExpo));
+//		
+//		timeline.push(Tween.to(start, ActorAccessor.POSITION_XY, 0.5f).target(Gdx.graphics.getWidth() + start.getWidth(), -start.getHeight())
+//			.ease(TweenEquations.easeInExpo));
+//		
+//		timeline.end();
+//		
+//		timeline.setUserData(this);
+//		
+//		timeline.setCallback(new TweenCallback() {
+//			
+//			@Override
+//			public void onEvent(int type, BaseTween<?> source) {
+//				changingScreen = false;
+				game.setScreen(new CustomizeScreen(game));
+//			}
+//			
+//		});
+//		
+//		changingScreen = true;
+//		
+//		timeline.start(getTweenManager());
 	}
 	
 	// For the ugly hack below.
-	private boolean finished = false, startingGame = false;;
+	private boolean finished = false;
 	
 	public void start() {
-		if (leftColor != null && rightColor != null) {
+		if (GameOptions.readyToStart()) {
 			getTweenManager().killAll();
 			
 			Timeline timeline = Timeline.createSequence();
@@ -302,15 +361,16 @@ public class PrepareMenuScreen extends AbstractScreen {
 			
 			for (Item item : leftColorMenu.items) {
 				item.setCallback(null);
-				timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, true, false, true, true));
+				timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, true, false, true, false));
 			}
 			
 			for (Item item : rightColorMenu.items) {
 				item.setCallback(null);
-				timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, false, true, true, true));
+				timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, false, true, true, false));
 			}
 			
 			back.setCallback(null);
+			customize.setCallback(null);
 			start.setCallback(null);
 			
 			timeline.push(Tween.to(back, ActorAccessor.POSITION_XY, 0.5f).target(-back.getWidth(), -back.getHeight())
@@ -337,7 +397,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 				
 			});
 			
-			startingGame = true;
+			changingScreen = true;
 			timeline.start(getTweenManager());
 		} else {
 			game.setScreen(new ToastScreen(game, this, "You must choose colors for both players before you can start the game."));
@@ -349,7 +409,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		// This is an ugly hack in order to not display one empty frame in between this screen and the next screen.
 		if (finished) {
 			dispose();
-			game.setScreen(new GameLoadingScreen(game, logo, sunrays, leftColor, rightColor));
+			game.setScreen(new GameLoadingScreen(game, logo, sunrays));
 		}
 	}
 	

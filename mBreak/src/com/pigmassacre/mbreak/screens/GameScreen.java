@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.Timer;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.DebugInput;
+import com.pigmassacre.mbreak.GameOptions;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.Settings;
@@ -44,7 +45,7 @@ public class GameScreen extends AbstractScreen {
 	
 	float oldSpeed;
 	
-	public GameScreen(MBreak game, Sunrays givenSunrays, Color leftColor, Color rightColor) {
+	public GameScreen(MBreak game, Sunrays givenSunrays) {
 		super(game);
 		
 		if (givenSunrays == null) {
@@ -69,7 +70,7 @@ public class GameScreen extends AbstractScreen {
 		leftPlayer = new Player("left");
 		leftPlayer.setX(2.5f * Settings.GAME_SCALE);
 		leftPlayer.setY(2.5f * Settings.GAME_SCALE);
-		leftPlayer.setColor(leftColor);
+		leftPlayer.setColor(GameOptions.getLeftColor());
 		Groups.playerGroup.addActor(leftPlayer);
 		
 		float delay = 0.25f;
@@ -108,7 +109,7 @@ public class GameScreen extends AbstractScreen {
 		rightPlayer = new Player("right");
 		rightPlayer.setX(Gdx.graphics.getWidth() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
 		rightPlayer.setY(Gdx.graphics.getHeight() - 5f * Settings.GAME_SCALE - 2.5f * Settings.GAME_SCALE);
-		rightPlayer.setColor(rightColor);
+		rightPlayer.setColor(GameOptions.getRightColor());
 		Groups.playerGroup.addActor(rightPlayer);
 		
 		delay = 0.25f;

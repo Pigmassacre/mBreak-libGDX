@@ -65,8 +65,6 @@ public class PauseScreen extends AbstractScreen {
 		menu.cleanup();
 		
 		stage.addActor(menu);
-		
-		shapeRenderer = new ShapeRenderer();
 	}
 	
 	@Override
@@ -102,7 +100,7 @@ public class PauseScreen extends AbstractScreen {
 		super.render(delta);
 	}
 	
-	private ShapeRenderer shapeRenderer;
+	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
 	@Override
 	public void renderClearScreen(float delta) {

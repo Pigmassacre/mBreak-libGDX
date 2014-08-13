@@ -43,6 +43,9 @@ public class Assets {
 		if (!assetManager.isLoaded("music/title/goluigi-nonuniform.ogg")) {
 			assetManager.load("music/title/goluigi-nonuniform.ogg", Music.class);
 		}
+		if (!assetManager.isLoaded("images/gametextures.atlas")) {
+			assetManager.load("images/gametextures.atlas", TextureAtlas.class);
+		}
 	}
 	
 	public static void loadGameAssets() {
@@ -50,9 +53,6 @@ public class Assets {
 		
 		GrayscaleShader.loadShader();
 		
-		if (!assetManager.isLoaded("images/gametextures.atlas")) {
-			assetManager.load("images/gametextures.atlas", TextureAtlas.class);
-		}
 		if (!assetManager.isLoaded("sound/ball.ogg")) {
 			assetManager.load("sound/ball.ogg", Sound.class);
 		}
@@ -76,11 +76,23 @@ public class Assets {
 	public static void unloadGameAssets() {
 		getAssetManager();
 		
-		if (assetManager.isLoaded("images/gametextures.atlas")) {
-			assetManager.unload("images/gametextures.atlas");
-		}
 		if (assetManager.isLoaded("sound/ball.ogg")) {
 			assetManager.unload("sound/ball.ogg");
+		}
+		if (assetManager.isLoaded("sound/blockDestroyed.wav")) {
+			assetManager.unload("sound/blockDestroyed.wav");
+		}
+		if (assetManager.isLoaded("music/game/choke.ogg")) {
+			assetManager.unload("music/game/choke.ogg");
+		}
+		if (assetManager.isLoaded("music/game/divine_intervention.ogg")) {
+			assetManager.unload("music/game/divine_intervention.ogg");
+		}
+		if (assetManager.isLoaded("music/game/socialmoron.ogg")) {
+			assetManager.unload("music/game/socialmoron.ogg");
+		}
+		if (assetManager.isLoaded("music/game/stardstm.ogg")) {
+			assetManager.unload("music/game/stardstm.ogg");
 		}
 	}
 	

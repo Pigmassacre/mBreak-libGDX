@@ -22,9 +22,8 @@ public class GameLoadingScreen extends AbstractScreen {
 	Sunrays sunrays;
 	
 	TextItem loadingTextItem;
-	Color leftColor, rightColor;
 	
-	public GameLoadingScreen(MBreak game, Logo givenLogo, Sunrays givenSunrays, Color leftColor, Color rightColor) {
+	public GameLoadingScreen(MBreak game, Logo givenLogo, Sunrays givenSunrays) {
 		super(game);
 		
 		Gdx.input.setCursorCatched(!Settings.getDebugMode());
@@ -45,9 +44,6 @@ public class GameLoadingScreen extends AbstractScreen {
 		}
 		sunrays.attachTo(logo, 0, -logo.getHeight() / 6);
 		stage.addActor(logo);
-		
-		this.leftColor = leftColor;
-		this.rightColor = rightColor;
 		
 		loadingTextItem = new TextItem("Now Loading");
 		loadingTextItem.setColor(1f, 1f, 1f, 1f);
@@ -90,7 +86,7 @@ public class GameLoadingScreen extends AbstractScreen {
 	@Override
 	public void postRender(float delta) {
 		if (finishedTweening) {
-			game.setScreen(new GameScreen(game, sunrays, leftColor, rightColor));
+			game.setScreen(new GameScreen(game, sunrays));
 			dispose();
 		}
 	}

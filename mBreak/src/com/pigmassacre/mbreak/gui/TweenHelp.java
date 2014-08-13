@@ -2,18 +2,16 @@ package com.pigmassacre.mbreak.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 
 public class TweenHelp {
 	
-	private static Random random = new Random();
-
 	private static List<String> setupChoices(boolean left, boolean right, boolean up, boolean down) {
 		List<String> choices = new ArrayList<String>();
 		if (left)
@@ -30,7 +28,7 @@ public class TweenHelp {
 	public static Tween setupSingleItemTweenFrom(Item item, TweenManager tweenManager, TweenEquation ease, float duration, boolean left, boolean right, boolean up, boolean down) {
 		List<String> choices = setupChoices(left, right, up, down);
 		
-		String choice = choices.get(random.nextInt(choices.size()));
+		String choice = choices.get(MathUtils.random(choices.size() - 1));
 		if (choice == "left") {
 			return Tween.from(item, ActorAccessor.POSITION_X, duration).target(-item.getMaxWidth())
 				.ease(ease)
@@ -53,7 +51,7 @@ public class TweenHelp {
 	public static Tween setupSingleItemTweenTo(Item item, TweenManager tweenManager, TweenEquation ease, float duration, boolean left, boolean right, boolean up, boolean down) {
 		List<String> choices = setupChoices(left, right, up, down);
 		
-		String choice = choices.get(random.nextInt(choices.size()));
+		String choice = choices.get(MathUtils.random(choices.size() - 1));
 		if (choice == "left") {
 			return Tween.to(item, ActorAccessor.POSITION_X, duration).target(-item.getMaxWidth())
 				.ease(ease)

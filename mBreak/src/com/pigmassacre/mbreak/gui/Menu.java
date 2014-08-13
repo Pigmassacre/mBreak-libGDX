@@ -18,7 +18,6 @@ public class Menu extends Actor {
 	public Menu() {
 		items = new ArrayList<Item>();
 		otherMenus = new ArrayList<Menu>();
-
 		setX(0);
 		setY(0);
 	}
@@ -55,7 +54,6 @@ public class Menu extends Actor {
 	
 	public void add(Item item) {
 		items.add(item);
-		
 		positionItem(item);
 	}
 
@@ -94,8 +92,9 @@ public class Menu extends Actor {
 			}
 		}
 		
-		if (selectedItems.size() == 0)
+		if (selectedItems.size() == 0) {
 			previouslySelectedItem = null;
+		}
 	}
 	
 }
