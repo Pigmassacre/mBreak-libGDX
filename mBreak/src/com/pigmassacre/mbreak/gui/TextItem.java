@@ -112,6 +112,14 @@ public class TextItem extends Item {
 		return getWidth(string, scaleX, scaleY, false, 0f);
 	}
 	
+	public static float getWidth(String string, boolean wrapped) {
+		return getWidth(string, Settings.GAME_SCALE, Settings.GAME_SCALE, wrapped, 25 * Settings.GAME_SCALE);
+	}
+	
+	public static float getWidth(String string, float scaleX, float scaleY, boolean wrapped) {
+		return getWidth(string, scaleX, scaleY, wrapped, 25 * Settings.GAME_SCALE);
+	}
+	
 	public static float getWidth(String string, float scaleX, float scaleY, boolean wrapped, float textSideBounds) {
 		font.setScale(scaleX, scaleY);
 		if (wrapped) {
@@ -127,6 +135,14 @@ public class TextItem extends Item {
 	
 	public static float getHeight(String string, float scaleX, float scaleY) {
 		return getHeight(string, scaleX, scaleY, false, 0f);
+	}
+	
+	public static float getHeight(String string, boolean wrapped) {
+		return getHeight(string, Settings.GAME_SCALE, Settings.GAME_SCALE, wrapped, 25 * Settings.GAME_SCALE);
+	}
+	
+	public static float getHeight(String string, float scaleX, float scaleY, boolean wrapped) {
+		return getHeight(string, scaleX, scaleY, wrapped, 25 * Settings.GAME_SCALE);
 	}
 	
 	public static float getHeight(String string, float scaleX, float scaleY, boolean wrapped, float textSideBounds) {

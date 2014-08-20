@@ -4,7 +4,7 @@ import com.pigmassacre.mbreak.Settings;
 
 public class GridMenu extends Menu {
 
-	float offset;
+	public float offset;
 	
 	int maxColumnCount;
 	

@@ -1,5 +1,8 @@
 package com.pigmassacre.mbreak.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
@@ -32,6 +35,10 @@ public class Blinder extends Widget {
 	}
 	
 	public Blinder(TextureRegion image, Stage stage, TweenManager tweenManager) {
+		this(image, stage, tweenManager, true, true, true, true);
+	}
+	
+	public Blinder(TextureRegion image, Stage stage, TweenManager tweenManager, boolean left, boolean right, boolean up, boolean down) {
 		int n = (int) Math.pow(4, 4);
 		COLS = (int) Math.ceil(Math.sqrt(n));
 		ROWS = (int) Math.ceil(n / (double) COLS);
@@ -47,9 +54,45 @@ public class Blinder extends Widget {
         
 		TextureRegion[][] splitImages = this.image.split((int) (Gdx.graphics.getWidth() / (float)ROWS), (int) (Gdx.graphics.getHeight() / (float)COLS));
 		
+		List<String> choices = new ArrayList<String>();
+		if (left)
+			choices.add("left");
+		if (right)
+			choices.add("right");
+		if (up)
+			choices.add("up");
+		if (down)
+			choices.add("down");
+		
+		String choice = choices.get(MathUtils.random(choices.size() - 1));
+		
 		float delay = 0f;
+		float delayDelta = 0.015f;
+		switch (choice) {
+		case "left":
+			delay = 0f;
+			break;
+		case "right":
+			delay = COLS * delayDelta;
+			break;
+		case "up":
+			delay = 0f;
+			break;
+		case "down":
+			delay = ROWS * delayDelta;
+			break;
+		}
+		
 		blinderParts = new Array<BlinderPart>();
 		for (int col = 0; col < COLS; col++) {
+			switch(choice) {
+			case "left":
+				delay = 0;
+				break;
+			case "right":
+				delay = COLS * delayDelta;
+				break;
+			}
 			for (int row = 0; row < ROWS; row++) {
 				BlinderPart blinderPart = new BlinderPart(splitImages[col][row]);
 				blinderPart.setColor(1f, 1f, 1f, 1f);
@@ -58,27 +101,52 @@ public class Blinder extends Widget {
 				blinderPart.setX(getX() + blinderPart.getWidth() * row);
 				blinderPart.setY(getY() + Gdx.graphics.getHeight() - blinderPart.getHeight() * col - blinderPart.getHeight());
 				blinderParts.add(blinderPart);
+				int tweenType = ActorAccessor.SCALE_XY;
+//				switch(choice) {
+//				case "left":
+//				case "right":
+//					tweenType = ActorAccessor.SIZE_W;
+//					break;
+//				case "up":
+//				case "down":
+//					tweenType = ActorAccessor.SIZE_H;
+//					break;
+//				}
 				Timeline.createSequence()
-				.push(Tween.to(blinderPart, ActorAccessor.SCALE_XY, 0.25f)
-						.target(0f, 0f)
-						.ease(Expo.OUT)
-						.delay(delay))
-//						.delay(MathUtils.random() * 0.25f))
-				.setUserData(blinderPart)
-				.setCallback(new TweenCallback() {
-					
-					@Override
-					public void onEvent(int type, BaseTween<?> source) {
-						BlinderPart blinderPart = (BlinderPart) source.getUserData();
-						blinderPart.remove();
+					.push(Tween.to(blinderPart, tweenType, 0.25f)
+							.target(0f, 0f)
+							.ease(Expo.OUT)
+							.delay(delay))
+					.setUserData(blinderPart)
+					.setCallback(new TweenCallback() {
 						
-					}
-					
-				})
-				.start(tweenManager);
-			blinderParts.add(blinderPart);
+						@Override
+						public void onEvent(int type, BaseTween<?> source) {
+							BlinderPart blinderPart = (BlinderPart) source.getUserData();
+							blinderPart.remove();
+							
+						}
+						
+					})
+					.start(tweenManager);
+				blinderParts.add(blinderPart);
+				switch(choice) {
+				case "left":
+					delay += delayDelta;
+					break;
+				case "right":
+					delay -= delayDelta;
+					break;
+				}
 			}
-			delay += 0.035f;
+			switch(choice) {
+			case "up":
+				delay += delayDelta;
+				break;
+			case "down":
+				delay -= delayDelta;
+				break;
+			}
 		}
 	}
 	
@@ -128,6 +196,13 @@ public class Blinder extends Widget {
 	@Override
 	public float getHeight() {
 		return image.getRegionHeight() * Settings.GAME_SCALE;
+	}
+	
+	@Override
+	public void act(float delta) {
+		for (BlinderPart blinderPart : blinderParts) {
+			blinderPart.act(delta);
+		}
 	}
 	
 	@Override

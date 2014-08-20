@@ -13,6 +13,7 @@ import com.pigmassacre.mbreak.Settings;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
+import com.pigmassacre.mbreak.gui.Blinder;
 import com.pigmassacre.mbreak.gui.ListMenu;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Menu;
@@ -26,6 +27,10 @@ public class MainMenuScreen extends AbstractScreen {
 	
 	public MainMenuScreen(MBreak game) {
 		this(game, null, null);
+		if (lastTextureRegion != null) {
+			Blinder blinder = new Blinder(lastTextureRegion, stage, getTweenManager());
+			stage.addActor(blinder);
+		}
 	}
 	
 	public MainMenuScreen(MBreak game, Logo givenLogo, Sunrays givenSunrays) {

@@ -33,7 +33,7 @@ public class PauseScreen extends AbstractScreen {
 		backdrop.setHeight(TextItem.getHeight("Quit") * 5f);
 		backdrop.setX(0);
 		backdrop.setY(Gdx.graphics.getHeight() / 2f - backdrop.getHeight() / 2f);
-		Tween.from(backdrop,  ActorAccessor.SIZE_H, 0.5f).target(0.01f).ease(Expo.OUT).start(getTweenManager());
+		Tween.from(backdrop,  ActorAccessor.SIZE_H, 0.5f).target(0f).ease(Expo.OUT).start(getTweenManager());
 		backdrop.setActCallback(new ItemCallback() {
 			
 			@Override

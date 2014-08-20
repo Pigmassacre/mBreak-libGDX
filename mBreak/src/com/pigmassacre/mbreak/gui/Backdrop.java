@@ -14,6 +14,11 @@ public class Backdrop extends Item {
 		setColor(0f, 0f, 0f, 0.5f);
 	}
 	
+	@Override
+	public void act(float delta) {
+		executeActCallback();
+	}
+	
 	public void draw(Batch batch, float parentAlpha) {
 		batch.end();
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -23,11 +28,6 @@ public class Backdrop extends Item {
 		shapeRenderer.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		batch.begin();
-	}
-	
-	@Override
-	public void act(float delta) {
-		executeActCallback();
 	}
 	
 }

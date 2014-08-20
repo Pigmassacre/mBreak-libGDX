@@ -5,6 +5,7 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.equations.Expo;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -17,6 +18,7 @@ import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.GridMenu;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
+import com.pigmassacre.mbreak.gui.Backdrop;
 import com.pigmassacre.mbreak.gui.Blinder;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Menu;
@@ -47,7 +49,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		} else {
 			sunrays = givenSunrays;
 		}
-//		stage.addActor(sunrays);
+		stage.addActor(sunrays);
 		
 		if (givenLogo == null) {
 			logo = new Logo();
@@ -122,11 +124,28 @@ public class PrepareMenuScreen extends AbstractScreen {
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
 		
+		Backdrop backdrop = new Backdrop();
+		stage.addActor(backdrop);
+		
 		GridMenu colorMenu = createColorMenu();
 		leftColorMenu = colorMenu;
 		colorMenu.setX(colorMenu.getWidth());
-		colorMenu.setY(colorMenu.getHeight() * 2);
+		colorMenu.setY(Gdx.graphics.getHeight() / 2f + colorMenu.offset / 2f);
 		colorMenu.cleanup();
+		
+		backdrop.setWidth(Gdx.graphics.getWidth());
+		backdrop.setHeight(leftColorMenu.getHeight() + leftColorMenu.items.get(0).getHeight() * 2f + leftColorMenu.offset);
+		backdrop.setX(0);
+		backdrop.setY(leftColorMenu.getY() - backdrop.getHeight() / 2f + leftColorMenu.getHeight() / 2f - leftColorMenu.items.get(0).getHeight() - leftColorMenu.offset);
+		Tween.from(backdrop, ActorAccessor.SIZE_H, 0.5f).target(0f).ease(Expo.OUT).start(getTweenManager());
+		backdrop.setActCallback(new ItemCallback() {
+			
+			@Override
+			public void execute(Item data) {
+				data.setY(leftColorMenu.getY() - data.getHeight() / 2f + (leftColorMenu.items.get(0).getHeight() * 2f + leftColorMenu.offset) / 2f - leftColorMenu.items.get(0).getHeight() - leftColorMenu.offset);
+			}
+			
+		});
 		
 		traversal.menus.add(colorMenu);
 		stage.addActor(colorMenu);
@@ -134,8 +153,11 @@ public class PrepareMenuScreen extends AbstractScreen {
 		colorMenu = createColorMenu();
 		rightColorMenu = colorMenu;
 		colorMenu.setX(Gdx.graphics.getWidth() - 2 * colorMenu.getWidth());
-		colorMenu.setY(colorMenu.getHeight() * 2);
+		colorMenu.setY(Gdx.graphics.getHeight() / 2f + colorMenu.offset / 2f);
 		colorMenu.cleanup();
+		
+		traversal.menus.add(colorMenu);
+		stage.addActor(colorMenu);
 		
 		for (Item item : leftColorMenu.items) {
 			TweenHelp.setupSingleItemTweenFrom(item, getTweenManager(), TweenEquations.easeOutExpo, 0.5f, true, false, true, true);
@@ -232,13 +254,10 @@ public class PrepareMenuScreen extends AbstractScreen {
 			});
 		}
 		
-		traversal.menus.add(colorMenu);
-		stage.addActor(colorMenu);
-		
-		if (lastTextureRegion != null) {
-			Blinder blinder = new Blinder(lastTextureRegion, stage, getTweenManager());
-			stage.addActor(blinder);
-		}
+//		if (lastTextureRegion != null) {
+//			Blinder blinder = new Blinder(lastTextureRegion, stage, getTweenManager());
+//			stage.addActor(blinder);
+//		}
 		
 		if (!MusicHandler.isPlaying()) {
 			MusicHandler.setSong("music/title/goluigi-nonuniform.ogg");

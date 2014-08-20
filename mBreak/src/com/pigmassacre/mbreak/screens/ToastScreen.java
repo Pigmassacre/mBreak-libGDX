@@ -2,17 +2,16 @@ package com.pigmassacre.mbreak.screens;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.equations.Expo;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
+import com.pigmassacre.mbreak.gui.Backdrop;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 import com.pigmassacre.mbreak.gui.ListMenu;
@@ -23,28 +22,42 @@ public class ToastScreen extends AbstractScreen {
 	
 	private final AbstractScreen pausedScreen;
 	
+	Backdrop backdrop;
+	TextItem messageTextItem, okTextItem;
+	
 	public ToastScreen(MBreak game, AbstractScreen pausedScreen, String message) {
 		super(game);
 		this.pausedScreen = pausedScreen;
 		
-		TextItem textItem;
-		textItem = new TextItem(message);
-		textItem.setAlignment(HAlignment.CENTER);
-		textItem.setWrapped(true);
-		textItem.setColor(0.9f, 0.25f, 0.25f, 1f);
-		textItem.setX((Gdx.graphics.getWidth() - textItem.getWrapWidth()) / 2f);
-		textItem.setY((Gdx.graphics.getHeight()) / 2 + textItem.getHeight() / 2f);
-		stage.addActor(textItem);
+		backdrop = new Backdrop();
+		backdrop.setWidth(Gdx.graphics.getWidth());
+		backdrop.setHeight(TextItem.getHeight(message, true) + TextItem.getHeight("Bounds") * 4f);
+		backdrop.setX(0);
+		backdrop.setY(Gdx.graphics.getHeight() / 2f - backdrop.getHeight() / 2f);
+		Tween.from(backdrop,  ActorAccessor.SIZE_H, 0.5f).target(0.01f).ease(Expo.OUT).start(getTweenManager());
+		backdrop.setActCallback(new ItemCallback() {
+			
+			@Override
+			public void execute(Item data) {
+				data.setY(Gdx.graphics.getHeight() / 2f - data.getHeight() / 2f);
+			}
+			
+		});
+		stage.addActor(backdrop);
+		
+		
+		messageTextItem = new TextItem(message);
+		messageTextItem.setAlignment(HAlignment.CENTER);
+		messageTextItem.setWrapped(true);
+		messageTextItem.setColor(0.9f, 0.25f, 0.25f, 1f);
+		stage.addActor(messageTextItem);
 
 		Menu menu = new ListMenu();
-		menu.setX(Gdx.graphics.getWidth() / 2);
-		menu.setY(textItem.getY() - textItem.getHeight());
 		traversal.menus.add(menu);
 		
-		textItem = new TextItem("Ok");
-		textItem.setSelected(true);
-		menu.setY(menu.getY() - textItem.getHeight() * 2f);
-		textItem.setCallback(new ItemCallback() {
+		okTextItem = new TextItem("Ok");
+		okTextItem.setSelected(true);
+		okTextItem.setCallback(new ItemCallback() {
 
 			@Override
 			public void execute(Item data) {
@@ -53,9 +66,18 @@ public class ToastScreen extends AbstractScreen {
 			
 		});
 		
-		Tween.from(textItem, ActorAccessor.POSITION_Y, 0.75f).target(0).ease(TweenEquations.easeOutExpo).start(getTweenManager());
-		stage.addActor(textItem);
-		menu.add(textItem);
+		Tween.from(okTextItem, ActorAccessor.POSITION_X, 0.75f).target(Gdx.graphics.getWidth()
+				).ease(TweenEquations.easeOutExpo).start(getTweenManager());
+		stage.addActor(okTextItem);
+		menu.add(okTextItem);
+		
+		messageTextItem.setX((Gdx.graphics.getWidth() - messageTextItem.getWrapWidth()) / 2f);
+		messageTextItem.setY((Gdx.graphics.getHeight()) / 2 + messageTextItem.getHeight() / 2f + okTextItem.getHeight());
+		Tween.from(messageTextItem, ActorAccessor.POSITION_X, 0.75f).target(-messageTextItem.getWidth()).ease(TweenEquations.easeOutExpo).start(getTweenManager());
+		
+		menu.setX(Gdx.graphics.getWidth() / 2);
+		menu.setY(messageTextItem.getY() - messageTextItem.getHeight());
+		menu.setY(menu.getY() - okTextItem.getHeight() * 2f);
 		
 		menu.cleanup();
 		
@@ -90,17 +112,9 @@ public class ToastScreen extends AbstractScreen {
 		super.render(delta);
 	}
 	
-	private ShapeRenderer shapeRenderer = new ShapeRenderer();
-	
 	@Override
 	public void renderClearScreen(float delta) {
 		// So we don't clear the screen each frame, we let the pausdScreens .draw() method do that.
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(0f, 0f, 0f, 0.5f);
-		shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		shapeRenderer.end();
-		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 	
 	private float oldVolume;

@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
+import com.pigmassacre.mbreak.gui.Blinder;
 import com.pigmassacre.mbreak.gui.GridMenu;
 import com.pigmassacre.mbreak.gui.ImageItem;
 import com.pigmassacre.mbreak.gui.Item;
@@ -63,6 +64,11 @@ public class CustomizeScreen extends AbstractScreen {
 		powerupMenu.setX(Gdx.graphics.getWidth() / 2f - powerupMenu.getWidth() / 2f);
 		powerupMenu.setY(Gdx.graphics.getHeight() / 2f - powerupMenu.getHeight() / 2f);
 		powerupMenu.cleanup();
+		
+		if (lastTextureRegion != null) {
+			Blinder blinder = new Blinder(lastTextureRegion, stage, getTweenManager(), false, false, true, true);
+			stage.addActor(blinder);
+		}
 	}
 
 	protected void registerInputProcessors() {
