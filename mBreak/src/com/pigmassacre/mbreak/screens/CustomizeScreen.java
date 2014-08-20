@@ -6,7 +6,6 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.GridMenu;
@@ -91,7 +90,7 @@ public class CustomizeScreen extends AbstractScreen {
 		dispose();
 	}
 	
-	private ShapeRenderer shapeRenderer = new ShapeRenderer();
+//	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
 //	@Override
 //	public void renderClearScreen(float delta) {

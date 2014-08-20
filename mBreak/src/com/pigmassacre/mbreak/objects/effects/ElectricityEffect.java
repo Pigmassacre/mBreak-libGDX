@@ -3,6 +3,7 @@ package com.pigmassacre.mbreak.objects.effects;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.pigmassacre.mbreak.Settings;
+import com.pigmassacre.mbreak.objects.Block;
 import com.pigmassacre.mbreak.objects.GameActor;
 import com.pigmassacre.mbreak.objects.Particle;
 
@@ -16,7 +17,15 @@ public class ElectricityEffect extends Effect {
 	
 	public ElectricityEffect(GameActor parent, float duration) {
 		super(parent, duration);
-		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public void onHitBlock(Block block) {
+		super.onHitBlock(block);
+		if (block.owner != parentActor.owner) {
+			new ShockEffect(block, 6);
+			destroy();
+		}
 	}
 	
 	@Override

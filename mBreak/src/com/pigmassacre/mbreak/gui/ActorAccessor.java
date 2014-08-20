@@ -5,15 +5,17 @@ import aurelienribon.tweenengine.TweenAccessor;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class ActorAccessor implements TweenAccessor<Actor> {
-
+	
 	public static final int POSITION_X = 1;
     public static final int POSITION_Y = 2;
     public static final int POSITION_XY = 3;
-    public static final int SIZE_WH = 4;
-    public static final int SCALE_X = 5;
-    public static final int SCALE_Y = 6;
-    public static final int SCALE_XY = 7;
-    public static final int ALPHA = 8;
+    public static final int SIZE_W = 4;
+    public static final int SIZE_H = 5;
+    public static final int SIZE_WH = 6;
+    public static final int SCALE_X = 7;
+    public static final int SCALE_Y = 8;
+    public static final int SCALE_XY = 9;
+    public static final int ALPHA = 10;
 	
 	@Override
 	public int getValues(Actor target, int tweenType, float[] returnValues) {
@@ -28,6 +30,12 @@ public class ActorAccessor implements TweenAccessor<Actor> {
 	            returnValues[0] = target.getX();
 	            returnValues[1] = target.getY();
 	            return 2;
+	        case SIZE_W:
+	        	returnValues[0] = target.getWidth();
+	        	return 1;
+	        case SIZE_H:
+	        	returnValues[0] = target.getHeight();
+	        	return 1;
 	        case SIZE_WH:
 	        	returnValues[0] = target.getWidth();
 	        	returnValues[1] = target.getHeight();
@@ -64,6 +72,12 @@ public class ActorAccessor implements TweenAccessor<Actor> {
 	            target.setX(newValues[0]);
 	            target.setY(newValues[1]);
 	            break;
+	        case SIZE_W:
+	        	target.setWidth(newValues[0]);
+	        	break;
+	        case SIZE_H:
+	        	target.setHeight(newValues[0]);
+	        	break;
 	        case SIZE_WH:
 	        	target.setWidth(newValues[0]);
 	        	target.setHeight(newValues[1]);

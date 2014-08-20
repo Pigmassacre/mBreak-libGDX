@@ -118,19 +118,16 @@ public class GameActor extends Actor {
 			onHitBall((Ball) object);
 			for (Actor effect : effectGroup.getChildren()) {
 				((GameActor) effect).onHitObject(object);
-//				((GameActor) effect).onHitBall((Ball) object);
 			}
 		} else if (object instanceof Paddle) {
 			onHitPaddle((Paddle) object);
 			for (Actor effect : effectGroup.getChildren()) {
 				((GameActor) effect).onHitObject(object);
-//				((GameActor) effect).onHitPaddle((Paddle) object);
 			}
 		} else if (object instanceof Block) {
 			onHitBlock((Block) object);
 			for (Actor effect : effectGroup.getChildren()) {
 				((GameActor) effect).onHitObject(object);
-//				((GameActor) effect).onHitBlock((Block) object);
 			}
 		}
 	}

@@ -6,8 +6,11 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -21,7 +24,7 @@ public class AbstractScreen implements Screen {
 
 	protected final MBreak game;
 	
-	protected Stage stage;
+	public Stage stage;
 	private TweenManager tweenManager;
 	
 	private InputMultiplexer inputMultiplexer;
@@ -29,17 +32,15 @@ public class AbstractScreen implements Screen {
 	
 	public float timeScale = 1f;
 	
+	public TextureRegion lastTextureRegion;
+	
 	protected String getName() {
 		return getClass().getSimpleName();
 	}
 	
 	public AbstractScreen(MBreak game) {
 		this.game = game;
-		this.stage = new Stage();
-		// TODO: Fix viewport bullshit? Might end up getting to scrap GAME_SCALE!!!!!! :D
-		this.stage.setViewport(new ScreenViewport());
-//		this.stage.setViewport(new FitViewport(Settings.BASE_SCREEN_WIDTH, Settings.BASE_SCREEN_HEIGHT));
-//		this.stage.setViewport(new ExtendViewport(Settings.BASE_SCREEN_WIDTH, Settings.BASE_SCREEN_HEIGHT));
+		this.stage = new Stage(new ScreenViewport(), game.spriteBatch);
 		registerTweenAccessor();
 		this.traversal = new Traversal(stage.getCamera());
 		getInputMultiplexer().addProcessor(traversal);
@@ -77,7 +78,18 @@ public class AbstractScreen implements Screen {
 	
 	public void draw(float delta) {
 		renderClearScreen(delta);
-		stage.draw();
+		
+		Camera camera = stage.getCamera();
+		camera.update();
+
+		Batch batch = stage.getBatch();
+		if (batch != null) {
+			batch.setProjectionMatrix(camera.combined);
+			batch.begin();
+			stage.getRoot().draw(batch, 1);
+			batch.end();
+		}
+
 		postRender(delta);
 	}
 	
@@ -129,6 +141,7 @@ public class AbstractScreen implements Screen {
 	public void dispose() {
 		Gdx.app.log(MBreak.LOG, "Disposing screen: " + getName());
 		stage.dispose();
+		System.out.println("wtf");
 	}
 
 }

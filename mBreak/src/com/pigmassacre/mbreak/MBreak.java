@@ -3,11 +3,19 @@ package com.pigmassacre.mbreak;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.pigmassacre.mbreak.screens.AbstractScreen;
 import com.pigmassacre.mbreak.screens.IntroLoadingScreen;
 
 public class MBreak extends Game {
 
 	public static final String LOG = "mBreak";
+	
+	public SpriteBatch spriteBatch;
 	
 	private FPSLogger fpsLogger;
 	
@@ -17,6 +25,7 @@ public class MBreak extends Game {
 	@Override
 	public void create() {
 		Gdx.app.log(MBreak.LOG, "Creating game on " + Gdx.app.getType());
+		spriteBatch = new SpriteBatch();
 		fpsLogger = new FPSLogger();
 	}
 
@@ -33,13 +42,49 @@ public class MBreak extends Game {
 
 	@Override
 	public void render() {
-		super.render();
+		if (getScreen() != null) {
+			AbstractScreen screen = (AbstractScreen) getScreen();
+			renderToTexture(screen.stage.getBatch());
+			if (fboRegion != null) {
+				
+				screen.lastTextureRegion = fboRegion;
+			}
+		}
 		
 		if (Settings.getDebugMode()) {
 			fpsLogger.log();
 		}
 	}
 
+	private float fboScaler = 1f;
+	private boolean fboEnabled = true;
+	private FrameBuffer fbo = null;
+	protected TextureRegion fboRegion = null;
+
+	public void renderToTexture(Batch spriteBatch) {
+	    int width = Gdx.graphics.getWidth();
+	    int height = Gdx.graphics.getHeight();
+
+	    if (fboEnabled) { 
+	        if(fbo == null) {	
+	        	fbo = new FrameBuffer(Format.RGB565, (int)(width * fboScaler), (int)(height * fboScaler), false);
+	            fboRegion = new TextureRegion(fbo.getColorBufferTexture());
+	            fboRegion.flip(false, true);
+	        }
+	        fbo.begin();
+	    }
+	    
+	    super.render();
+
+	    if (fbo != null) {
+	        fbo.end();
+
+	        spriteBatch.begin();         
+	        spriteBatch.draw(fboRegion, 0, 0, width, height);  
+	        spriteBatch.end();
+	    }   
+	}
+	
 	@Override
 	public void pause() {
 		super.pause();

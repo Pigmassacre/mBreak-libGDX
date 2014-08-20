@@ -96,7 +96,7 @@ public class Item extends Widget {
 		this.callback = callback;
 	}
 	
-	public void executeCallback() {
+	protected void executeCallback() {
 		if (callback != null) {
 			this.callback.execute(this);
 		}
@@ -202,7 +202,7 @@ public class Item extends Widget {
 		this.actCallback = actCallback;
 	}
 	
-	private void executeActCallback() {
+	protected void executeActCallback() {
 		if (actCallback != null) {
 			actCallback.execute(this);
 		}

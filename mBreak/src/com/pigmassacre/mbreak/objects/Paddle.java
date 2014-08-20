@@ -52,9 +52,9 @@ public class Paddle extends GameActor {
 
 		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
-		acceleration = 1.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
-		retardation = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
-		defaultMaxSpeed = maxSpeed = 5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		acceleration = 1f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		defaultMaxSpeed = maxSpeed = 3f * Settings.GAME_FPS * Settings.GAME_SCALE;
+		retardation = defaultMaxSpeed;//5.5f * Settings.GAME_FPS * Settings.GAME_SCALE;
 
 		velocityY = 0f;
 

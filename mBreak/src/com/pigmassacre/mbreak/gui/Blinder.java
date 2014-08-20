@@ -28,11 +28,51 @@ public class Blinder extends Widget {
 		image = Assets.getTextureRegion("square");
 	}
 	
+	public Blinder(TextureRegion image, TweenManager tweenManager) {
+		int n = (int) Math.pow(4, 4);
+		COLS = (int) Math.ceil(Math.sqrt(n));
+		ROWS = (int) Math.ceil(n / (double) COLS);
+		
+		TextureRegion[][] splitImages = image.split((int) (Gdx.graphics.getWidth() / (float)ROWS), (int) (Gdx.graphics.getHeight() / (float)COLS));
+		
+		blinderParts = new Array<BlinderPart>();
+		for (int col = 0; col < COLS; col++) {
+			for (int row = 0; row < ROWS; row++) {
+				BlinderPart blinderPart = new BlinderPart(splitImages[col][row]);
+				blinderPart.setColor(36/255f, 36/255f, 36/255f, 1f);
+				blinderPart.setWidth(splitImages[col][row].getRegionWidth());
+				blinderPart.setHeight(splitImages[col][row].getRegionHeight());
+				blinderPart.setX(getX() + blinderPart.getWidth() * row);
+				blinderPart.setY(getY() + blinderPart.getHeight() * col);
+				blinderParts.add(blinderPart);
+				Timeline.createSequence()
+				.push(Tween.to(blinderPart, ActorAccessor.SCALE_XY, 0.5f)
+						.target(0f, 0f)
+						.ease(Expo.OUT)
+						.delay(MathUtils.random() * 0.5f))
+				.setUserData(blinderPart)
+				.setCallback(new TweenCallback() {
+					
+					@Override
+					public void onEvent(int type, BaseTween<?> source) {
+						executeCallback();
+						BlinderPart blinderPart = (BlinderPart) source.getUserData();
+						blinderPart.remove();
+						
+					}
+					
+				})
+				.start(tweenManager);
+			blinderParts.add(blinderPart);
+			}
+		}
+	}
+	
 	public void setup(TweenManager tweenManager) {
 		int n = (int) Math.pow(4, 4);
 		COLS = (int) Math.ceil(Math.sqrt(n));
 		ROWS = (int) Math.ceil(n / (double) COLS);
-		System.out.println(ROWS + " " + COLS);
+		
 		blinderParts = new Array<BlinderPart>();
 		float delay = 0f;
 		for (int col = 0; col < COLS; col++) {
@@ -66,12 +106,7 @@ public class Blinder extends Widget {
 			delay += 0.035f;
 		}
 	}
-	
-	public int gcd(int a, int b) {
-		   if (b == 0) return a;
-		   return gcd(b, a % b);
-		}
-	
+
 	public interface SplashCallback {
 		
 		public void execute(Blinder splash);

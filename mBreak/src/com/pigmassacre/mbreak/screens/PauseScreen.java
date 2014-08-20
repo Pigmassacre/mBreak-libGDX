@@ -2,31 +2,47 @@ package com.pigmassacre.mbreak.screens;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.equations.Expo;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.utils.Timer;
 import com.pigmassacre.mbreak.MBreak;
 import com.pigmassacre.mbreak.MusicHandler;
 import com.pigmassacre.mbreak.gui.ActorAccessor;
+import com.pigmassacre.mbreak.gui.Backdrop;
 import com.pigmassacre.mbreak.gui.Item;
+import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 import com.pigmassacre.mbreak.gui.ListMenu;
 import com.pigmassacre.mbreak.gui.Menu;
 import com.pigmassacre.mbreak.gui.TextItem;
-import com.pigmassacre.mbreak.gui.Item.ItemCallback;
 
 public class PauseScreen extends AbstractScreen {
 	
 	AbstractScreen pausedScreen;
+	Backdrop backdrop;
 	
 	public PauseScreen(MBreak game, AbstractScreen pausedScreen) {
 		super(game);
 		Gdx.input.setCursorCatched(false);
 		this.pausedScreen = pausedScreen;
+		
+		backdrop = new Backdrop();
+		backdrop.setWidth(Gdx.graphics.getWidth());
+		backdrop.setHeight(TextItem.getHeight("Quit") * 5f);
+		backdrop.setX(0);
+		backdrop.setY(Gdx.graphics.getHeight() / 2f - backdrop.getHeight() / 2f);
+		Tween.from(backdrop,  ActorAccessor.SIZE_H, 0.5f).target(0.01f).ease(Expo.OUT).start(getTweenManager());
+		backdrop.setActCallback(new ItemCallback() {
+			
+			@Override
+			public void execute(Item data) {
+				data.setY(Gdx.graphics.getHeight() / 2f - data.getHeight() / 2f);
+			}
+			
+		});
+		stage.addActor(backdrop);
 		
 		Menu menu = new ListMenu();
 		menu.setX(Gdx.graphics.getWidth() / 2);
@@ -100,17 +116,9 @@ public class PauseScreen extends AbstractScreen {
 		super.render(delta);
 	}
 	
-	private ShapeRenderer shapeRenderer = new ShapeRenderer();
-	
 	@Override
 	public void renderClearScreen(float delta) {
 		// So we don't clear the screen each frame, we let the pausdScreens .draw() method do that.
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(0f, 0f, 0f, 0.5f);
-		shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		shapeRenderer.end();
-		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 	
 	private float oldVolume;

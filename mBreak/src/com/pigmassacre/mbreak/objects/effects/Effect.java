@@ -10,8 +10,6 @@ public class Effect extends GameActor {
 
 	protected float duration;
 
-//	public List<Powerup> connectedPowerups;
-
 	public Effect(Effect effect) {
 		this(effect.parentActor, effect.duration);
 	}
@@ -20,12 +18,6 @@ public class Effect extends GameActor {
 		this.parentActor = parentActor;
 		this.owner = this.parentActor.owner;
 		this.duration = duration;
-
-//		rectangle = new Rectangle(getX(), getY(), getWidth(), getHeight());
-
-//		stateTime = 0f;
-		
-//		connectedPowerups = new ArrayList<Powerup>();
 
 		this.parentActor.effectGroup.addActor(this);
 		Timer.instance().scheduleTask(new Task() {
@@ -46,11 +38,6 @@ public class Effect extends GameActor {
 		setY(parentActor.getY() + ((parentActor.getHeight() - getHeight()) / 2));
 		setZ(parentActor.getZ());
 		setDepth(parentActor.getDepth());
-
-//		stateTime += delta;
-//		if (stateTime >= duration) {
-//			destroy();
-//		}
 		
 		if (parentActor.owner == owner) {
 			actParticles(delta);
@@ -66,15 +53,6 @@ public class Effect extends GameActor {
 		if (getImage() != null) {
 			batch.draw(getImage(), getX(), getY() + Settings.getLevelYOffset() + getZ(), getWidth(), getHeight() + getDepth());
 		}
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-//		for (Powerup powerup : connectedPowerups) {
-//			powerup.destroy();
-//		}
-//		this.parentActor.effectGroup.removeActor(this);
 	}
 
 }

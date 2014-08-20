@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.pigmassacre.mbreak.Assets;
 import com.pigmassacre.mbreak.Settings;
-import com.pigmassacre.mbreak.gui.TextItem;
 import com.pigmassacre.mbreak.objects.GameActor.DestroyCallback;
 import com.pigmassacre.mbreak.objects.powerups.Powerup;
 import com.pigmassacre.mbreak.objects.powerups.SpeedPowerup;
@@ -32,8 +31,6 @@ public class Level extends Actor {
 	private float powerupSpawnStartTime = 5f;
 	private float powerupSpawnWaitTime = 5f;
 	
-	private TextItem powerupSpawnTimerTextItem;
-
 	public static Level getCurrentLevel() {
 		return currentLevel;
 	}
