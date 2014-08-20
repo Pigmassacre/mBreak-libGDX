@@ -46,8 +46,7 @@ public class MBreak extends Game {
 			AbstractScreen screen = (AbstractScreen) getScreen();
 			renderToTexture(screen.stage.getBatch());
 			if (fboRegion != null) {
-				
-				screen.lastTextureRegion = fboRegion;
+				AbstractScreen.lastTextureRegion = new TextureRegion(fboRegion);
 			}
 		}
 		

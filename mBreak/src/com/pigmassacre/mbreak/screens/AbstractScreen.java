@@ -32,7 +32,7 @@ public class AbstractScreen implements Screen {
 	
 	public float timeScale = 1f;
 	
-	public TextureRegion lastTextureRegion;
+	public static TextureRegion lastTextureRegion;
 	
 	protected String getName() {
 		return getClass().getSimpleName();
@@ -141,7 +141,6 @@ public class AbstractScreen implements Screen {
 	public void dispose() {
 		Gdx.app.log(MBreak.LOG, "Disposing screen: " + getName());
 		stage.dispose();
-		System.out.println("wtf");
 	}
 
 }

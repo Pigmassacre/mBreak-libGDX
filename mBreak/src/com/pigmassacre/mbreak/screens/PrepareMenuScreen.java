@@ -17,6 +17,7 @@ import com.pigmassacre.mbreak.gui.ActorAccessor;
 import com.pigmassacre.mbreak.gui.GridMenu;
 import com.pigmassacre.mbreak.gui.Item;
 import com.pigmassacre.mbreak.gui.Item.ItemCallback;
+import com.pigmassacre.mbreak.gui.Blinder;
 import com.pigmassacre.mbreak.gui.Logo;
 import com.pigmassacre.mbreak.gui.Menu;
 import com.pigmassacre.mbreak.gui.RectItem;
@@ -46,7 +47,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		} else {
 			sunrays = givenSunrays;
 		}
-		stage.addActor(sunrays);
+//		stage.addActor(sunrays);
 		
 		if (givenLogo == null) {
 			logo = new Logo();
@@ -55,7 +56,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 		} else {
 			logo = givenLogo;
 		}
-		stage.addActor(logo);
+//		stage.addActor(logo);
 		Tween.to(logo, ActorAccessor.POSITION_XY, 0.5f).target(logo.getX(), (Gdx.graphics.getHeight() / 2) + logo.getHeight() * 0.75f)
 			.ease(TweenEquations.easeOutExpo)
 			.start(getTweenManager());
@@ -234,6 +235,11 @@ public class PrepareMenuScreen extends AbstractScreen {
 		traversal.menus.add(colorMenu);
 		stage.addActor(colorMenu);
 		
+		if (lastTextureRegion != null) {
+			Blinder blinder = new Blinder(lastTextureRegion, stage, getTweenManager());
+			stage.addActor(blinder);
+		}
+		
 		if (!MusicHandler.isPlaying()) {
 			MusicHandler.setSong("music/title/goluigi-nonuniform.ogg");
 			MusicHandler.setLooping(true);
@@ -300,52 +306,7 @@ public class PrepareMenuScreen extends AbstractScreen {
 	}
 	
 	public void customize() {
-//		getTweenManager().killAll();
-//		
-//		Timeline timeline = Timeline.createSequence();
-//		
-//		timeline.beginParallel();
-//		
-//		for (Item item : leftColorMenu.items) {
-//			item.setCallback(null);
-//			timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, true, false, true, false));
-//		}
-//		
-//		for (Item item : rightColorMenu.items) {
-//			item.setCallback(null);
-//			timeline.push(TweenHelp.setupSingleItemTweenTo(item, getTweenManager(), TweenEquations.easeInExpo, 0.5f, false, true, true, false));
-//		}
-//		
-//		back.setCallback(null);
-//		customize.setCallback(null);
-//		start.setCallback(null);
-//		
-//		timeline.push(Tween.to(back, ActorAccessor.POSITION_XY, 0.5f).target(-back.getWidth(), -back.getHeight())
-//			.ease(TweenEquations.easeInExpo));
-//		
-//		timeline.push(Tween.to(customize, ActorAccessor.POSITION_Y, 0.5f).target(-customize.getHeight())
-//				.ease(TweenEquations.easeInExpo));
-//		
-//		timeline.push(Tween.to(start, ActorAccessor.POSITION_XY, 0.5f).target(Gdx.graphics.getWidth() + start.getWidth(), -start.getHeight())
-//			.ease(TweenEquations.easeInExpo));
-//		
-//		timeline.end();
-//		
-//		timeline.setUserData(this);
-//		
-//		timeline.setCallback(new TweenCallback() {
-//			
-//			@Override
-//			public void onEvent(int type, BaseTween<?> source) {
-//				changingScreen = false;
-				game.setScreen(new CustomizeScreen(game));
-//			}
-//			
-//		});
-//		
-//		changingScreen = true;
-//		
-//		timeline.start(getTweenManager());
+		game.setScreen(new CustomizeScreen(game));
 	}
 	
 	// For the ugly hack below.
