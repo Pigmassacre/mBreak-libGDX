@@ -2,6 +2,7 @@ package com.pigmassacre.mbreaklibgdx;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -52,6 +53,11 @@ public class MBreak extends Game {
 		
 		if (Settings.getDebugMode()) {
 			fpsLogger.log();
+		}
+
+		// TODO: Debug stuff: Exit game from anywhere with left shift + escape.
+		if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+			Gdx.app.exit();
 		}
 	}
 
