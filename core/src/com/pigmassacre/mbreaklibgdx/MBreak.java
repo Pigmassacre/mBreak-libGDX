@@ -13,7 +13,7 @@ import com.pigmassacre.mbreaklibgdx.screens.IntroLoadingScreen;
 
 public class MBreak extends Game {
 
-	public static final String LOG = "mbreaklibgdx";
+	public static final String LOG = "mBreak";
 	
 	public SpriteBatch spriteBatch;
 	

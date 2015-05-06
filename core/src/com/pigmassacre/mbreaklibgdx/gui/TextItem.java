@@ -14,7 +14,7 @@ public class TextItem extends Item {
 
 	private static GlyphLayout layout;
 	private static BitmapFont font;
-	private CharSequence string;
+	private CharSequence text;
 	
 	private Color shadowColor;
 	
@@ -32,7 +32,7 @@ public class TextItem extends Item {
 		this("");
 	}
 	
-	public TextItem(CharSequence string) {
+	public TextItem(CharSequence text) {
 		super();
 
 		if (layout == null) {
@@ -45,7 +45,7 @@ public class TextItem extends Item {
 		setScale(Settings.GAME_SCALE);
 		shadowColor = new Color(0.196f, 0.196f, 0.196f, 1.0f);
 		
-		this.string = string;
+		this.text = text;
 		
 		shadowOffsetX = 0f;
 		shadowOffsetY = -1f * Settings.GAME_SCALE;
@@ -64,8 +64,8 @@ public class TextItem extends Item {
 								  getHeight() * selectionHeightIncrease);
 	}
 	
-	public void setString(CharSequence string) {
-		this.string = string;
+	public void setText(CharSequence text) {
+		this.text = text;
 	}
 	
 	public void setAlignment(int alignment) {
@@ -90,13 +90,13 @@ public class TextItem extends Item {
 	
 	public float getWidth() {
 		font.getData().setScale(getScaleX(), getScaleY());
-		layout.setText(font, string, font.getColor(), Gdx.graphics.getWidth() - textSideBounds, Align.left, wrapped);
-		return layout.height;
+		layout.setText(font, text, font.getColor(), Gdx.graphics.getWidth() - textSideBounds, Align.left, wrapped);
+		return layout.width;
 	}
 	
 	public float getHeight() {
 		font.getData().setScale(getScaleX(), getScaleY());
-		layout.setText(font, string, font.getColor(), Gdx.graphics.getWidth() - textSideBounds, Align.left, wrapped);
+		layout.setText(font, text, font.getColor(), Gdx.graphics.getWidth() - textSideBounds, Align.left, wrapped);
 		return layout.height;
 	}
 	
@@ -180,9 +180,9 @@ public class TextItem extends Item {
 		shadowColor.a = getColor().a;
 		font.setColor(shadowColor);
 		if (wrapped) {
-			font.draw(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY(), getWrapWidth(), alignment, true);
+			font.draw(batch, text, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY(), getWrapWidth(), alignment, true);
 		} else {
-			font.draw(batch, string, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY());
+			font.draw(batch, text, getX() + getOffsetX() + getShadowOffsetX(), getY() + getOffsetY() + getShadowOffsetY());
 		}
 		if (getSelected()) {
 			font.setColor(selectedColor);
@@ -190,9 +190,9 @@ public class TextItem extends Item {
 			font.setColor(getColor());
 		}
 		if (wrapped) {
-			font.draw(batch, string, getX() + getOffsetX(), getY() + getOffsetY(), getWrapWidth(), alignment, true);
+			font.draw(batch, text, getX() + getOffsetX(), getY() + getOffsetY(), getWrapWidth(), alignment, true);
 		} else {
-			font.draw(batch, string, getX() + getOffsetX(), getY() + getOffsetY());
+			font.draw(batch, text, getX() + getOffsetX(), getY() + getOffsetY());
 		}
 	}
 	
