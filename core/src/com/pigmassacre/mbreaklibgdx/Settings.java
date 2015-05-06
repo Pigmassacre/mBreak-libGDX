@@ -5,7 +5,7 @@ import com.badlogic.gdx.Preferences;
 
 public class Settings {
 
-	private static final String PREFS_NAME = "mbreaklibgdx";
+	private static final String PREFS_NAME = "mBreak";
 	
 	private static final String DEBUG_MODE = "debug_mode";
 	

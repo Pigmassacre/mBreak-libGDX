@@ -54,30 +54,30 @@ public class SplashScreen extends AbstractScreen {
 		dispose();
 	}
 	
+	@Override
+	protected void registerInputProcessors() {
+		getInputMultiplexer().addProcessor(new IntroInputProcessor());
+	}
+
 	private class IntroInputProcessor extends InputAdapter {
 
 		@Override
 		public boolean keyDown(int keycode) {
 			switch(keycode) {
-			case Keys.ENTER:
-			case Keys.ESCAPE:
-				game.setScreen(new IntroScreen(game));
-				break;
+				case Keys.ENTER:
+				case Keys.ESCAPE:
+					game.setScreen(new IntroScreen(game));
+					break;
 			}
-			return true;
+			return false;
 		}
 
 		@Override
 		public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 			game.setScreen(new IntroScreen(game));
-			return true;
+			return false;
 		}
 
 	}
-	
-	@Override
-	protected void registerInputProcessors() {
-		getInputMultiplexer().addProcessor(new IntroInputProcessor());
-	}
-	
+
 }

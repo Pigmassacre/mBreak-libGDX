@@ -328,26 +328,29 @@ public class GameScreen extends AbstractScreen {
 		super.act(delta);
 		Level.getCurrentLevel().act(delta);
 	}
-	
+
 	@Override
-	public void show() {
-		Gdx.input.setCursorCatched(!Settings.getDebugMode());
+	protected void registerInputProcessors() {
 		getInputMultiplexer().clear();
 		getInputMultiplexer().addProcessor(new InputAdapter() {
 
 			@Override
 			public boolean keyDown(int keycode) {
 				switch (keycode) {
-				case Keys.ESCAPE:
-				case Keys.BACK:
-					back();
-					break;
+					case Keys.ESCAPE:
+					case Keys.BACK:
+						back();
+						break;
 				}
 				return false;
 			}
 
 		});
-		getInputMultiplexer().addProcessor(new DebugInput(this, stage));
+	}
+
+	@Override
+	public void show() {
+		Gdx.input.setCursorCatched(!Settings.getDebugMode());
 		super.show();
 	}
 

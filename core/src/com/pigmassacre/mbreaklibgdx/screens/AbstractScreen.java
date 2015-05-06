@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.pigmassacre.mbreaklibgdx.Debugger;
 import com.pigmassacre.mbreaklibgdx.MBreak;
 import com.pigmassacre.mbreaklibgdx.gui.ActorAccessor;
 import com.pigmassacre.mbreaklibgdx.gui.GameActorAccessor;
@@ -43,13 +44,16 @@ public class AbstractScreen implements Screen {
 		this.stage = new Stage(new ScreenViewport(), game.spriteBatch);
 		registerTweenAccessor();
 		this.traversal = new Traversal(stage.getCamera());
+
 		getInputMultiplexer().addProcessor(traversal);
 		getInputMultiplexer().addProcessor(stage);
 		registerInputProcessors();
+
 	}
 	
 	protected void registerInputProcessors() {
-		
+		Debugger.INSTANCE.setup(this, stage);
+		getInputMultiplexer().addProcessor(Debugger.INSTANCE.getInputAdapter());
 	}
 	
 	protected void registerTweenAccessor() {
@@ -69,6 +73,7 @@ public class AbstractScreen implements Screen {
 		delta *= timeScale;
 		act(delta);
 		draw(delta);
+		Debugger.INSTANCE.render();
 	}
 	
 	public void act(float delta) {

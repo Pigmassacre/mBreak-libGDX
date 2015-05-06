@@ -28,8 +28,8 @@ public class Level extends Actor {
 	private TextureRegion topLeftCorner, bottomLeftCorner, topRightCorner, bottomRightCorner;
 	
 	public Array<Vector2> powerupSpawnPositions = new Array<Vector2>();
-	private float powerupSpawnStartTime = 5f;
-	private float powerupSpawnWaitTime = 5f;
+	private static final float powerupSpawnStartTime = 5f;
+	private static final float powerupSpawnWaitTime = 5f;
 	
 	public static Level getCurrentLevel() {
 		return currentLevel;
